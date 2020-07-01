@@ -26,7 +26,7 @@ setup(
         'pytoml',
         'scrypt',
     ],
-    test_requires=[
+    tests_require=[
         'flake8',
         'pytest',
     ],
