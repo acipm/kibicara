@@ -27,6 +27,7 @@ setup(
         'scrypt',
     ],
     test_requires=[
+        'flake8',
         'pytest',
     ],
 )
