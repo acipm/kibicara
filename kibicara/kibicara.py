@@ -35,12 +35,14 @@ class Main:
                 if response.status_code == 404:
                     response = await super().get_response('.', scope)
                 return response
+
         app = FastAPI()
         server_config = Config()
         server_config.accesslog = '-'
         app.include_router(router, prefix='/api')
         if config['frontend_path'] is not None:
-            app.mount('/', app=SinglePageApplication(
-                    directory=config['frontend_path'],
-                    html=True))
+            app.mount(
+                '/',
+                app=SinglePageApplication(directory=config['frontend_path'], html=True),
+            )
         await serve(app, server_config)

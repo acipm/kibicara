@@ -32,8 +32,8 @@ async def trigger_read_all(hood=Depends(get_hood)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def trigger_create(
-        values: BodyTrigger, response: Response,
-        hood=Depends(get_hood)):
+    values: BodyTrigger, response: Response, hood=Depends(get_hood)
+):
     try:
         trigger = await Trigger.objects.create(hood=hood, **values.__dict__)
         response.headers['Location'] = '%d' % trigger.id

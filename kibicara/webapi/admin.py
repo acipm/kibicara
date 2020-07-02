@@ -32,14 +32,15 @@ secret_box = SecretBox(random(SecretBox.KEY_SIZE))
 
 
 def to_token(**kwargs):
-    return secret_box.encrypt(dumps(kwargs), encoder=URLSafeBase64Encoder) \
-        .decode('ascii')
+    return secret_box.encrypt(dumps(kwargs), encoder=URLSafeBase64Encoder).decode(
+        'ascii'
+    )
 
 
 def from_token(token):
-    return loads(secret_box.decrypt(
-        token.encode('ascii'),
-        encoder=URLSafeBase64Encoder))
+    return loads(
+        secret_box.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
+    )
 
 
 async def get_auth(email, password):
@@ -57,9 +58,10 @@ async def get_admin(access_token=Depends(oauth2_scheme)):
         admin = await get_auth(**from_token(access_token))
     except (CryptoError, ValueError):
         raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail='Invalid authentication credentials',
-                headers={'WWW-Authenticate': 'Bearer'})
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Invalid authentication credentials',
+            headers={'WWW-Authenticate': 'Bearer'},
+        )
     return admin
 
 
@@ -72,9 +74,11 @@ async def admin_register(values: BodyAdmin):
     logger.debug(register_token)
     try:
         send_email(
-                to=values.email, subject='Confirm Account',
-                # XXX create real confirm link
-                body=register_token)
+            to=values.email,
+            subject='Confirm Account',
+            # XXX create real confirm link
+            body=register_token,
+        )
     except ConnectionRefusedError:
         logger.exception('Email sending failed')
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
@@ -98,13 +102,15 @@ async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
         await get_auth(form_data.username, form_data.password)
     except ValueError:
         raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail='Incorrect email or password')
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail='Incorrect email or password',
+        )
     token = to_token(email=form_data.username, password=form_data.password)
     return {'access_token': token, 'token_type': 'bearer'}
 
 
 @router.get('/hoods/')
 async def admin_hood_read_all(admin=Depends(get_admin)):
-    return await AdminHoodRelation.objects.select_related('hood') \
-            .filter(admin=admin).all()
+    return (
+        await AdminHoodRelation.objects.select_related('hood').filter(admin=admin).all()
+    )

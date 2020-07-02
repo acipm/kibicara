@@ -32,8 +32,8 @@ async def badword_read_all(hood=Depends(get_hood)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def badword_create(
-        values: BodyBadWord, response: Response,
-        hood=Depends(get_hood)):
+    values: BodyBadWord, response: Response, hood=Depends(get_hood)
+):
     try:
         badword = await BadWord.objects.create(hood=hood, **values.__dict__)
         response.headers['Location'] = '%d' % badword.id

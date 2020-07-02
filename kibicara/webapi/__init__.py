@@ -15,6 +15,5 @@ router = APIRouter()
 router.include_router(admin_router, prefix='/admin', tags=['admin'])
 hoods_router.include_router(triggers_router, prefix='/{hood_id}/triggers')
 hoods_router.include_router(badwords_router, prefix='/{hood_id}/badwords')
-hoods_router.include_router(
-    test_router, prefix='/{hood_id}/test', tags=['test'])
+hoods_router.include_router(test_router, prefix='/{hood_id}/test', tags=['test'])
 router.include_router(hoods_router, prefix='/hoods', tags=['hoods'])

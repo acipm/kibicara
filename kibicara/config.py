@@ -8,9 +8,9 @@ from pytoml import load
 
 
 config = {
-        'database_connection': 'sqlite:////tmp/kibicara.sqlite',
-        'frontend_path': None,
-    }
+    'database_connection': 'sqlite:////tmp/kibicara.sqlite',
+    'frontend_path': None,
+}
 
 parser = OptionParser()
 parser.add_option('-f', dest='configfile', default='/etc/kibicara.conf')

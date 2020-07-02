@@ -27,8 +27,9 @@ async def get_hood(hood_id: int, admin=Depends(get_admin)):
         await AdminHoodRelation.objects.get(admin=admin, hood=hood)
     except NoMatch:
         raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                headers={'WWW-Authenticate': 'Bearer'})
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            headers={'WWW-Authenticate': 'Bearer'},
+        )
     return hood
 
 
@@ -41,9 +42,7 @@ async def hood_read_all():
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def hood_create(
-        values: BodyHood, response: Response,
-        admin=Depends(get_admin)):
+async def hood_create(values: BodyHood, response: Response, admin=Depends(get_admin)):
     try:
         hood = await Hood.objects.create(**values.__dict__)
         await AdminHoodRelation.objects.create(admin=admin.id, hood=hood.id)
