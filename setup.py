@@ -24,10 +24,7 @@ setup(
         'pynacl',
         'python-multipart',
         'pytoml',
+        'requests',
         'scrypt',
-    ],
-    tests_require=[
-        'flake8',
-        'pytest',
     ],
 )
