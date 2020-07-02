@@ -1,3 +1,7 @@
+# Kibicara instance files
+kibicara.conf
+kibicara.sqlite
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
