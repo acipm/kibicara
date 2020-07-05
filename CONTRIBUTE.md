@@ -105,6 +105,7 @@ You will probably need to store the following things:
 
 * authentication credentials,
 * timestamps/IDs of the last seen message,
+* recipients if the social network doesn't post publicly,
 * platform-specific settings
 * anything else your platform needs
 
