@@ -63,6 +63,8 @@ Use [google
 style](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings)
 comments to secure correct display of your docstrings.
 
+Please don't leave empty lines at the end of your files.
+
 ## Merge Requests
 
 The main development team does not need to make merge requests.
@@ -109,4 +111,3 @@ You will need them to:
 
 To run the platform, you need to import the bot in
 `kibicara/webapi/__init__.py`.
-
