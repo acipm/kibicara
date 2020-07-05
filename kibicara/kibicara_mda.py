@@ -10,37 +10,37 @@ from logging import getLogger
 from kibicara.platforms.email.model import Email
 
 
-logger = getLogger(__name__)
+def main():
+    logger = getLogger(__name__)
 
+    # read mail from STDIN
+    mailbytes = bytes(sys.stdin.read())
 
-# read mail from STDIN
-mailbytes = bytes(sys.stdin.read())
+    # parse plaintext to email.EmailMessage object
+    myparser = email.parser.BytesParser()
+    mail = myparser.parsebytes(mailbytes)
 
-# parse plaintext to email.EmailMessage object
-myparser = email.parser.BytesParser()
-mail = myparser.parsebytes(mailbytes)
-
-# extract relevant data from mail
-for part in mail.walk():
-    try:
-        text = part.get_body(('plain',))
-        if not text:
-            text = re.sub(r'<[^>]*>', '', part.get_body(('html',)))
-        if not text:
-            logger.error('No suitable message body')
+    # extract relevant data from mail
+    for part in mail.walk():
+        try:
+            text = part.get_body(('plain',))
+            if not text:
+                text = re.sub(r'<[^>]*>', '', part.get_body(('html',)))
+            if not text:
+                logger.error('No suitable message body')
+                exit(0)
+        except Exception:
+            logger.info("No Body in this message part", exc_info=True)
             exit(0)
-    except Exception:
-        logger.info("No Body in this message part", exc_info=True)
-        exit(0)
-body = {
-    'text': text,
-    'to': mail['To'].lower(),
-    'author': mail['From'].lower(),
-    'secret': Email.secret
-}
+    body = {
+        'text': text,
+        'to': mail['To'].lower(),
+        'author': mail['From'].lower(),
+        'secret': Email.secret
+    }
 
-# POST request mit API-key und JSON-body an /api/email/messages/:
-print("curl "
-      "-X POST http://localhost/api/email/messages/ "
-      "-H 'Content-Type: application/json' "
-      "-d " + json.dumps(body))
+    # POST request mit API-key und JSON-body an /api/email/messages/:
+    print("curl "
+          "-X POST http://localhost/api/email/messages/ "
+          "-H 'Content-Type: application/json' "
+          "-d " + json.dumps(body))
