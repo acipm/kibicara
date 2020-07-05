@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+#
+# SPDX-License-Identifier: 0BSD
+#
+# server-side git-hook - checks branch policy
+
+refname="$1"
+oldrev="$2"
+newrev="$3"
+
+forbid_merge_commmits() {
+    if [ "$(git log --merges "$oldrev..$newrev")" ]; then
+        echo "merge commmits not allowed" >&2
+        exit 1
+    fi
+}
+
+only_ff_to() {
+    ff_branch="$1"
+    git rev-list "$oldrev..$ff_branch" | fgrep -x "$newrev" > /dev/null
+    if [ $? -ne 0 ]; then
+        echo "only fast-forward to $ff_branch allowed" >&2
+        exit 1
+    fi
+}
+
+case "$refname" in
+    refs/heads/master)
+        only_ff_to development
+        ;;
+    refs/heads/*)
+        forbid_merge_commits
+        ;;
+esac

@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+#
+# SPDX-License-Identifier: 0BSD
+#
+# client-side git-hook - checks commit message style
+
+head -n 1 "$1" | egrep -x '\[[^]]+\] [[:upper:]].*[^.]' > /dev/null
+if [ $? -ne 0 ]; then
+    echo "commit message doesn't match style" >&2
+    exit 1
+fi
