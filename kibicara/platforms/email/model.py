@@ -1,4 +1,4 @@
-# Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Maike <tom@dl6tom.de>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -14,10 +14,11 @@ class EmailRecipients(Model):
     class Mapping(Mapping):
         table_name = 'email_recipients'
 
-class EmailSeen(Model):
+
+class Email(Model):
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
-    mail_date: DateTime()
+    secret: Text()
 
     class Mapping(Mapping):
-        table_name = 'email_seen'
+        table_name = 'email'
