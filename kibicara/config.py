@@ -10,7 +10,6 @@ from pytoml import load
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
     'frontend_path': None,
-    'mbox_user': root,
 }
 
 parser = OptionParser()
