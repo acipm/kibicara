@@ -2,6 +2,9 @@
 kibicara.conf
 kibicara.sqlite
 
+# Editor temporary files
+.*.swp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
