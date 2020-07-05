@@ -20,4 +20,3 @@ hood admins don't need a server of their own.
 ## Contribute!
 
 Read `CONTRIBUTE.md` to learn how to get started.
-
