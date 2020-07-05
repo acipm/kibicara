@@ -3,7 +3,7 @@
 Kibicara relays messages between different platforms (= social networks).
 
 In its web interface, a hood admin (= registered user) can create a hood to
-build a connection between different platforms. 
+build a connection between different platforms.
 
 Users can message a specific hood account on a specific platform (e.g. @xyz on
 Telegram). This pushes the announcement to all platform accounts of a hood.

@@ -27,20 +27,20 @@
   - On Release the development branch will be rebased onto master and a release
     tag will be created on master
 - **Feature-Branches:**
-  - A feature branch will be used to develop a feature. 
+  - A feature branch will be used to develop a feature.
   - It belongs to one developer only and force push is allowed.
   - A rebase onto development is necessary to merge the feature. Code reviews
     are encouraged.
 
 ## Write Tests
 
-We use [pytest](https://docs.pytest.org/en/stable/) as a test engine. It is 
+We use [pytest](https://docs.pytest.org/en/stable/) as a test engine. It is
 executed by `tox`, so you need to run `tox` on the command line to run the tests.
 
 ## Commit Messages
 
 Commits should define small components. Please write your commits with the
-following pattern: 
+following pattern:
 
 `[core] Add censor for filtering messages #1312`
 
@@ -63,7 +63,7 @@ Use [google
 style](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings)
 comments to secure correct display of your docstrings.
 
-Please don't leave empty lines at the end of your files.
+Please don't leave trailing whitespace or empty lines at the end of your files.
 
 ## Merge Requests
 
@@ -74,9 +74,10 @@ improvement.
 
 ### Code reviews
 
-Before a merge request gets merged into master, at least one person has to
-approve it; this also increases the number of people who know the code. So
-please request a review from someone from the core development team.
+Before a merge request gets rebased onto and merged into `development`, at
+least one person has to approve it; this also increases the number of people
+who know the code. So please request a review from someone from the core
+development team.
 
 ## Implement a new Platform/Social Network
 
@@ -90,12 +91,12 @@ please request a review from someone from the core development team.
 
 ### Explanation
 
-In `kibicara/platforms/<your-platform>/bot.py`, you write the functions through 
-which the platform asks the social network for new messages, and publishes 
-messages to the social network. You need to inherit the bot from the `Censor` 
+In `kibicara/platforms/<your-platform>/bot.py`, you write the functions through
+which the platform asks the social network for new messages, and publishes
+messages to the social network. You need to inherit the bot from the `Censor`
 class at `kibicara/platformapi.py`.
 
-In `kibicara/platforms/<your-platform>/model.py`, you define a database layout. 
+In `kibicara/platforms/<your-platform>/model.py`, you define a database layout.
 You will probably need to store the following things:
 
 * authentication credentials,
@@ -103,11 +104,11 @@ You will probably need to store the following things:
 * platform-specific settings
 * anything else your platform needs
 
-In `kibicara/platforms/<your-platform>/webapi.py`, you can define HTTP routes. 
+In `kibicara/platforms/<your-platform>/webapi.py`, you can define HTTP routes.
 You will need them to:
 
 * let admins authenticate to the social network in the kibicara web interface
-* update platform-specific settings 
+* update platform-specific settings
 
 To run the platform, you need to import the bot in
 `kibicara/webapi/__init__.py`.
