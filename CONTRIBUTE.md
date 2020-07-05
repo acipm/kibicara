@@ -7,6 +7,10 @@
 3. Activate your dev environment with `source .venv/bin/activate`
 4. Install with `pip install .`
 5. Install development dependencies with `pip install tox black`
+6. Add git-hook to run test and stylecheck before commmit with
+   `ln -s ../../git-hooks/pre-commit .git/hooks/pre-commit`
+7. Add git-hook to check commmit message format with
+   `ln -s ../../git-hooks/commit-msg .git/hooks/commit-msg`
 
 ### Build and Test Cycle
 
