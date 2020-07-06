@@ -5,6 +5,7 @@
 from kibicara.platforms.email.model import EmailRecipients, Email
 from kibicara.platformapi import Censor, Spawner, Message
 from logging import getLogger
+from kibicara.email import send_email
 
 logger = getLogger(__name__)
 
@@ -18,8 +19,8 @@ class EmailBot(Censor):
     async def run(self):
         while True:
             message = await self.receive()
-            print("push " + message.text)
-            # send message to everyone in EmailRecipients(hood=self.hood)
+            for recipient in EmailRecipients(hood=self.hood):
+                send_email(recipient.email, "Kibicara " + self.hood, body=message.text)
 
 
 spawner = Spawner(Email, EmailBot)
