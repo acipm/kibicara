@@ -28,6 +28,5 @@ setup(
         'pytoml',
         'requests',
         'scrypt',
-        'PyJWT',
     ],
 )

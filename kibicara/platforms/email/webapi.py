@@ -13,7 +13,8 @@ from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
 from sqlite3 import IntegrityError
-import jwt
+from nacl.encoding import URLSafeBase64Encoder
+from nacl.secret import SecretBox
 from os import urandom
 
 
@@ -70,9 +71,11 @@ async def email_delete(hood=Depends(get_hood)):
 
 @hood_router.post('/recipient/')
 async def email_recipient_create(recipient: Recipient, hood=Depends(get_hood)):
-    token = jwt.encode({'email': recipient.email}, Email.secret).decode('ascii')
+    secretbox = SecretBox(Email.secret)
+    token = secretbox.encrypt({'email': recipient.email,}, encoder=URLSafeBase64Encoder)
+    asciitoken = token.decode('ascii')
     confirm_link = (
-        config['root_url'] + "api/" + hood.id + "/email/recipient/confirm/" + token
+        config['root_url'] + "api/" + hood.id + "/email/recipient/confirm/" + asciitoken
     )
     send_email(
         recipient.email,
@@ -85,7 +88,8 @@ async def email_recipient_create(recipient: Recipient, hood=Depends(get_hood)):
 
 @hood_router.post('/recipient/confirm/{token}')
 async def email_recipient_confirm(token, hood=Depends(get_hood)):
-    json = jwt.decode(token, Email.secret)
+    secretbox = SecretBox(Email.secret)
+    json = secretbox.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
     try:
         await EmailRecipients.objects.create(hood=hood.id, email=json['email'])
         return status.HTTP_201_CREATED
@@ -95,7 +99,8 @@ async def email_recipient_confirm(token, hood=Depends(get_hood)):
 
 @hood_router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
 async def email_recipient_unsubscribe(token, hood=Depends(get_hood)):
-    json = jwt.decode(token)
+    secretbox = SecretBox(Email.secret)
+    json = secretbox.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
     if hood.id is not json['hood']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
     await EmailRecipients.objects.delete_many(hood=json['hood'], email=json['email'])

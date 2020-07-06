@@ -4,10 +4,11 @@
 
 from kibicara.platforms.email.model import EmailRecipients, Email
 from kibicara.model import Hood
-from kibicara.platformapi import Censor, Spawner, Message
+from kibicara.platformapi import Censor, Spawner
 from kibicara.email import send_email
 from kibicara.config import config
-import jwt
+from nacl.encoding import URLSafeBase64Encoder
+from nacl.secret import SecretBox
 
 
 class EmailBot(Censor):
@@ -25,13 +26,15 @@ class EmailBot(Censor):
                     'email': recipient.email,
                     'hood': self.model.hood,
                 }
-                token = jwt.encode(json, self.model.secret).decode('ascii')
+                secretbox = SecretBox(Email.secret)
+                token = secretbox.encrypt(json, encoder=URLSafeBase64Encoder)
+                asciitoken = token.decode('ascii')
                 unsubscribe_link = (
                     config['root_url']
                     + 'api/'
                     + self.model.id
                     + '/email/unsubscribe/'
-                    + token
+                    + asciitoken
                 )
                 message.text += (
                     "\n\n--\nIf you want to stop receiving these mails, "
