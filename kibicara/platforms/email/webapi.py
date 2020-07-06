@@ -49,21 +49,10 @@ async def test_create(response: Response, hood=Depends(get_hood)):
 @router.get('/{test_id}')
 async def test_read(test=Depends(get_email_bot)):
     return test
-
-
-@router.delete('/{test_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def test_delete(test=Depends(get_email_bot)):
-    spawner.stop(test)
-    await test.delete()
-
-
-@router.get('/{test_id}/messages/')
-async def test_message_read_all(test=Depends(get_email_bot)):
-    return spawner.get(test).messages
 """
 
 
-@router.post('/messages/', status_code=status.HTTP_201_CREATED)
+@router.post('/messages/')
 async def email_message_create(message: BodyMessage):
     # get bot via "To:" header
     email_bot = await get_email_bot(message.to)
@@ -71,5 +60,7 @@ async def email_message_create(message: BodyMessage):
     if message.secret is not email_bot.secret:
         return status.HTTP_401_UNAUTHORIZED
     # pass message.text to bot.py
-    await spawner.get(email_bot).publish(Message(message.text))
-    #return {}  # why is this important?
+    if await spawner.get(email_bot).publish(Message(message.text)):
+        return status.HTTP_201_CREATED
+    else:
+        return status.HTTP_406_NOT_ACCEPTABLE
