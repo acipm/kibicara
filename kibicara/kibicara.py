@@ -12,7 +12,7 @@ from kibicara.config import config
 from kibicara.model import Mapping
 from kibicara.platformapi import Spawner
 from kibicara.webapi import router
-from logging import basicConfig, DEBUG, getLogger
+from logging import basicConfig, DEBUG, getLogger, WARNING
 
 
 logger = getLogger(__name__)
@@ -23,7 +23,8 @@ class Main:
         asyncio_run(self.run())
 
     async def run(self):
-        basicConfig(level=DEBUG, format="%(levelname)s %(name)s %(message)s")
+        basicConfig(level=DEBUG, format="%(asctime)s %(name)s %(message)s")
+        getLogger('aiosqlite').setLevel(WARNING)
         Mapping.create_all()
         await Spawner.init_all()
         await self._start_webserver()
