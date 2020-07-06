@@ -63,4 +63,4 @@ async def email_message_create(message: BodyMessage):
     if await spawner.get(email_bot).publish(Message(message.text)):
         return status.HTTP_201_CREATED
     else:
-        return status.HTTP_406_NOT_ACCEPTABLE
+        return status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
