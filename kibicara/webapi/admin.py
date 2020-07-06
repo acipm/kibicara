@@ -45,7 +45,7 @@ def from_token(token):
 
 
 def url(route):
-    return config['url'] + route
+    return config['domainname'] + route
 
 
 async def get_auth(email, password):

@@ -10,7 +10,7 @@ from pytoml import load
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
     'frontend_path': None,
-    'url': 'http://localhost:8000',
+    'domainname': 'http://localhost:8000',
 }
 
 parser = OptionParser()
