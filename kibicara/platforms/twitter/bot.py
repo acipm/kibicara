@@ -98,13 +98,13 @@ class TwitterBot(Censor):
         return messages
 
     async def _filter_text(self, entities, text):
-        remove_indices = []
+        remove_indices = set()
         for user in entities.user_mentions:
-            remove_indices.extend(list(range(user.indices[0], user.indices[1] + 1)))
+            remove_indices.update(range(user.indices[0], user.indices[1] + 1))
         for url in entities.urls:
-            remove_indices.extend(list(range(url.indices[0], url.indices[1] + 1)))
+            remove_indices.update(range(url.indices[0], url.indices[1] + 1))
         for symbol in entities.symbols:
-            remove_indices.extend(list(range(symbol.indices[0], symbol.indices[1] + 1)))
+            remove_indices.update(range(symbol.indices[0], symbol.indices[1] + 1))
         filtered_text = ""
         for index, character in enumerate(text):
             if index not in remove_indices:
@@ -117,7 +117,7 @@ class TwitterBot(Censor):
             message = await self.receive()
             logger.debug(
                 'Received message from censor (%s): %s'
-                % (self.twitter_model.hood.name, message)
+                % (self.twitter_model.hood.name, message.text)
             )
             if hasattr(message, 'twitter_mention_id'):
                 await self._retweet(message.twitter_mention_id)
