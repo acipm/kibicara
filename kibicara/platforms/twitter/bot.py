@@ -25,8 +25,8 @@ class TwitterBot(Censor):
         }
         self.client = PeonyClient(**self.tokens)
         self.polling_interval_sec = 60
-        self.mentions_since_id = None
-        self.dms_since_id = None
+        self.mentions_since_id = self.twitter_model.mentions_since_id
+        self.dms_since_id = self.twitter_model.dms_since_id
 
     async def run(self):
         await gather(self.poll(), self.push())
@@ -35,12 +35,10 @@ class TwitterBot(Censor):
         while True:
             messages = await self._poll_direct_messages()
             messages.extend(await self._poll_mentions())
-            print(messages)
-            # TODO hold since_ids in database
+            logger.debug('Polled messages: %s' % str(messages))
             await self.twitter_model.update(
                 dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
             )
-            # TODO send message to censor
             for message in messages:
                 await self.publish(Message(message))
             await sleep(self.polling_interval_sec)
@@ -52,10 +50,10 @@ class TwitterBot(Censor):
         dms_filtered = []
         if dms:
             for dm in dms:
-                if dm.id == self.dms_since_id:
+                if int(dm.id) == self.dms_since_id:
                     break
                 dms_filtered.append(dm)
-            self.dms_since_id = dms[0].id
+            self.dms_since_id = int(dms[0].id)
         messages = []
         for dm in dms_filtered:
             filtered_text = await self._filter_text(
@@ -65,7 +63,6 @@ class TwitterBot(Censor):
             if not filtered_text:
                 continue
             messages.append(filtered_text)
-        logger.debug(messages)
         return messages
 
     async def _poll_mentions(self):
@@ -80,7 +77,6 @@ class TwitterBot(Censor):
             if not filtered_text:
                 continue
             messages.append(filtered_text)
-        logger.debug(messages)
         return messages
 
     async def _filter_text(self, entities, text):
