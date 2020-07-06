@@ -35,7 +35,7 @@ def main():
     body = {
         'text': text,
         'to': mail['To'].lower(),
-        'author': mail['From'].lower(),
+        'author': mail.get_unixfrom(),
         'secret': Email.secret,
     }
 

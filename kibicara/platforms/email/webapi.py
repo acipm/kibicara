@@ -7,8 +7,8 @@ from kibicara.platforms.email.bot import spawner
 from kibicara.platforms.email.model import Email, EmailRecipients
 from kibicara.platformapi import Message
 from kibicara.config import config
-from kibicara.webapi.hoods import get_hood
 from kibicara.email import send_email
+from kibicara.model import Hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
 from sqlite3 import IntegrityError
@@ -23,13 +23,15 @@ class BodyMessage(BaseModel):
 
 
 class Recipient(BaseModel):
-    hood: int
+    hood_name: str
     email: str
 
 
-async def get_email_bot(to, hood=Depends(get_hood)):
+async def get_email_bot(to):
+    hood_name = to.split('@')[0]
+    hood = await Hood.objects.get(name=hood_name)
     try:
-        return await Email.objects.get(hood=to)
+        return await Email.objects.get(hood=hood.id)
     except NoMatch:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -59,30 +61,31 @@ async def test_create(response: Response, hood=Depends(get_hood)):
 
 @router.post('/recipient/')
 async def email_recipient_create(recipient: Recipient):
-    token = jwt.encode({
-        'email': recipient.email,
-        'hood': recipient.hood,
-    }, Email.secret).decode('ascii')
+    token = jwt.encode(
+        {'email': recipient.email, 'hood_name': recipient.hood_name,}, Email.secret
+    ).decode('ascii')
     confirm_link = config['root_url'] + "api/email/recipient/confirm/" + token
-    hood_name = await get_hood(recipient.hood)
-    send_email(recipient.email,
-               "Subscribe to Kibicara " + hood_name,
-               sender=hood_name,
-               body="To confirm your subscription, follow this link: " + confirm_link)
+    send_email(
+        recipient.email,
+        "Subscribe to Kibicara " + recipient.hood_name,
+        sender=recipient.hood_name,
+        body="To confirm your subscription, follow this link: " + confirm_link,
+    )
     return status.HTTP_200_OK
 
 
 @router.post('/recipient/confirm/<token>')
 async def email_recipient_confirm(token):
     json = jwt.decode(token, Email.secret)
+    hood = await Hood.objects.get(name=json['hood_name'])
     try:
-        await EmailRecipients.objects.create(hood=json['hood'], email=json['email'])
+        await EmailRecipients.objects.create(hood=hood.id, email=json['email'])
         return status.HTTP_201_CREATED
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
-# delete EmailRecipient
 
+# delete EmailRecipient
 
 
 @router.post('/messages/')
