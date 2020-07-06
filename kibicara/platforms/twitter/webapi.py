@@ -53,7 +53,7 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
             callback_uri='http://127.0.0.1:8000/api/twitter/callback',
         )
         if oauth_token['oauth_callback_confirmed'] != 'true':
-            # TODO delete twitter
+            await twitter.delete()
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
         await twitter.update(
             access_token=oauth_token['oauth_token'],
