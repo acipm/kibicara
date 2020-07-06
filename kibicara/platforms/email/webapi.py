@@ -42,14 +42,6 @@ hood_router = APIRouter()
 mailbox_router = APIRouter()
 
 
-"""
-# get Email row?
-@router.get('/')
-async def test_read_all(hood=Depends(get_hood)):
-    return await Email.objects.filter(hood=hood).all()
-"""
-
-
 @hood_router.post('/', status_code=status.HTTP_201_CREATED)
 async def email_create(hood=Depends(get_hood)):
     try:
