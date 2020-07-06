@@ -8,9 +8,7 @@ from kibicara.platforms.email.model import Email, EmailSubscribers
 from kibicara.platformapi import Message
 from kibicara.config import config
 from kibicara.email import send_email
-from kibicara.model import Hood
 from kibicara.webapi.hoods import get_hood
-from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
 from sqlite3 import IntegrityError
 from nacl.encoding import URLSafeBase64Encoder
@@ -22,7 +20,6 @@ class BodyMessage(BaseModel):
     """ This model shows which values are supplied by the MDA listener script. """
 
     text: str
-    to: str
     author: str
     secret: str
 
@@ -33,25 +30,10 @@ class Subscriber(BaseModel):
     email: str
 
 
-async def get_email_row(to: str):
-    """ Search for Email row if you only have an email address of a bot.
-
-    :param to: email address of a Kibicara hood, e.g. hood@kibicara.org
-    :return: row of Email table, belonging to that email address.
-    """
-    hood_name = to.split('@')[0]
-    hood = await Hood.objects.get(name=hood_name)
-    try:
-        return await Email.objects.get(hood=hood.id)
-    except NoMatch:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+router = APIRouter()
 
 
-hood_router = APIRouter()
-mailbox_router = APIRouter()
-
-
-@hood_router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED)
 async def email_create(hood=Depends(get_hood)):
     """ Create an Email bot. Call this when creating a hood.
 
@@ -66,7 +48,7 @@ async def email_create(hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@hood_router.delete('/', status_code=status.HTTP_200_OK)
+@router.delete('/', status_code=status.HTTP_200_OK)
 async def email_delete(hood=Depends(get_hood)):
     """ Delete an Email bot. Call this when deleting a hood.
     Stops and deletes the Email bot as well as all subscribers.
@@ -79,7 +61,7 @@ async def email_delete(hood=Depends(get_hood)):
     await email_bot.delete()
 
 
-@hood_router.post('/subscribe/')
+@router.post('/subscribe/')
 async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
     """ Send a confirmation mail to subscribe to messages via email.
 
@@ -104,7 +86,7 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
     return status.HTTP_200_OK
 
 
-@hood_router.post('/subscribe/confirm/{token}')
+@router.post('/subscribe/confirm/{token}')
 async def email_subscribe_confirm(token, hood=Depends(get_hood)):
     """ Confirm a new subscriber and add them to the database.
 
@@ -121,7 +103,7 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@hood_router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
+@router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
 async def email_unsubscribe(token, hood=Depends(get_hood)):
     """ Remove a subscriber from the database when they click on an unsubscribe link.
 
@@ -136,20 +118,21 @@ async def email_unsubscribe(token, hood=Depends(get_hood)):
     await EmailSubscribers.objects.delete_many(hood=json['hood'], email=json['email'])
 
 
-@mailbox_router.post('/messages/')
-async def email_message_create(message: BodyMessage):
+@router.post('/messages/')
+async def email_message_create(message: BodyMessage, hood=Depends(get_hood)):
     """ Receive a message from the MDA and pass it to the censor.
 
     :param message: BodyMessage object, holds the message.
+    :param hood: Hood the Email bot belongs to.
     :return: returns status code 201 if the message is accepted by the censor.
     """
     # get bot via "To:" header
-    email_bot = await get_email_row(message.to)
+    email_row = await Email.objects.get(hood=hood.id)
     # check API secret
-    if message.secret is not email_bot.secret:
+    if message.secret is not email_row.secret:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     # pass message.text to bot.py
-    if await spawner.get(email_bot).publish(Message(message.text)):
+    if await spawner.get(email_row).publish(Message(message.text)):
         return status.HTTP_201_CREATED
     else:
         raise HTTPException(status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS)
