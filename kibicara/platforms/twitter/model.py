@@ -11,8 +11,8 @@ class Twitter(Model):
     hood: ForeignKey(Hood)
     dms_since_id: Integer(allow_null=True) = None
     mentions_since_id: Integer(allow_null=True) = None
-    access_token: Text(allow_null=True) = None
-    access_token_secret: Text(allow_null=True) = None
+    access_token: Text()
+    access_token_secret: Text()
     successful_verified: Boolean() = False
 
     class Mapping(Mapping):

@@ -46,18 +46,17 @@ async def twitter_delete(twitter=Depends(get_twitter)):
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def twitter_create(response: Response, hood=Depends(get_hood)):
     try:
-        twitter = await Twitter.objects.create(hood=hood)
-        oauth_token = await get_oauth_token(
+        request_token = await get_oauth_token(
             config['twitter_consumer_key'],
             config['twitter_consumer_secret'],
             callback_uri='http://127.0.0.1:8000/api/twitter/callback',
         )
-        if oauth_token['oauth_callback_confirmed'] != 'true':
-            await twitter.delete()
+        if request_token['oauth_callback_confirmed'] != 'true':
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
-        await twitter.update(
-            access_token=oauth_token['oauth_token'],
-            access_token_secret=oauth_token['oauth_token_secret'],
+        twitter = await Twitter.objects.create(
+            hood=hood,
+            access_token=request_token['oauth_token'],
+            access_token_secret=request_token['oauth_token_secret'],
         )
         response.headers['Location'] = '%d' % twitter.id
         return twitter
