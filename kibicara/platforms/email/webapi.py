@@ -6,8 +6,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from kibicara.platforms.email.bot import spawner
 from kibicara.platforms.email.model import Email, EmailRecipients
 from kibicara.platformapi import Message
+from kibicara.config import config
 from kibicara.webapi.hoods import get_hood
-from kibicara.webapi.admin import url
 from kibicara.email import send_email
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
@@ -63,7 +63,7 @@ async def email_recipient_create(recipient: Recipient):
         'email': recipient.email,
         'hood': recipient.hood,
     }, Email.secret).decode('ascii')
-    confirm_link = url("/api/email/recipient/confirm/" + token)
+    confirm_link = config['root_url'] + "api/email/recipient/confirm/" + token
     hood_name = await get_hood(recipient.hood)
     send_email(recipient.email,
                "Subscribe to Kibicara " + hood_name,
