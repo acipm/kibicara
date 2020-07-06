@@ -26,7 +26,13 @@ class EmailBot(Censor):
                     'hood': self.model.hood,
                 }
                 token = jwt.encode(json, self.model.secret).decode('ascii')
-                unsubscribe_link = config['root_url'] + 'api/email/unsubscribe/' + token
+                unsubscribe_link = (
+                    config['root_url']
+                    + 'api/'
+                    + self.model.id
+                    + '/email/unsubscribe/'
+                    + token
+                )
                 message.text += (
                     "\n\n--\nIf you want to stop receiving these mails, "
                     "follow this link: " + unsubscribe_link
