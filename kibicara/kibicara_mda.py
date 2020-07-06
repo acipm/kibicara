@@ -36,11 +36,13 @@ def main():
         'text': text,
         'to': mail['To'].lower(),
         'author': mail['From'].lower(),
-        'secret': Email.secret
+        'secret': Email.secret,
     }
 
     # POST request mit API-key und JSON-body an /api/email/messages/:
-    print("curl "
-          "-X POST http://localhost/api/email/messages/ "
-          "-H 'Content-Type: application/json' "
-          "-d " + json.dumps(body))
+    print(
+        "curl "
+        "-X POST http://localhost/api/email/messages/ "
+        "-H 'Content-Type: application/json' "
+        "-d " + json.dumps(body)
+    )
