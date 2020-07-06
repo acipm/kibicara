@@ -27,6 +27,22 @@ router = APIRouter()
 twitter_callback_router = APIRouter()
 
 
+@router.get('/')
+async def twitter_read_all(hood=Depends(get_hood)):
+    return await Twitter.objects.filter(hood=hood).all()
+
+
+@router.get('/{twitter_id}')
+async def twitter_read(twitter=Depends(get_twitter)):
+    return twitter
+
+
+@router.delete('/{twitter_id}', status_code=status.HTTP_204_NO_CONTENT)
+async def twitter_delete(twitter=Depends(get_twitter)):
+    spawner.stop(twitter)
+    await twitter.delete()
+
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def twitter_create(response: Response, hood=Depends(get_hood)):
     try:
