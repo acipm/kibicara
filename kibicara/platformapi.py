@@ -113,11 +113,13 @@ class Censor:
 
         Args:
             message (Message): Message to distribute
+        Returns (Boolean): returns True if message is accepted by Censor.
         """
         if not await self.__is_appropriate(message):
-            return
-        for censor in self.__hood_censors:
-            await censor._inbox.put(message)
+            return False
+        for censor in self.hood_censors:
+            await censor.inbox.put(message)
+        return True
 
     async def receive(self):
         """ Receive a message.
