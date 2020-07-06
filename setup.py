@@ -28,5 +28,6 @@ setup(
         'pytoml',
         'requests',
         'scrypt',
+        'pyjwt',
     ],
 )
