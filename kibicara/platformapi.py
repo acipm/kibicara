@@ -58,10 +58,13 @@ class Censor:
     async def __is_appropriate(self, message):
         for badword in await BadWord.objects.filter(hood=self.hood).all():
             if match(badword.pattern, message.text):
+                logger.debug('Matched bad word - dropped message: %s' % message.text)
                 return False
         for trigger in await Trigger.objects.filter(hood=self.hood).all():
             if match(trigger.pattern, message.text):
+                logger.debug('Matched trigger - passed message: %s' % message.text)
                 return True
+        logger.debug('Did not match any trigger - dropped message: %s' % message.text)
         return False
 
 
