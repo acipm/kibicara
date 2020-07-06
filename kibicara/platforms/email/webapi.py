@@ -20,6 +20,7 @@ from os import urandom
 
 class BodyMessage(BaseModel):
     """ This model shows which values are supplied by the MDA listener script. """
+
     text: str
     to: str
     author: str
@@ -28,6 +29,7 @@ class BodyMessage(BaseModel):
 
 class Subscriber(BaseModel):
     """ This model holds the email address of a fresh subscriber. """
+
     email: str
 
 
@@ -86,7 +88,9 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
     :return: Returns status code 200 after sending confirmation email.
     """
     secretbox = SecretBox(Email.secret)
-    token = secretbox.encrypt({'email': subscriber.email, }, encoder=URLSafeBase64Encoder)
+    token = secretbox.encrypt(
+        {'email': subscriber.email,}, encoder=URLSafeBase64Encoder
+    )
     asciitoken = token.decode('ascii')
     confirm_link = (
         config['root_url'] + "api/" + hood.id + "/email/subscribe/confirm/" + asciitoken
