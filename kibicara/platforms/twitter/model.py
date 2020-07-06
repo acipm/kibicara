@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: 0BSD
 
 from kibicara.model import Hood, Mapping
-from ormantic import Integer, ForeignKey, Model, Text
+from ormantic import Boolean, Integer, ForeignKey, Model, Text
 
 
 class Twitter(Model):
@@ -13,6 +13,7 @@ class Twitter(Model):
     mentions_since_id: Integer(allow_null=True) = None
     access_token: Text(allow_null=True) = None
     access_token_secret: Text(allow_null=True) = None
+    successful_verified: Boolean() = False
 
     class Mapping(Mapping):
         table_name = 'twitterbots'

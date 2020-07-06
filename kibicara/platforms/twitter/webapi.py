@@ -9,6 +9,7 @@ from kibicara.platforms.twitter.model import Twitter
 from kibicara.webapi.hoods import get_hood
 from logging import getLogger
 from sqlite3 import IntegrityError
+from ormantic.exceptions import NoMatch
 from peony.oauth_dance import get_oauth_token, get_access_token
 
 
@@ -36,6 +37,7 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
             callback_uri='http://127.0.0.1:8000/api/twitter/callback',
         )
         if oauth_token['oauth_callback_confirmed'] != 'true':
+            # TODO delete twitter
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
         await twitter.update(
             access_token=oauth_token['oauth_token'],
@@ -61,9 +63,11 @@ async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
         await twitter.update(
             access_token=access_token['oauth_token'],
             access_token_secret=access_token['oauth_token_secret'],
+            successful_verified=True,
         )
         spawner.start(twitter)
-        response.headers['Location'] = '%d' % twitter.id
         return []
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+    except NoMatch:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
