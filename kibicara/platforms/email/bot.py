@@ -19,8 +19,8 @@ class EmailBot(Censor):
 
     async def run(self):
         """ Loop which waits for new messages and sends emails to all subscribers. """
+        hood_name = await Hood.objects.get(id=self.model.hood).name
         while True:
-            hood_name = await Hood.objects.get(id=self.model.hood).name
             message = await self.receive()
             for subscriber in EmailSubscribers(hood=self.model.hood):
                 json = {
