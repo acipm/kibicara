@@ -29,18 +29,36 @@ class TwitterBot(Censor):
         self.dms_since_id = self.twitter_model.dms_since_id
 
     async def run(self):
-        await gather(self.poll(), self.push())
+        if self.twitter_model.successful_verified:
+            if self.twitter_model.mentions_since_id is None:
+                logger.debug('since_id is None in model, fetch newest mention id')
+                mentions = await self._poll_mentions()
+            if self.twitter_model.dms_since_id is None:
+                logger.debug('since_id is None in model, fetch newest dm id')
+                dms = await self._poll_direct_messages()
+            logger.debug('Starting Twitter bot: %s' % self.twitter_model.__dict__)
+            await gather(self.poll(), self.push())
+        else:
+            logger.debug('Twitter Bot not started: Oauth Handshake not completed')
 
     async def poll(self):
         while True:
-            messages = await self._poll_direct_messages()
-            messages.extend(await self._poll_mentions())
-            logger.debug('Polled messages: %s' % str(messages))
+            dms = await self._poll_direct_messages()
+            logger.debug(
+                'Polled dms (%s): %s' % (self.twitter_model.hood.name, str(dms))
+            )
+            mentions = await self._poll_mentions()
+            logger.debug(
+                'Polled mentions (%s): %s'
+                % (self.twitter_model.hood.name, str(mentions))
+            )
             await self.twitter_model.update(
                 dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
             )
-            for message in messages:
+            for message in dms:
                 await self.publish(Message(message))
+            for message_id, message in mentions:
+                await self.publish(Message(message, twitter_mention_id=message_id))
             await sleep(self.polling_interval_sec)
 
     async def _poll_direct_messages(self):
@@ -76,7 +94,7 @@ class TwitterBot(Censor):
             filtered_text = await self._filter_text(mention.entities, mention.text)
             if not filtered_text:
                 continue
-            messages.append(filtered_text)
+            messages.append((mention.id, filtered_text))
         return messages
 
     async def _filter_text(self, entities, text):
@@ -97,11 +115,14 @@ class TwitterBot(Censor):
     async def push(self):
         while True:
             message = await self.receive()
-            print('Received' + message.text)
-            # TODO check if report is from twitter itself
-            # _retweet(message_id)
-            # else
-            # _post_tweet(message)
+            logger.debug(
+                'Received message from censor (%s): %s'
+                % (self.twitter_model.hood.name, message)
+            )
+            if hasattr(message, 'twitter_mention_id'):
+                await self._retweet(message.twitter_mention_id)
+            else:
+                await self._post_tweet(message.text)
 
     async def _post_tweet(self, message):
         return await self.client.api.statuses.update.post(status=message)
