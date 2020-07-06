@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from kibicara.email import send_email
 from kibicara.model import Admin, AdminHoodRelation
+from kibicara.config import config
 from logging import getLogger
 from nacl.encoding import URLSafeBase64Encoder
 from nacl.exceptions import CryptoError
@@ -41,6 +42,10 @@ def from_token(token):
     return loads(
         secret_box.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
     )
+
+
+def url(route):
+    return config['url'] + route
 
 
 async def get_auth(email, password):
