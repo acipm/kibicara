@@ -48,18 +48,22 @@ following pattern:
 
 `[core] Add censor for filtering messages #1312`
 
-Use these:
+You can use these tags:
+
 - [core] Feature for Kibicara core
 - [frontend] Feature for Kibicara frontend
-- [<platform>] Feature for platforms, e.g.
+- [$platform] Feature for platforms, e.g.
     - [twitter]
     - [telegram]
     - [email]
     - ...
 - [tests] Tests
-- [doc] Documentation
 - [misc] e.g. github action files
 - #\d+ if commit is related to specific issues or merge requests
+
+Don't use tags which are not listed here. Don't start your commit message with
+lower case. Commit messages which do not fulfill these guidelines will not be
+merged into the `development` branch.
 
 ## Comments
 
