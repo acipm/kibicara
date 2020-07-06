@@ -51,8 +51,13 @@ following pattern:
 Use these:
 - [core] Feature for Kibicara core
 - [frontend] Feature for Kibicara frontend
-- [platform] Feature for platforms like Twitter, Telegram, ...
+- [<platform>] Feature for platforms, e.g.
+    - [twitter]
+    - [telegram]
+    - [email]
+    - ...
 - [tests] Tests
+- [doc] Documentation
 - [misc] e.g. github action files
 - #\d+ if commit is related to specific issues or merge requests
 
