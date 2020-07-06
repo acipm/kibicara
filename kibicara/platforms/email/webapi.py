@@ -25,7 +25,6 @@ class BodyMessage(BaseModel):
 
 
 class Recipient(BaseModel):
-    hood_name: str
     email: str
 
 
@@ -38,7 +37,8 @@ async def get_email_bot(to):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-router = APIRouter()
+hood_router = APIRouter()
+mailbox_router = APIRouter()
 
 
 """
@@ -49,7 +49,7 @@ async def test_read_all(hood=Depends(get_hood)):
 """
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@hood_router.post('/', status_code=status.HTTP_201_CREATED)
 async def email_create(hood=Depends(get_hood)):
     try:
         emailbot = await Email.objects.create(hood=hood, secret=urandom(32))
@@ -59,35 +59,33 @@ async def email_create(hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.delete('/{hood_name}', status_code=status.HTTP_200_OK)
-async def email_delete(hood_name):
+@hood_router.delete('/', status_code=status.HTTP_200_OK)
+async def email_delete(hood=Depends(get_hood)):
     # who calls this function usually?
-    hood = await Hood.objects.get(name=hood_name)
     email_bot = await Email.objects.get(hood=hood)
     spawner.stop(email_bot)
     await EmailRecipients.objects.delete_many(hood=hood)
     await email_bot.delete()
 
 
-@router.post('/recipient/')
-async def email_recipient_create(recipient: Recipient):
-    token = jwt.encode(
-        {'email': recipient.email, 'hood_name': recipient.hood_name,}, Email.secret
-    ).decode('ascii')
-    confirm_link = config['root_url'] + "api/email/recipient/confirm/" + token
+@hood_router.post('/recipient/')
+async def email_recipient_create(recipient: Recipient, hood=Depends(get_hood)):
+    token = jwt.encode({'email': recipient.email}, Email.secret).decode('ascii')
+    confirm_link = (
+        config['root_url'] + "api/" + hood.id + "/email/recipient/confirm/" + token
+    )
     send_email(
         recipient.email,
-        "Subscribe to Kibicara " + recipient.hood_name,
-        sender=recipient.hood_name,
+        "Subscribe to Kibicara " + hood.name,
+        sender=hood.name,
         body="To confirm your subscription, follow this link: " + confirm_link,
     )
     return status.HTTP_200_OK
 
 
-@router.post('/recipient/confirm/{token}')
-async def email_recipient_confirm(token):
+@hood_router.post('/recipient/confirm/{token}')
+async def email_recipient_confirm(token, hood=Depends(get_hood)):
     json = jwt.decode(token, Email.secret)
-    hood = await Hood.objects.get(name=json['hood_name'])
     try:
         await EmailRecipients.objects.create(hood=hood.id, email=json['email'])
         return status.HTTP_201_CREATED
@@ -95,14 +93,15 @@ async def email_recipient_confirm(token):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-# delete EmailRecipient
-@router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
-async def email_recipient_unsubscribe(token):
+@hood_router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
+async def email_recipient_unsubscribe(token, hood=Depends(get_hood)):
     json = jwt.decode(token)
+    if hood.id is not json['hood']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
     await EmailRecipients.objects.delete_many(hood=json['hood'], email=json['email'])
 
 
-@router.post('/messages/')
+@mailbox_router.post('/messages/')
 async def email_message_create(message: BodyMessage):
     # get bot via "To:" header
     email_bot = await get_email_bot(message.to)
