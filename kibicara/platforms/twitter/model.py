@@ -9,10 +9,10 @@ from ormantic import Integer, ForeignKey, Model, Text
 class Twitter(Model):
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
-    dms_since_id: Integer()
-    mentions_since_id: Integer()
-    access_token: Text()
-    access_token_secret: Text()
+    dms_since_id: Integer(allow_null=True) = None
+    mentions_since_id: Integer(allow_null=True) = None
+    access_token: Text(allow_null=True) = None
+    access_token_secret: Text(allow_null=True) = None
 
     class Mapping(Mapping):
         table_name = 'twitterbots'
