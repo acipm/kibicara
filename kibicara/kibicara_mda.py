@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: 0BSD
 
 import email.parser
-import json
 import sys
 import re
+import requests
 from logging import getLogger
 from kibicara.platforms.email.model import Email
 
@@ -38,11 +38,4 @@ def main():
         'author': mail.get_unixfrom(),
         'secret': Email.secret,
     }
-
-    # POST request mit API-key und JSON-body an /api/email/messages/:
-    print(
-        "curl "
-        "-X POST http://localhost/api/email/messages/ "
-        "-H 'Content-Type: application/json' "
-        "-d " + json.dumps(body)
-    )
+    requests.post('http://localhost/api/email/messages/', data=body)
