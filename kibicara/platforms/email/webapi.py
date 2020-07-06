@@ -96,6 +96,10 @@ async def email_recipient_confirm(token):
 
 
 # delete EmailRecipient
+@router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
+async def email_recipient_unsubscribe(token):
+    json = jwt.decode(token)
+    await EmailRecipients.objects.delete_many(hood=json['hood'], email=json['email'])
 
 
 @router.post('/messages/')
