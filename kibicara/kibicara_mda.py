@@ -8,6 +8,7 @@ import re
 import requests
 from logging import getLogger
 from kibicara.platforms.email.model import Email
+from kibicara.model import Hood
 
 
 def main():
@@ -32,10 +33,12 @@ def main():
         except Exception:
             logger.info("No Body in this message part", exc_info=True)
             exit(0)
+    to = mail['To'].lower()
+    hood_name = to.split('@')[0]
+    hood = await Hood.objects.get(name=hood_name)
     body = {
         'text': text,
-        'to': mail['To'].lower(),
         'author': mail.get_unixfrom(),
         'secret': Email.secret,
     }
-    requests.post('http://localhost/api/email/messages/', data=body)
+    requests.post('http://localhost/api/' + hood.id + '/email/messages/', data=body)
