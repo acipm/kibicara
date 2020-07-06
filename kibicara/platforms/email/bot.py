@@ -5,8 +5,6 @@
 from kibicara.platforms.email.model import EmailRecipients, Email
 from kibicara.platformapi import Censor, Spawner, Message
 from logging import getLogger
-import email
-import datetime
 
 logger = getLogger(__name__)
 
