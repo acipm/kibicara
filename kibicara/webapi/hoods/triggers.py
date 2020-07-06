@@ -8,6 +8,7 @@ from kibicara.model import Trigger
 from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
+from re import compile as regex_compile, error as RegexError
 from sqlite3 import IntegrityError
 
 
@@ -35,11 +36,14 @@ async def trigger_create(
     values: BodyTrigger, response: Response, hood=Depends(get_hood)
 ):
     try:
+        regex_compile(values.pattern)
         trigger = await Trigger.objects.create(hood=hood, **values.__dict__)
         response.headers['Location'] = '%d' % trigger.id
         return trigger
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+    except RegexError:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
 @router.get('/{trigger_id}')
