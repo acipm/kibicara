@@ -3,19 +3,21 @@
 # SPDX-License-Identifier: 0BSD
 
 from kibicara.model import Hood, Mapping
-from ormantic import Integer, ForeignKey, Model, Text, DateTime
+from ormantic import Integer, ForeignKey, Model, Text
 
 
-class EmailRecipients(Model):
+class EmailSubscribers(Model):
+    """ This table stores all subscribers, who want to receive messages via email. """
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
     email: Text()
 
     class Mapping(Mapping):
-        table_name = 'email_recipients'
+        table_name = 'email_subscribers'
 
 
 class Email(Model):
+    """ This table is used to track the hood ID. It also stores the token secret. """
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
     secret: Text()
