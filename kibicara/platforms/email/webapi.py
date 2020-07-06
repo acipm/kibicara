@@ -9,10 +9,12 @@ from kibicara.platformapi import Message
 from kibicara.config import config
 from kibicara.email import send_email
 from kibicara.model import Hood
+from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
 from sqlite3 import IntegrityError
 import jwt
+from os import urandom
 
 
 class BodyMessage(BaseModel):
@@ -44,19 +46,27 @@ router = APIRouter()
 @router.get('/')
 async def test_read_all(hood=Depends(get_hood)):
     return await Email.objects.filter(hood=hood).all()
+"""
 
-# create Email row
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def test_create(response: Response, hood=Depends(get_hood)):
+async def email_create(hood=Depends(get_hood)):
     try:
-        test = await Email.objects.create(hood=hood)
-        spawner.start(test)
-        response.headers['Location'] = '%d' % test.id
-        return test
+        emailbot = await Email.objects.create(hood=hood, secret=urandom(32))
+        spawner.start(emailbot)
+        return emailbot
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-"""
-# delete Email row
+
+
+@router.delete('/{hood_name}', status_code=status.HTTP_200_OK)
+async def email_delete(hood_name):
+    # who calls this function usually?
+    hood = await Hood.objects.get(name=hood_name)
+    email_bot = await Email.objects.get(hood=hood)
+    spawner.stop(email_bot)
+    await EmailRecipients.objects.delete_many(hood=hood)
+    await email_bot.delete()
 
 
 @router.post('/recipient/')
@@ -74,7 +84,7 @@ async def email_recipient_create(recipient: Recipient):
     return status.HTTP_200_OK
 
 
-@router.post('/recipient/confirm/<token>')
+@router.post('/recipient/confirm/{token}')
 async def email_recipient_confirm(token):
     json = jwt.decode(token, Email.secret)
     hood = await Hood.objects.get(name=json['hood_name'])
