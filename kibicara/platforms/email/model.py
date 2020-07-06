@@ -8,6 +8,7 @@ from ormantic import Integer, ForeignKey, Model, Text
 
 class EmailSubscribers(Model):
     """ This table stores all subscribers, who want to receive messages via email. """
+
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
     email: Text()
@@ -18,6 +19,7 @@ class EmailSubscribers(Model):
 
 class Email(Model):
     """ This table is used to track the hood ID. It also stores the token secret. """
+
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
     secret: Text()
