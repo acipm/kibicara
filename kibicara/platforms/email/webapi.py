@@ -41,7 +41,7 @@ async def email_create(hood=Depends(get_hood)):
     :return: Email row of the new email bot.
     """
     try:
-        emailbot = await Email.objects.create(hood=hood, secret=urandom(32))
+        emailbot = await Email.objects.create(hood=hood, secret=urandom(32).hex())
         spawner.start(emailbot)
         return emailbot
     except IntegrityError:
@@ -127,7 +127,7 @@ async def email_message_create(message: BodyMessage, hood=Depends(get_hood)):
     :return: returns status code 201 if the message is accepted by the censor.
     """
     # get bot via "To:" header
-    email_row = await Email.objects.get(hood=hood.id)
+    email_row = await Email.objects.get(hood=hood)
     # check API secret
     if message.secret is not email_row.secret:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
