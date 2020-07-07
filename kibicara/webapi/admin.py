@@ -16,6 +16,7 @@ from passlib.hash import argon2
 from ormantic.exceptions import NoMatch
 from pickle import dumps, loads
 from pydantic import BaseModel
+from smtplib import SMTPException
 from sqlite3 import IntegrityError
 
 
@@ -71,7 +72,8 @@ router = APIRouter()
 @router.post('/register/', status_code=status.HTTP_202_ACCEPTED)
 async def admin_register(values: BodyAdmin):
     register_token = to_token(**values.__dict__)
-    logger.debug(register_token)
+    # this logging output is captured and used by the register_token test fixture
+    logger.info(register_token)
     try:
         send_email(
             to=values.email,
@@ -79,7 +81,7 @@ async def admin_register(values: BodyAdmin):
             # XXX create real confirm link
             body=register_token,
         )
-    except ConnectionRefusedError:
+    except (ConnectionRefusedError, SMTPException):
         logger.exception('Email sending failed')
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
     return {}
