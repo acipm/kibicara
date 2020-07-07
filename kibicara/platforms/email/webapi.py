@@ -10,10 +10,14 @@ from kibicara.config import config
 from kibicara.email import send_email
 from kibicara.webapi.hoods import get_hood
 from pydantic import BaseModel
+from ormantic.exceptions import NoMatch
 from sqlite3 import IntegrityError
-from nacl.encoding import URLSafeBase64Encoder
-from nacl.secret import SecretBox
+from kibicara.webapi.admin import from_token, to_token
 from os import urandom
+from logging import getLogger
+
+
+logger = getLogger(__name__)
 
 
 class BodyMessage(BaseModel):
@@ -30,6 +34,13 @@ class Subscriber(BaseModel):
     email: str
 
 
+async def get_email(hood=Depends(get_hood)):
+    try:
+        return await Email.objects.get(hood=hood)
+    except NoMatch:
+        return HTTPException(status.HTTP_404_NOT_FOUND)
+
+
 router = APIRouter()
 
 
@@ -41,9 +52,9 @@ async def email_create(hood=Depends(get_hood)):
     :return: Email row of the new email bot.
     """
     try:
-        emailbot = await Email.objects.create(hood=hood, secret=urandom(32).hex())
-        spawner.start(emailbot)
-        return emailbot
+        email_row = await Email.objects.create(hood=hood, secret=urandom(32).hex())
+        spawner.start(email_row)
+        return email_row
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
@@ -55,10 +66,10 @@ async def email_delete(hood=Depends(get_hood)):
 
     :param hood: Hood the Email bot belongs to.
     """
-    email_bot = await Email.objects.get(hood=hood.id)
-    spawner.stop(email_bot)
+    email_row = await get_email(hood=hood)
+    spawner.stop(email_row)
     await EmailSubscribers.objects.delete_many(hood=hood.id)
-    await email_bot.delete()
+    await email_row.delete()
 
 
 @router.post('/subscribe/')
@@ -69,14 +80,11 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
     :param hood: Hood the Email bot belongs to.
     :return: Returns status code 200 after sending confirmation email.
     """
-    secretbox = SecretBox(Email.secret)
-    token = secretbox.encrypt(
-        {'email': subscriber.email,}, encoder=URLSafeBase64Encoder
-    )
-    asciitoken = token.decode('ascii')
+    token = to_token(email=subscriber.email)
     confirm_link = (
-        config['root_url'] + "api/" + hood.id + "/email/subscribe/confirm/" + asciitoken
+        config['root_url'] + "api/" + str(hood.id) + "/email/subscribe/confirm/" + token
     )
+    logger.debug("Subscription confirmation link: " + confirm_link)
     send_email(
         subscriber.email,
         "Subscribe to Kibicara " + hood.name,
@@ -94,10 +102,9 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood)):
     :param hood: Hood the Email bot belongs to.
     :return: Returns status code 200 after adding the subscriber to the database.
     """
-    secretbox = SecretBox(Email.secret)
-    json = secretbox.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
+    payload = from_token(token)
     try:
-        await EmailSubscribers.objects.create(hood=hood.id, email=json['email'])
+        await EmailSubscribers.objects.create(hood=hood.id, email=payload['email'])
         return status.HTTP_201_CREATED
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
@@ -110,12 +117,12 @@ async def email_unsubscribe(token, hood=Depends(get_hood)):
     :param token: encrypted JSON token, holds subscriber email + hood.id.
     :param hood: Hood the Email bot belongs to.
     """
-    secretbox = SecretBox(Email.secret)
-    json = secretbox.decrypt(token.encode('ascii'), encoder=URLSafeBase64Encoder)
+    email_row = await get_email(hood)
+    payload = from_token(token)
     # If token.hood and url.hood are different, raise an error:
-    if hood.id is not json['hood']:
+    if hood.id is not payload['hood']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
-    await EmailSubscribers.objects.delete_many(hood=json['hood'], email=json['email'])
+    await EmailSubscribers.objects.delete_many(hood=payload['hood'], email=payload['email'])
 
 
 @router.post('/messages/')
@@ -127,7 +134,7 @@ async def email_message_create(message: BodyMessage, hood=Depends(get_hood)):
     :return: returns status code 201 if the message is accepted by the censor.
     """
     # get bot via "To:" header
-    email_row = await Email.objects.get(hood=hood)
+    email_row = await get_email(hood)
     # check API secret
     if message.secret is not email_row.secret:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
