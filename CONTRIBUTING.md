@@ -58,6 +58,7 @@ You can use these tags:
     - [email]
     - ...
 - [tests] Tests
+- [doc] Documentation
 - [misc] e.g. github action files
 - #\d+ if commit is related to specific issues or merge requests
 
