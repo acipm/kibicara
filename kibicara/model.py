@@ -18,6 +18,11 @@ class Mapping:
         engine = create_engine(str(cls.database.url))
         cls.metadata.create_all(engine)
 
+    @classmethod
+    def drop_all(cls):
+        engine = create_engine(str(cls.database.url))
+        cls.metadata.drop_all(engine)
+
 
 class Admin(Model):
     id: Integer(primary_key=True) = None
