@@ -7,6 +7,11 @@ from kibicara.platformapi import Censor, Spawner
 from kibicara.email import send_email
 from kibicara.config import config
 from kibicara.webapi.admin import to_token
+from smtplib import SMTPException
+from logging import getLogger
+
+
+logger = getLogger(__name__)
 
 
 class EmailBot(Censor):
@@ -36,7 +41,16 @@ class EmailBot(Censor):
                     "\n\n--\nIf you want to stop receiving these mails, "
                     "follow this link: " + unsubscribe_link
                 )
-                send_email(subscriber.email, "Kibicara " + self.hood.name, body=message.text)
+                try:
+                    send_email(
+                        subscriber.email,
+                        "Kibicara " + self.hood.name,
+                        body=message.text,
+                    )
+                except (ConnectionRefusedError, SMTPException):
+                    logger.error(
+                        "Sending subscription confirmation email failed.", exc_info=True
+                    )
 
 
 spawner = Spawner(Email, EmailBot)

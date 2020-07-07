@@ -14,6 +14,7 @@ from ormantic.exceptions import NoMatch
 from sqlite3 import IntegrityError
 from kibicara.webapi.admin import from_token, to_token
 from os import urandom
+from smtplib import SMTPException
 from logging import getLogger
 
 
@@ -38,7 +39,7 @@ async def get_email(hood=Depends(get_hood)):
     try:
         return await Email.objects.get(hood=hood)
     except NoMatch:
-        return HTTPException(status.HTTP_404_NOT_FOUND)
+        return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
 router = APIRouter()
@@ -85,12 +86,16 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
         config['root_url'] + "api/" + str(hood.id) + "/email/subscribe/confirm/" + token
     )
     logger.debug("Subscription confirmation link: " + confirm_link)
-    send_email(
-        subscriber.email,
-        "Subscribe to Kibicara " + hood.name,
-        sender=hood.name,
-        body="To confirm your subscription, follow this link: " + confirm_link,
-    )
+    try:
+        send_email(
+            subscriber.email,
+            "Subscribe to Kibicara " + hood.name,
+            sender=hood.name,
+            body="To confirm your subscription, follow this link: " + confirm_link,
+        )
+    except (ConnectionRefusedError, SMTPException):
+        logger.error("Sending subscription confirmation email failed.", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
     return status.HTTP_200_OK
 
 
@@ -122,7 +127,9 @@ async def email_unsubscribe(token, hood=Depends(get_hood)):
     # If token.hood and url.hood are different, raise an error:
     if hood.id is not payload['hood']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
-    await EmailSubscribers.objects.delete_many(hood=payload['hood'], email=payload['email'])
+    await EmailSubscribers.objects.delete_many(
+        hood=payload['hood'], email=payload['email']
+    )
 
 
 @router.post('/messages/')
