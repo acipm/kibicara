@@ -3,12 +3,10 @@
 # SPDX-License-Identifier: 0BSD
 
 from kibicara.platforms.email.model import EmailSubscribers, Email
-from kibicara.model import Hood
 from kibicara.platformapi import Censor, Spawner
 from kibicara.email import send_email
 from kibicara.config import config
-from nacl.encoding import URLSafeBase64Encoder
-from nacl.secret import SecretBox
+from kibicara.webapi.admin import to_token
 
 
 class EmailBot(Censor):
@@ -19,29 +17,26 @@ class EmailBot(Censor):
 
     async def run(self):
         """ Loop which waits for new messages and sends emails to all subscribers. """
-        hood_name = await Hood.objects.get(id=self.model.hood).name
         while True:
             message = await self.receive()
-            for subscriber in EmailSubscribers(hood=self.model.hood):
-                json = {
+            for subscriber in EmailSubscribers(hood=self.hood.id):
+                payload = {
                     'email': subscriber.email,
-                    'hood': self.model.hood,
+                    'hood': self.hood.id,
                 }
-                secretbox = SecretBox(Email.secret)
-                token = secretbox.encrypt(json, encoder=URLSafeBase64Encoder)
-                asciitoken = token.decode('ascii')
+                token = to_token(email=subscriber.email, hood=self.hood.id)
                 unsubscribe_link = (
                     config['root_url']
                     + 'api/'
                     + self.model.id
                     + '/email/unsubscribe/'
-                    + asciitoken
+                    + token
                 )
                 message.text += (
                     "\n\n--\nIf you want to stop receiving these mails, "
                     "follow this link: " + unsubscribe_link
                 )
-                send_email(subscriber.email, "Kibicara " + hood_name, body=message.text)
+                send_email(subscriber.email, "Kibicara " + self.hood.name, body=message.text)
 
 
 spawner = Spawner(Email, EmailBot)
