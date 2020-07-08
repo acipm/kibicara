@@ -17,13 +17,12 @@ class TwitterBot(Censor):
     def __init__(self, twitter_model):
         super().__init__(twitter_model.hood)
         self.twitter_model = twitter_model
-        self.tokens = {
-            'consumer_key': config['twitter_consumer_key'],
-            'consumer_secret': config['twitter_consumer_secret'],
-            'access_token': twitter_model.access_token,
-            'access_token_secret': twitter_model.access_token_secret,
-        }
-        self.client = PeonyClient(**self.tokens)
+        self.client = PeonyClient(
+            consumer_key=config['twitter']['consumer_key'],
+            consumer_secret=config['twitter']['consumer_secret'],
+            access_token=twitter_model.access_token,
+            access_token_secret=twitter_model.access_token_secret,
+        )
         self.polling_interval_sec = 60
         self.mentions_since_id = self.twitter_model.mentions_since_id
         self.dms_since_id = self.twitter_model.dms_since_id

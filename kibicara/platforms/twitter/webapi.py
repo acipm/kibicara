@@ -47,8 +47,8 @@ async def twitter_delete(twitter=Depends(get_twitter)):
 async def twitter_create(response: Response, hood=Depends(get_hood)):
     try:
         request_token = await get_oauth_token(
-            config['twitter_consumer_key'],
-            config['twitter_consumer_secret'],
+            config['twitter']['consumer_key'],
+            config['twitter']['consumer_secret'],
             callback_uri='http://127.0.0.1:8000/api/twitter/callback',
         )
         if request_token['oauth_callback_confirmed'] != 'true':
@@ -69,8 +69,8 @@ async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
     try:
         twitter = await Twitter.objects.filter(access_token=oauth_token).get()
         access_token = await get_access_token(
-            config['twitter_consumer_key'],
-            config['twitter_consumer_secret'],
+            config['twitter']['consumer_key'],
+            config['twitter']['consumer_secret'],
             twitter.access_token,
             twitter.access_token_secret,
             oauth_verifier,
