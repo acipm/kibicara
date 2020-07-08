@@ -3,22 +3,27 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from optparse import OptionParser
+import argparse
 from pytoml import load
 
 
 config = {
-    'database_connection': 'sqlite:////tmp/kibicara.sqlite',
-    'frontend_path': None,
-    'root_url': 'http://localhost:8000/',
+    "database_connection": "sqlite:////tmp/kibicara.sqlite",
+    "frontend_path": None,
+    "root_url": "http://localhost:8000/",
 }
-
-parser = OptionParser()
-parser.add_option('-f', dest='configfile', default='/etc/kibicara.conf')
-(option, args) = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-f",
+    "--file",
+    dest="configfile",
+    default="/etc/kibicara.conf",
+    help="path to config file",
+)
+args = parser.parse_args()
 
 try:
-    with open(option.configfile) as configfile:
+    with open(args.configfile) as configfile:
         config.update(load(configfile))
 except FileNotFoundError:
     # run with default config
