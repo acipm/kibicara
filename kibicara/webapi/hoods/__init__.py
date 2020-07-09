@@ -20,11 +20,15 @@ class BodyHood(BaseModel):
     '''
 
 
-async def get_hood(hood_id: int, admin=Depends(get_admin)):
+async def get_hood_unauthorized(hood_id: int):
     try:
         hood = await Hood.objects.get(id=hood_id)
     except NoMatch:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    return hood
+
+
+async def get_hood(hood=Depends(get_hood_unauthorized), admin=Depends(get_admin)):
     try:
         await AdminHoodRelation.objects.get(admin=admin, hood=hood)
     except NoMatch:
