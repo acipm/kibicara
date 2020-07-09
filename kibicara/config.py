@@ -6,6 +6,7 @@
 
 from argparse import ArgumentParser
 from pytoml import load
+from sys import argv
 
 
 config = {
@@ -14,19 +15,20 @@ config = {
     'root_url': 'http://localhost:8000/',
 }
 
-parser = ArgumentParser()
-parser.add_argument(
-    '-f',
-    '--config',
-    dest='configfile',
-    default='/etc/kibicara.conf',
-    help='path to config file',
-)
-args = parser.parse_args()
+if argv[0] == 'kibicara':
+    parser = ArgumentParser()
+    parser.add_argument(
+        '-f',
+        '--config',
+        dest='configfile',
+        default='/etc/kibicara.conf',
+        help='path to config file',
+    )
+    args = parser.parse_args()
 
-try:
-    with open(args.configfile) as configfile:
-        config.update(load(configfile))
-except FileNotFoundError:
-    # run with default config
-    pass
+    try:
+        with open(args.configfile) as configfile:
+            config.update(load(configfile))
+    except FileNotFoundError:
+        # run with default config
+        pass
