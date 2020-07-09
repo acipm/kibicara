@@ -8,7 +8,7 @@ from kibicara.platforms.email.model import Email, EmailSubscribers
 from kibicara.platformapi import Message
 from kibicara.config import config
 from kibicara.email import send_email
-from kibicara.webapi.hoods import get_hood
+from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from pydantic import BaseModel
 from ormantic.exceptions import NoMatch
 from sqlite3 import IntegrityError
@@ -73,8 +73,8 @@ async def email_delete(hood=Depends(get_hood)):
     await email_row.delete()
 
 
-@router.post('/subscribe/')
-async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
+@router.post('/subscribe/', status_code=status.HTTP_200_OK)
+async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood_unauthorized)):
     """ Send a confirmation mail to subscribe to messages via email.
 
     :param subscriber: Subscriber object, holds the email address.
@@ -85,7 +85,6 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
     confirm_link = (
         config['root_url'] + "api/" + str(hood.id) + "/email/subscribe/confirm/" + token
     )
-    logger.debug("Subscription confirmation link: " + confirm_link)
     try:
         send_email(
             subscriber.email,
@@ -93,14 +92,18 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood)):
             sender=hood.name,
             body="To confirm your subscription, follow this link: " + confirm_link,
         )
-    except (ConnectionRefusedError, SMTPException):
+    except ConnectionRefusedError:
+        logger.info(token)
         logger.error("Sending subscription confirmation email failed.", exc_info=True)
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
-    return status.HTTP_200_OK
+    except SMTPException:
+        logger.info(token)
+        logger.error("Sending subscription confirmation email failed.", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
 
 
-@router.post('/subscribe/confirm/{token}')
-async def email_subscribe_confirm(token, hood=Depends(get_hood)):
+@router.get('/subscribe/confirm/{token}', status_code=status.HTTP_201_CREATED)
+async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
     """ Confirm a new subscriber and add them to the database.
 
     :param token: encrypted JSON token, holds the email of the subscriber.
@@ -110,19 +113,18 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood)):
     payload = from_token(token)
     try:
         await EmailSubscribers.objects.create(hood=hood.id, email=payload['email'])
-        return status.HTTP_201_CREATED
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
 @router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
-async def email_unsubscribe(token, hood=Depends(get_hood)):
+async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     """ Remove a subscriber from the database when they click on an unsubscribe link.
 
     :param token: encrypted JSON token, holds subscriber email + hood.id.
     :param hood: Hood the Email bot belongs to.
     """
-    email_row = await get_email(hood)
+    logger.warning("token is: " + token)
     payload = from_token(token)
     # If token.hood and url.hood are different, raise an error:
     if hood.id is not payload['hood']:
@@ -132,8 +134,10 @@ async def email_unsubscribe(token, hood=Depends(get_hood)):
     )
 
 
-@router.post('/messages/')
-async def email_message_create(message: BodyMessage, hood=Depends(get_hood)):
+@router.post('/messages/', status_code=status.HTTP_201_CREATED)
+async def email_message_create(
+    message: BodyMessage, hood=Depends(get_hood_unauthorized)
+):
     """ Receive a message from the MDA and pass it to the censor.
 
     :param message: BodyMessage object, holds the message.
@@ -147,6 +151,6 @@ async def email_message_create(message: BodyMessage, hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     # pass message.text to bot.py
     if await spawner.get(email_row).publish(Message(message.text)):
-        return status.HTTP_201_CREATED
+        pass
     else:
         raise HTTPException(status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS)
