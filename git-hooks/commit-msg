@@ -6,8 +6,9 @@
 #
 # client-side git-hook - checks commit message style
 
-head -n 1 "$1" | egrep -x '\[[^]]+\] [[:upper:]].*[^.]' > /dev/null
+pattern='\[(core|frontend|twitter|telegram|email|xmpp|mastodon|tests|doc|misc)\] [[:upper:]].*[^.]'
+head -n 1 "$1" | egrep -x "$pattern" > /dev/null
 if [ $? -ne 0 ]; then
-    echo "commit message doesn't match style" >&2
+    echo "commit message doesn't match \"$pattern\"" >&2
     exit 1
 fi
