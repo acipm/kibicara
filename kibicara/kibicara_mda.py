@@ -33,12 +33,11 @@ def main():
             text = part.get_body(('plain',))
             if not text:
                 text = re.sub(r'<[^>]*>', '', part.get_body(('html',)))
-            if not text:
-                logger.error('No suitable message body')
-                exit(0)
         except Exception:
             logger.info("No Body in this message part", exc_info=True)
-            exit(0)
+    if not text:
+        logger.error('No suitable message body')
+        exit(0)
     # extract hood name from the envelope recipient address
     hood_name = args.recipient_address.split('@')[0]
     hood = await Hood.objects.get(name=hood_name)
