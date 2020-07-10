@@ -41,6 +41,9 @@ if argv[0].endswith('kibicara'):
         default='/etc/kibicara.conf',
         help='path to config file',
     )
+    parser.add_argument(
+        '-v', '--verbose', action="count", help="Raise verbosity level",
+    )
     args = parser.parse_args()
 
     try:
