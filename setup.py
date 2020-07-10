@@ -14,6 +14,7 @@ setup(
     },
     install_requires=[
         'aiofiles',
+        'aiogram',
         'aiosqlite',
         'argon2_cffi',
         'fastapi',
