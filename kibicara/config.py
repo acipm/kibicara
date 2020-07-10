@@ -15,7 +15,7 @@ config = {
     'root_url': 'http://localhost:8000/',
 }
 
-if argv[0] == 'kibicara':
+if argv[0].endswith('kibicara'):
     parser = ArgumentParser()
     parser.add_argument(
         '-f',
