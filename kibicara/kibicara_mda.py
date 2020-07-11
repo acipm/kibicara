@@ -7,7 +7,6 @@ import sys
 import re
 import requests
 from logging import getLogger
-from kibicara.platforms.email.model import Email
 from kibicara.model import Hood
 from kibicara.platforms.email.webapi import get_email
 import argparse
@@ -48,4 +47,4 @@ async def main():
         'author': mail.get_unixfrom(),
         'secret': email_row.secret,
     }
-    requests.post('http://localhost/api/%d/email/messages/' % hood.id, data=body)
+    requests.post('http://localhost:8000/api/hoods/%d/email/messages/' % (hood.id), data=body)
