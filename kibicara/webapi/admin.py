@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" REST API endpoints for hood admins. """
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from kibicara import email
@@ -71,8 +73,14 @@ router = APIRouter()
 
 @router.post('/register/', status_code=status.HTTP_202_ACCEPTED)
 async def admin_register(values: BodyAdmin):
+    """ Sends an email with a confirmation link.
+
+    - **email**: E-Mail Address of new hood admin
+    - **password**: Password of new hood admin
+    """
     register_token = to_token(**values.__dict__)
     logger.debug(f'register_token={register_token}')
+    # TODO implement check to see if email already is in database
     try:
         email.send_email(
             to=values.email,
@@ -88,6 +96,10 @@ async def admin_register(values: BodyAdmin):
 
 @router.post('/confirm/{register_token}')
 async def admin_confirm(register_token: str):
+    """ Registration confirmation and account creation.
+
+    - **register_token**: Registration token received in email from /register
+    """
     try:
         values = from_token(register_token)
         passhash = argon2.hash(values['password'])
@@ -99,6 +111,11 @@ async def admin_confirm(register_token: str):
 
 @router.post('/login/')
 async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
+    """ Get an access token.
+
+    - **username**: Email of a registered hood admin
+    - **password**: Password of a registered hood admin
+    """
     try:
         await get_auth(form_data.username, form_data.password)
     except ValueError:
@@ -112,6 +129,7 @@ async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @router.get('/hoods/')
 async def admin_hood_read_all(admin=Depends(get_admin)):
+    """ Get a list of all hoods of a given admin. """
     return (
         await AdminHoodRelation.objects.select_related('hood').filter(admin=admin).all()
     )

@@ -3,6 +3,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" Routing definitions for the REST API.
+
+A platform bot shall add its API router in this `__init__.py`
+file to get included into the main application.
+"""
+
 from fastapi import APIRouter
 from kibicara.platforms.test.webapi import router as test_router
 from kibicara.platforms.telegram.webapi import router as telegram_router

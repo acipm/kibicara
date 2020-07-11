@@ -4,6 +4,19 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" Configuration file and command line argument parser.
+
+Gives a dictionary named `config` with configuration parsed either from
+`/etc/kibicara.conf` or from a file given by command line argument `-f`.
+If no configuration was found at all, the defaults are used.
+
+Example:
+    ```
+    from kibicara.config import config
+    print(config)
+    ```
+"""
+
 from argparse import ArgumentParser
 from pytoml import load
 from sys import argv
@@ -14,6 +27,10 @@ config = {
     'frontend_path': None,
     'root_url': 'http://localhost:8000/',
 }
+""" Default configuration.
+
+The default configuration gets overwritten by a configuration file if one exists.
+"""
 
 if argv[0].endswith('kibicara'):
     parser = ArgumentParser()
