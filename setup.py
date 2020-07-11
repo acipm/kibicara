@@ -18,7 +18,7 @@ setup(
         'argon2_cffi',
         'fastapi',
         'hypercorn',
-        'ormantic @ https://github.com/dl6tom/ormantic/tarball/bugfix__get_key_factory#egg=ormantic-0.0.32',
+        'ormantic @ https://github.com/dl6tom/ormantic/tarball/master#egg=ormantic-0.0.32',
         'passlib',
         'peony-twitter[all]',
         'pynacl',
