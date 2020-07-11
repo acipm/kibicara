@@ -28,6 +28,18 @@ def test_email_subscribe_confirm_wrong_hood(client):
     assert response.json()['detail'] == 'Not Found'
 
 
+def test_email_message_wrong(client, hood_id, email_row):
+    body = {
+        'text': "",
+        'author': "test@localhost",
+        'secret': email_row['secret'],
+    }
+    response = client.post(
+        '/api/hoods/%d/email/messages/%d' % (hood_id, email_row['id']), json=body
+    )
+    assert response.status_code == status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
+
+
 def test_email_unsubscribe_wrong_token(client, hood_id):
     try:
         client.get(
