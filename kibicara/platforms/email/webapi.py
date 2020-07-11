@@ -10,7 +10,7 @@ from kibicara.config import config
 from kibicara.email import send_email
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from pydantic import BaseModel
-from ormantic.exceptions import NoMatch
+from ormantic.exceptions import NoMatch, MultipleMatches
 from sqlite3 import IntegrityError
 from kibicara.webapi.admin import from_token, to_token
 from os import urandom
@@ -35,11 +35,16 @@ class Subscriber(BaseModel):
     email: str
 
 
-async def get_email(hood=Depends(get_hood)):
+async def get_email(hood, email_id=None):
     try:
         return await Email.objects.get(hood=hood)
     except NoMatch:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except MultipleMatches:
+        # Email rows *should* be unique - the unique constraint doesn't work yet though.
+        if email_id is None:
+            email_id = hood.id
+        return await Email.objects.get(hood=hood, id=email_id)
 
 
 router = APIRouter()
@@ -60,14 +65,14 @@ async def email_create(hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.delete('/', status_code=status.HTTP_200_OK)
-async def email_delete(hood=Depends(get_hood)):
+@router.delete('/{email_id}', status_code=status.HTTP_200_OK)
+async def email_delete(email_id, hood=Depends(get_hood)):
     """ Delete an Email bot. Call this when deleting a hood.
     Stops and deletes the Email bot as well as all subscribers.
 
     :param hood: Hood the Email bot belongs to.
     """
-    email_row = await get_email(hood=hood)
+    email_row = await get_email(hood, email_id=email_id)
     spawner.stop(email_row)
     await EmailSubscribers.objects.delete_many(hood=hood.id)
     await email_row.delete()
@@ -134,9 +139,9 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     )
 
 
-@router.post('/messages/', status_code=status.HTTP_201_CREATED)
+@router.post('/messages/{email_id}', status_code=status.HTTP_201_CREATED)
 async def email_message_create(
-    message: BodyMessage, hood=Depends(get_hood_unauthorized)
+    email_id, message: BodyMessage, hood=Depends(get_hood_unauthorized)
 ):
     """ Receive a message from the MDA and pass it to the censor.
 
@@ -145,9 +150,15 @@ async def email_message_create(
     :return: returns status code 201 if the message is accepted by the censor.
     """
     # get bot via "To:" header
-    email_row = await get_email(hood)
+    try:
+        email_row = await get_email(hood, email_id=email_id)
+    except HTTPException as exc:
+        raise exc
     # check API secret
-    if message.secret is not email_row.secret:
+    logger.warning(str(message))
+    logger.warning(str(email_row))
+    if message.secret != email_row.secret:
+        logger.warning("Someone is trying to submit an email without the correct API secret")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     # pass message.text to bot.py
     if await spawner.get(email_row).publish(Message(message.text)):
