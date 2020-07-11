@@ -36,6 +36,13 @@ class Subscriber(BaseModel):
 
 
 async def get_email(hood, email_id=None):
+    """ Get Email row by hood.
+    You can specify an email_id to nail it down, but it works without as well.
+
+    :param hood: Hood the Email bot belongs to.
+    :param email_id: id of the email row you are looking for.
+    :return: Email row of the found email bot.
+    """
     try:
         return await Email.objects.get(hood=hood)
     except NoMatch:
@@ -47,6 +54,7 @@ async def get_email(hood, email_id=None):
         return await Email.objects.get(hood=hood, id=email_id)
 
 
+# registers the routes, gets imported in /kibicara/webapi/__init__.py
 router = APIRouter()
 
 
@@ -54,7 +62,7 @@ router = APIRouter()
 async def email_create(hood=Depends(get_hood)):
     """ Create an Email bot. Call this when creating a hood.
 
-    :param hood: Hood.id of the hood the Email bot is supposed to belong to.
+    :param hood: Hood row of the hood the Email bot is supposed to belong to.
     :return: Email row of the new email bot.
     """
     try:
