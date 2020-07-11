@@ -62,4 +62,9 @@ def test_email_unsubscribe(client, hood_id):
 
 
 # def test_email_send_mda -> call kibicara_mda.py like an MDA would
-# def test_email_delete
+def test_email_delete(client, hood_id, auth_header):
+    test_email_create(client, hood_id, auth_header)
+    response = client.delete(
+        '/api/hoods/%d/email/%d' % (hood_id, hood_id), headers=auth_header
+    )
+    assert response.status_code == status.HTTP_200_OK
