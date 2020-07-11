@@ -23,7 +23,7 @@ def test_email_create(client, hood_id, auth_header):
     # assert response.status_code == status.HTTP_409_CONFLICT
 
 
-def test_email_subscribe(client, hood_id, auth_header):
+def test_email_subscribe(client, hood_id):
     logger = getLogger()
     capture = CaptureHandler()
     logger.setLevel(INFO)
@@ -41,7 +41,18 @@ def test_email_subscribe(client, hood_id, auth_header):
     # assert response.status_code == status.HTTP_409_CONFLICT
 
 
-# def test_email_subscribe_confirm
+def test_email_message(client, hood_id, trigger_id, email_row):
+    body = {
+        'text': "test",
+        'author': "test@localhost",
+        'secret': email_row['secret'],
+    }
+    response = client.post(
+        '/api/hoods/%d/email/messages/%d' % (hood_id, email_row['id']), json=body
+    )
+    assert response.status_code == status.HTTP_201_CREATED
+
+
 # def test_email_send_mda -> call kibicara_mda.py like an MDA would
-# def test_email_message -> write directly to API
+# def test_email_unsubscribe
 # def test_email_delete
