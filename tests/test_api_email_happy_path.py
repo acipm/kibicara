@@ -4,6 +4,7 @@
 
 from fastapi import status
 from logging import getLogger, INFO, WARNING, Handler
+from kibicara.webapi.admin import to_token
 
 
 class CaptureHandler(Handler):
@@ -53,6 +54,12 @@ def test_email_message(client, hood_id, trigger_id, email_row):
     assert response.status_code == status.HTTP_201_CREATED
 
 
+def test_email_unsubscribe(client, hood_id):
+    test_email_subscribe(client, hood_id)
+    token = to_token(email="user@localhost", hood=hood_id)
+    response = client.get('/api/hoods/%d/email/unsubscribe/%s' % (hood_id, token))
+    assert response.status_code == status.HTTP_200_OK
+
+
 # def test_email_send_mda -> call kibicara_mda.py like an MDA would
-# def test_email_unsubscribe
 # def test_email_delete
