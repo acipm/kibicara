@@ -4,9 +4,9 @@
 
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
+from kibicara import email
 from kibicara.model import Mapping
 from kibicara.webapi import router
-from logging import getLogger, Handler, INFO, WARNING
 from pytest import fixture
 
 
@@ -19,26 +19,36 @@ def client():
     return TestClient(app)
 
 
-class CaptureHandler(Handler):
-    def __init__(self):
-        super().__init__()
-        self.records = []
+@fixture(scope='module')
+def monkeymodule():
+    from _pytest.monkeypatch import MonkeyPatch
 
-    def emit(self, record):
-        self.records.append(record)
+    mpatch = MonkeyPatch()
+    yield mpatch
+    mpatch.undo()
 
 
 @fixture(scope='module')
-def register_token(client):
-    # can't use the caplog fixture, since it has only function scope
-    logger = getLogger()
-    capture = CaptureHandler()
-    logger.setLevel(INFO)
-    logger.addHandler(capture)
-    client.post('/api/admin/register/', json={'email': 'user', 'password': 'pass'})
-    logger.setLevel(WARNING)
-    logger.removeHandler(capture)
-    return capture.records[0].message
+def receive_email(monkeymodule):
+    mailbox = []
+
+    def mock_send_email(to, subject, sender='kibicara', body=''):
+        mailbox.append(dict(to=to, subject=subject, sender=sender, body=body))
+
+    def mock_receive_email():
+        return mailbox.pop()
+
+    monkeymodule.setattr(email, 'send_email', mock_send_email)
+    return mock_receive_email
+
+
+@fixture(scope='module')
+def register_token(client, receive_email):
+    response = client.post(
+        '/api/admin/register/', json={'email': 'user', 'password': 'pass'}
+    )
+    assert response.status_code == status.HTTP_202_ACCEPTED
+    return receive_email()['body']
 
 
 @fixture(scope='module')

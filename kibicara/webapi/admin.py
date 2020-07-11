@@ -5,7 +5,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from kibicara.email import send_email
+from kibicara import email
 from kibicara.model import Admin, AdminHoodRelation
 from logging import getLogger
 from nacl.encoding import URLSafeBase64Encoder
@@ -72,10 +72,9 @@ router = APIRouter()
 @router.post('/register/', status_code=status.HTTP_202_ACCEPTED)
 async def admin_register(values: BodyAdmin):
     register_token = to_token(**values.__dict__)
-    # this logging output is captured and used by the register_token test fixture
-    logger.info(register_token)
+    logger.debug(f'register_token={register_token}')
     try:
-        send_email(
+        email.send_email(
             to=values.email,
             subject='Confirm Account',
             # XXX create real confirm link
