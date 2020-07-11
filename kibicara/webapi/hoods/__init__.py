@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" REST API Endpoints for managing hoods. """
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.model import AdminHoodRelation, Hood
 from kibicara.webapi.admin import get_admin
@@ -38,11 +40,17 @@ router = APIRouter()
 
 @router.get('/')
 async def hood_read_all():
+    """ Get all existing hoods. """
     return await Hood.objects.all()
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def hood_create(values: BodyHood, response: Response, admin=Depends(get_admin)):
+    """ Creates a hood.
+
+    - **name**: Name of the hood
+    - **landingpage**: Markdown formatted description of the hood
+    """
     try:
         hood = await Hood.objects.create(**values.__dict__)
         await AdminHoodRelation.objects.create(admin=admin.id, hood=hood.id)
@@ -54,16 +62,23 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
 
 @router.get('/{hood_id}')
 async def hood_read(hood=Depends(get_hood)):
+    """ Get hood with id **hood_id**. """
     return hood
 
 
 @router.put('/{hood_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def hood_update(values: BodyHood, hood=Depends(get_hood)):
+    """ Updates hood with id **hood_id**.
+
+    - **name**: New name of the hood
+    - **landingpage**: New Markdown formatted description of the hood
+    """
     await hood.update(**values.__dict__)
 
 
 @router.delete('/{hood_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def hood_delete(hood=Depends(get_hood)):
+    """ Deletes hood with id **hood_id**. """
     for relation in await AdminHoodRelation.objects.filter(hood=hood).all():
         await relation.delete()
     await hood.delete()

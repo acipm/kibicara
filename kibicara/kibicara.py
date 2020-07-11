@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" Entrypoint of Kibicara. """
+
 from asyncio import run as asyncio_run
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -19,17 +21,23 @@ logger = getLogger(__name__)
 
 
 class Main:
-    def __init__(self):
-        asyncio_run(self.run())
+    """ Entrypoint for Kibicara.
 
-    async def run(self):
+    Initializes the platform bots and starts the hypercorn webserver serving the
+    Kibicara application and the specified frontend on port 8000.
+    """
+
+    def __init__(self):
+        asyncio_run(self.__run())
+
+    async def __run(self):
         basicConfig(level=DEBUG, format="%(asctime)s %(name)s %(message)s")
         getLogger('aiosqlite').setLevel(WARNING)
         Mapping.create_all()
         await Spawner.init_all()
-        await self._start_webserver()
+        await self.__start_webserver()
 
-    async def _start_webserver(self):
+    async def __start_webserver(self):
         class SinglePageApplication(StaticFiles):
             async def get_response(self, path, scope):
                 response = await super().get_response(path, scope)

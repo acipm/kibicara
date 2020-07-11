@@ -3,6 +3,14 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" REST API endpoints for managing triggers.
+
+Provides API endpoints for adding, removing and reading regular expressions that allow a
+message to be passed through by a censor. A published message must match one of these
+regular expressions otherwise it gets dropped by the censor. This provides a message
+filter customizable by the hood admins.
+"""
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.model import Trigger
 from kibicara.webapi.hoods import get_hood
@@ -28,6 +36,7 @@ router = APIRouter()
 
 @router.get('/')
 async def trigger_read_all(hood=Depends(get_hood)):
+    """ Get all triggers of hood with id **hood_id**. """
     return await Trigger.objects.filter(hood=hood).all()
 
 
@@ -35,6 +44,10 @@ async def trigger_read_all(hood=Depends(get_hood)):
 async def trigger_create(
     values: BodyTrigger, response: Response, hood=Depends(get_hood)
 ):
+    """ Creates a new trigger for hood with id **hood_id**.
+
+    - **pattern**: Regular expression which is used to match a trigger.
+    """
     try:
         regex_compile(values.pattern)
         trigger = await Trigger.objects.create(hood=hood, **values.__dict__)
@@ -48,14 +61,20 @@ async def trigger_create(
 
 @router.get('/{trigger_id}')
 async def trigger_read(trigger=Depends(get_trigger)):
+    """ Reads trigger with id **trigger_id** for hood with id **hood_id**. """
     return trigger
 
 
 @router.put('/{trigger_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
+    """ Updates trigger with id **trigger_id** for hood with id **hood_id**.
+
+    - **pattern**: Regular expression which is used to match a trigger
+    """
     await trigger.update(**values.__dict__)
 
 
 @router.delete('/{trigger_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def trigger_delete(trigger=Depends(get_trigger)):
+    """ Deletes trigger with id **trigger_id** for hood with id **hood_id**. """
     await trigger.delete()

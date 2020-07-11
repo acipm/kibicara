@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+""" ORM Models for core. """
+
 from databases import Database
 from kibicara.config import config
 from ormantic import Integer, ForeignKey, Model, Text
