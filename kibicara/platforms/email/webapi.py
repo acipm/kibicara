@@ -158,7 +158,9 @@ async def email_message_create(
     logger.warning(str(message))
     logger.warning(str(email_row))
     if message.secret != email_row.secret:
-        logger.warning("Someone is trying to submit an email without the correct API secret")
+        logger.warning(
+            "Someone is trying to submit an email without the correct API secret"
+        )
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     # pass message.text to bot.py
     if await spawner.get(email_row).publish(Message(message.text)):
