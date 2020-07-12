@@ -52,3 +52,32 @@ def test_email_unsubscribe(client, hood_id, email_row):
     token = to_token(email="user@localhost", hood=hood_id)
     response = client.get('/api/hoods/%d/email/unsubscribe/%s' % (hood_id, token))
     assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+def test_email_send_mda(client, hood_id, trigger_id, email_row):   # -> call kibicara_mda.py like an MDA would
+    mail = """
+From test@example.com Tue Jun 16 15:33:19 2020
+Return-path: <test@example.com>
+Envelope-to: hood@localhost
+Delivery-date: Tue, 16 Jun 2020 15:33:19 +0200
+Received: from [23.143.35.123] (helo=example.com)
+        by example.com with smtp (Exim 4.89)
+        (envelope-from <test@example.com>)
+        id 1jlC1e-0005ro-PL
+        for hood@localhost; Tue, 16 Jun 2020 15:33:19 +0200
+Message-ID: <B5F50812.F55DFD8B@example.com>
+Date: Tue, 16 Jun 2020 06:53:19 -0700
+Reply-To: "Test" <test@example.com>
+From: "Test" <test@example.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.8.1.17) Gecko/20080914 Thunderbird/2.0.0.17
+MIME-Version: 1.0
+To: <hood@localhost>
+Subject: Chat: test
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+hi, test
+"""
+    os.system("echo %s | kibicara_mda" % mail)
+    # Check whether mail was received and accepted
