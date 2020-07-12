@@ -48,5 +48,5 @@ async def main():
         'secret': email_row.secret,
     }
     requests.post(
-        'http://localhost:8000/api/hoods/%d/email/messages/' % (hood.id), data=body
+        'http://localhost:8000/api/hoods/%d/email/messages/' % (hood.id), json=body
     )
