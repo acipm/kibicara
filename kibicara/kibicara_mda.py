@@ -37,7 +37,7 @@ async def main():
             logger.info("No Body in this message part", exc_info=True)
     if not text:
         logger.error('No suitable message body')
-        exit(0)
+        exit(1)
     # extract hood name from the envelope recipient address
     hood_name = args.recipient_address.split('@')[0]
     hood = await Hood.objects.get(name=hood_name)
