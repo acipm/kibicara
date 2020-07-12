@@ -8,7 +8,7 @@ import re
 import requests
 from logging import getLogger
 from kibicara.model import Hood
-from kibicara.platforms.email.webapi import get_email
+from kibicara.platforms.email.model import Email
 import argparse
 
 
@@ -41,7 +41,7 @@ async def main():
     # extract hood name from the envelope recipient address
     hood_name = args.recipient_address.split('@')[0]
     hood = await Hood.objects.get(name=hood_name)
-    email_row = await get_email(hood=hood.id)
+    email_row = await Email.objects.get(hood=hood)
     body = {
         'text': text,
         'author': mail.get_unixfrom(),
