@@ -44,9 +44,7 @@ class EmailBot(Censor):
                         body=message.text,
                     )
                 except (ConnectionRefusedError, SMTPException):
-                    logger.error(
-                        "Sending subscription confirmation email failed.", exc_info=True
-                    )
+                    logger.exception("Sending subscription confirmation email failed.")
 
 
 spawner = Spawner(Email, EmailBot)
