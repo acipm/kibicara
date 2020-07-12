@@ -5,6 +5,7 @@
 from fastapi import status
 from logging import getLogger, INFO, WARNING, Handler
 from kibicara.webapi.admin import to_token
+import os
 
 
 class CaptureHandler(Handler):
@@ -16,15 +17,7 @@ class CaptureHandler(Handler):
         self.records.append(record)
 
 
-def test_email_create(client, hood_id, auth_header):
-    response = client.post('/api/hoods/%d/email/' % hood_id, headers=auth_header)
-    assert response.status_code == status.HTTP_201_CREATED
-    assert response.json()["hood"]["id"] == hood_id
-    # response = client.post('/api/hoods/%d/email/' % hood_id, headers=auth_header)
-    # assert response.status_code == status.HTTP_409_CONFLICT
-
-
-def test_email_subscribe(client, hood_id):
+def test_email_subscribe(client, hood_id, email_row):
     logger = getLogger()
     capture = CaptureHandler()
     logger.setLevel(INFO)
@@ -54,17 +47,8 @@ def test_email_message(client, hood_id, trigger_id, email_row):
     assert response.status_code == status.HTTP_201_CREATED
 
 
-def test_email_unsubscribe(client, hood_id):
-    test_email_subscribe(client, hood_id)
+def test_email_unsubscribe(client, hood_id, email_row):
+    test_email_subscribe(client, hood_id, email_row)
     token = to_token(email="user@localhost", hood=hood_id)
     response = client.get('/api/hoods/%d/email/unsubscribe/%s' % (hood_id, token))
-    assert response.status_code == status.HTTP_200_OK
-
-
-# def test_email_send_mda -> call kibicara_mda.py like an MDA would
-def test_email_delete(client, hood_id, auth_header):
-    test_email_create(client, hood_id, auth_header)
-    response = client.delete(
-        '/api/hoods/%d/email/%d' % (hood_id, hood_id), headers=auth_header
-    )
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_204_NO_CONTENT
