@@ -28,9 +28,7 @@ class EmailBot(Censor):
                 token = to_token(email=subscriber.email, hood=self.hood.id)
                 unsubscribe_link = (
                     config['root_url']
-                    + 'api/'
-                    + self.model.id
-                    + '/email/unsubscribe/'
+                    + 'api/hoods/%d/email/unsubscribe/' % self.hood.id
                     + token
                 )
                 message.text += (
