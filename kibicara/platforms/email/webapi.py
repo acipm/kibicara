@@ -73,7 +73,7 @@ async def email_create(hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.delete('/{email_id}', status_code=status.HTTP_200_OK)
+@router.delete('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def email_delete(email_id, hood=Depends(get_hood)):
     """ Delete an Email bot. Call this when deleting a hood.
     Stops and deletes the Email bot as well as all subscribers.
@@ -86,7 +86,7 @@ async def email_delete(email_id, hood=Depends(get_hood)):
     await email_row.delete()
 
 
-@router.post('/subscribe/', status_code=status.HTTP_200_OK)
+@router.post('/subscribe/', status_code=status.HTTP_202_ACCEPTED)
 async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood_unauthorized)):
     """ Send a confirmation mail to subscribe to messages via email.
 
@@ -130,7 +130,7 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.get('/unsubscribe/{token}', status_code=status.HTTP_200_OK)
+@router.get('/unsubscribe/{token}', status_code=status.HTTP_204_NO_CONTENT)
 async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     """ Remove a subscriber from the database when they click on an unsubscribe link.
 
