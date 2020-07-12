@@ -33,7 +33,7 @@ async def main():
         logger.error('No suitable message body')
         exit(1)
     # extract hood name from the envelope recipient address
-    hood_name = mail.get("Envelope-to").split('@')[0]
+    hood_name = mail.get("Envelope-to").split('@')[0].lower()
     hood = await Hood.objects.get(name=hood_name)
     email_row = await Email.objects.get(hood=hood)
     body = {
