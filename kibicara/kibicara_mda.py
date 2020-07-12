@@ -9,10 +9,16 @@ import requests
 from logging import getLogger
 from kibicara.model import Hood
 from kibicara.platforms.email.model import Email
+import argparse
 
 
 async def main():
     logger = getLogger(__name__)
+
+    # the MDA passes the recipient address as command line argument
+    parser = argparse.ArgumentParser()
+    parser.add_argument("recipient_address")
+    args = parser.parse_args()
 
     # read mail from STDIN
     mailbytes = bytes(sys.stdin.read())
@@ -33,7 +39,7 @@ async def main():
         logger.error('No suitable message body')
         exit(1)
     # extract hood name from the envelope recipient address
-    hood_name = mail.get("Envelope-to").split('@')[0].lower()
+    hood_name = args.recipient_address.split('@')[0].lower()
     hood = await Hood.objects.get(name=hood_name)
     email_row = await Email.objects.get(hood=hood)
     body = {
@@ -42,5 +48,5 @@ async def main():
         'secret': email_row.secret,
     }
     requests.post(
-        'http://localhost:8000/api/hoods/%d/email/messages/' % hood.id, json=body
+        'http://localhost:8000/api/hoods/%d/email/messages/' % (hood.id), json=body
     )
