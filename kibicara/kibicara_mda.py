@@ -56,15 +56,17 @@ async def async_main(mail=None, hood_name=None):
         print('No hood with this name')
         exit(1)
     email_row = await Email.objects.get(hood=hood)
+    author = mail.get_unixfrom()
+    if author is None:
+        author = mail['From']
     body = {
         'text': text,
-        'author': mail.get_unixfrom(),
+        'author': author,
         'secret': email_row.secret,
     }
     response = requests.post(
         'http://localhost:8000/api/hoods/%d/email/messages/' % hood.id, json=body
     )
-    print("Request sent:")
     if response.status_code == status.HTTP_201_CREATED:
         exit(0)
     elif response.status_code == status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS:
