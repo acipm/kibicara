@@ -34,9 +34,7 @@ def test_email_message_wrong(client, hood_id, email_row):
         'author': "test@localhost",
         'secret': email_row['secret'],
     }
-    response = client.post(
-        '/api/hoods/%d/email/messages/%d' % (hood_id, email_row['id']), json=body
-    )
+    response = client.post('/api/hoods/%d/email/messages/' % hood_id, json=body)
     assert response.status_code == status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
 
 

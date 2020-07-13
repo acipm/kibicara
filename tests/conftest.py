@@ -84,7 +84,9 @@ def hood_id(client, auth_header):
 @fixture(scope='function')
 def trigger_id(client, hood_id, auth_header):
     response = client.post(
-        '/api/hoods/%d/triggers/' % hood_id, json={'pattern': 'te'}, headers=auth_header
+        '/api/hoods/%d/triggers/' % hood_id,
+        json={'pattern': 'test'},
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_201_CREATED
     trigger_id = int(response.headers['Location'])
@@ -127,7 +129,4 @@ def email_row(client, hood_id, auth_header):
     response = client.post('/api/hoods/%d/email/' % hood_id, headers=auth_header)
     assert response.status_code == status.HTTP_409_CONFLICT
     yield email_row
-    # not sure if necessary; it raises problems at least
-    client.delete(
-        '/api/hoods/%d/email/%d' % (hood_id, email_row['id']), headers=auth_header
-    )
+    client.delete('/api/hoods/%d/email/' % hood_id, headers=auth_header)
