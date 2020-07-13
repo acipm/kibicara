@@ -5,7 +5,7 @@
 from fastapi import status
 from logging import getLogger, INFO, WARNING, Handler
 from kibicara.webapi.admin import to_token
-import os
+import subprocess
 
 
 class CaptureHandler(Handler):
@@ -41,9 +41,7 @@ def test_email_message(client, hood_id, trigger_id, email_row):
         'author': "test@localhost",
         'secret': email_row['secret'],
     }
-    response = client.post(
-        '/api/hoods/%d/email/messages/%d' % (hood_id, email_row['id']), json=body
-    )
+    response = client.post('/api/hoods/%d/email/messages/' % hood_id, json=body)
     assert response.status_code == status.HTTP_201_CREATED
 
 
@@ -54,9 +52,8 @@ def test_email_unsubscribe(client, hood_id, email_row):
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_email_send_mda(client, hood_id, trigger_id, email_row):   # -> call kibicara_mda.py like an MDA would
-    mail = """
-From test@example.com Tue Jun 16 15:33:19 2020
+def test_email_send_mda(client, auth_header, hood_id, test_id, trigger_id, email_row):
+    mail = """From test@example.com Tue Jun 16 15:33:19 2020
 Return-path: <test@example.com>
 Envelope-to: hood@localhost
 Delivery-date: Tue, 16 Jun 2020 15:33:19 +0200
@@ -73,11 +70,24 @@ User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.8.1.17) Gecko/2008
 MIME-Version: 1.0
 To: <hood@localhost>
 Subject: Chat: test
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="AqNPlAX243a8sip3B7kXv8UKD8wuti"
 
-hi, test
-"""
-    os.system("echo %s | kibicara_mda" % mail)
+
+--AqNPlAX243a8sip3B7kXv8UKD8wuti
+Content-Type: text/plain; charset=utf-8
+
+test
+
+--AqNPlAX243a8sip3B7kXv8UKD8wuti--
+    """
+    proc = subprocess.run(
+        ["kibicara_mda", "hood"], stdout=subprocess.PIPE, input=mail, encoding='ascii'
+    )
+    assert proc.returncode == 0
     # Check whether mail was received and accepted
+    response = client.get(
+        '/api/hoods/%d/test/%d/messages' % (hood_id, test_id), headers=auth_header
+    )
+    print(response)
+    print(response.json())
+    assert False
