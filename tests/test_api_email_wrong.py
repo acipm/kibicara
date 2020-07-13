@@ -13,16 +13,17 @@ def test_email_subscribe_empty(client, hood_id):
 
 def test_email_subscribe_confirm_wrong_token(client, hood_id):
     try:
-        client.get(
+        response = client.post(
             '/api/hoods/%d/email/subscribe/confirm/asdfasdfasdfasdfasdfasdfasdfasdf'
             % hood_id
         )
+        assert response.status_code is not status.HTTP_201_CREATED
     except CryptoError:
         pass
 
 
 def test_email_subscribe_confirm_wrong_hood(client):
-    response = client.get(
+    response = client.delete(
         '/api/hoods/99999/email/unsubscribe/asdfasdfasdfasdfasdfasdfasdfasdf'
     )
     assert response.json()['detail'] == 'Not Found'
@@ -40,7 +41,7 @@ def test_email_message_wrong(client, hood_id, email_row):
 
 def test_email_unsubscribe_wrong_token(client, hood_id):
     try:
-        client.get(
+        client.delete(
             '/api/hoods/%d/email/unsubscribe/asdfasdfasdfasdfasdfasdfasdfasdf' % hood_id
         )
     except CryptoError:
@@ -48,7 +49,7 @@ def test_email_unsubscribe_wrong_token(client, hood_id):
 
 
 def test_email_unsubscribe_wrong_hood(client):
-    response = client.get(
+    response = client.delete(
         '/api/hoods/99999/email/unsubscribe/asdfasdfasdfasdfasdfasdfasdfasdf'
     )
     assert response.json()['detail'] == 'Not Found'
