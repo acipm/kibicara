@@ -27,6 +27,10 @@ async def async_main(mail=None, hood_name=None):
         args = parser.parse_args()
         # extract hood name from the envelope recipient address
         hood_name = args.recipient_address.split('@')[0].lower()
+        if hood_name.startswith('kibicara.'):
+            hood_name = hood_name[9:]
+        else:
+            logger.error("Recipient address didn't start with 'kibicara.'")
 
     if mail is None:
         # read mail from STDIN
