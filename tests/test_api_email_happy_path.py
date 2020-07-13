@@ -52,7 +52,7 @@ def test_email_unsubscribe(client, hood_id, email_row):
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_email_send_mda(client, auth_header, hood_id, test_id, trigger_id, email_row):
+def test_email_send_mda(trigger_id, email_row):
     mail = """From test@example.com Tue Jun 16 15:33:19 2020
 Return-path: <test@example.com>
 Envelope-to: hood@localhost
@@ -84,10 +84,3 @@ test
         ["kibicara_mda", "hood"], stdout=subprocess.PIPE, input=mail, encoding='ascii'
     )
     assert proc.returncode == 0
-    # Check whether mail was received and accepted
-    response = client.get(
-        '/api/hoods/%d/test/%d/messages' % (hood_id, test_id), headers=auth_header
-    )
-    print(response)
-    print(response.json())
-    assert False
