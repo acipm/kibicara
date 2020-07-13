@@ -24,6 +24,7 @@ class EmailBot(Censor):
         """ Loop which waits for new messages and sends emails to all subscribers. """
         while True:
             message = await self.receive()
+            logger.info("Received Email from %s: %s" % (message.author, message.text))
             for subscriber in EmailSubscribers.objects.filter(hood=self.hood.id):
                 token = to_token(email=subscriber.email, hood=self.hood.id)
                 unsubscribe_link = (
