@@ -10,7 +10,7 @@ from kibicara.config import config
 from kibicara.email import send_email
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from pydantic import BaseModel
-from ormantic.exceptions import NoMatch, MultipleMatches
+from ormantic.exceptions import NoMatch
 from sqlite3 import IntegrityError
 from kibicara.webapi.admin import from_token, to_token
 from os import urandom
@@ -35,23 +35,17 @@ class Subscriber(BaseModel):
     email: str
 
 
-async def get_email(hood, email_id=None):
+async def get_email(hood):
     """ Get Email row by hood.
     You can specify an email_id to nail it down, but it works without as well.
 
     :param hood: Hood the Email bot belongs to.
-    :param email_id: id of the email row you are looking for.
     :return: Email row of the found email bot.
     """
     try:
         return await Email.objects.get(hood=hood)
     except NoMatch:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    except MultipleMatches:
-        # Email rows *should* be unique - the unique constraint doesn't work yet though.
-        if email_id is None:
-            email_id = hood.id
-        return await Email.objects.get(hood=hood, id=email_id)
 
 
 # registers the routes, gets imported in /kibicara/webapi/__init__.py
@@ -73,14 +67,14 @@ async def email_create(hood=Depends(get_hood)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.delete('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def email_delete(email_id, hood=Depends(get_hood)):
+@router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
+async def email_delete(hood=Depends(get_hood)):
     """ Delete an Email bot. Call this when deleting a hood.
     Stops and deletes the Email bot as well as all subscribers.
 
     :param hood: Hood the Email bot belongs to.
     """
-    email_row = await get_email(hood, email_id=email_id)
+    email_row = await get_email(hood)
     spawner.stop(email_row)
     await EmailSubscribers.objects.delete_many(hood=hood.id)
     await email_row.delete()
@@ -147,9 +141,9 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     )
 
 
-@router.post('/messages/{email_id}', status_code=status.HTTP_201_CREATED)
+@router.post('/messages/', status_code=status.HTTP_201_CREATED)
 async def email_message_create(
-    email_id, message: BodyMessage, hood=Depends(get_hood_unauthorized)
+    message: BodyMessage, hood=Depends(get_hood_unauthorized)
 ):
     """ Receive a message from the MDA and pass it to the censor.
 
@@ -159,7 +153,7 @@ async def email_message_create(
     """
     # get bot via "To:" header
     try:
-        email_row = await get_email(hood, email_id=email_id)
+        email_row = await get_email(hood)
     except HTTPException as exc:
         raise exc
     # check API secret
@@ -172,6 +166,7 @@ async def email_message_create(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     # pass message.text to bot.py
     if await spawner.get(email_row).publish(Message(message.text)):
-        pass
+        logger.warning("Message was accepted: " + message.text)
     else:
+        logger.warning("Message was't accepted: " + message.text)
         raise HTTPException(status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS)
