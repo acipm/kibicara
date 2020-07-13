@@ -109,7 +109,7 @@ async def email_subscribe(subscriber: Subscriber, hood=Depends(get_hood_unauthor
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
 
 
-@router.get('/subscribe/confirm/{token}', status_code=status.HTTP_201_CREATED)
+@router.post('/subscribe/confirm/{token}', status_code=status.HTTP_201_CREATED)
 async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
     """ Confirm a new subscriber and add them to the database.
 
@@ -124,7 +124,7 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.get('/unsubscribe/{token}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete('/unsubscribe/{token}', status_code=status.HTTP_204_NO_CONTENT)
 async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     """ Remove a subscriber from the database when they click on an unsubscribe link.
 
