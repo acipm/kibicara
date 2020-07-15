@@ -25,12 +25,14 @@ from sys import argv
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
     'frontend_path': None,
-    'root_url': 'http://localhost:8000/',
+    'root_url': 'http://localhost:8000',
 }
 """ Default configuration.
 
 The default configuration gets overwritten by a configuration file if one exists.
 """
+
+args = None
 
 if argv[0].endswith('kibicara'):
     parser = ArgumentParser()
@@ -43,6 +45,20 @@ if argv[0].endswith('kibicara'):
     )
     args = parser.parse_args()
 
+if argv[0].endswith('kibicara_mda'):
+    parser = ArgumentParser()
+    parser.add_argument(
+        '-f',
+        '--config',
+        dest='configfile',
+        default='/etc/kibicara.conf',
+        help='path to config file',
+    )
+    # the MDA passes the recipient address as command line argument
+    parser.add_argument("recipient")
+    args = parser.parse_args()
+
+if args is not None:
     try:
         with open(args.configfile) as configfile:
             config.update(load(configfile))
