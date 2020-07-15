@@ -126,8 +126,8 @@ class Censor:
         """
         if not await self.__is_appropriate(message):
             return False
-        for censor in self.hood_censors:
-            await censor.inbox.put(message)
+        for censor in self.__hood_censors:
+            await censor._inbox.put(message)
         return True
 
     async def receive(self):
