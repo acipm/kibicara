@@ -10,11 +10,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from hypercorn.config import Config
 from hypercorn.asyncio import serve
-from kibicara.config import config
+from kibicara.config import args, config
 from kibicara.model import Mapping
 from kibicara.platformapi import Spawner
 from kibicara.webapi import router
-from logging import basicConfig, DEBUG, getLogger, WARNING
+from logging import basicConfig, DEBUG, getLogger, INFO, WARNING
 
 
 logger = getLogger(__name__)
@@ -31,7 +31,15 @@ class Main:
         asyncio_run(self.__run())
 
     async def __run(self):
-        basicConfig(level=DEBUG, format="%(asctime)s %(name)s %(message)s")
+        LOGLEVELS = {
+            None: WARNING,
+            1: INFO,
+            2: DEBUG,
+        }
+        basicConfig(
+            level=LOGLEVELS.get(args.verbose, DEBUG),
+            format="%(asctime)s %(name)s %(message)s",
+        )
         getLogger('aiosqlite').setLevel(WARNING)
         Mapping.create_all()
         await Spawner.init_all()
