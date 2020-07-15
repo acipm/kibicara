@@ -10,7 +10,7 @@ setup(
     entry_points={
         'console_scripts': [
             'kibicara=kibicara.kibicara:Main',
-            'kibicara_mda=kibicara.kibicara_mda:main',
+            'kibicara_mda=kibicara.platforms.email.mda:Main',
         ]
     },
     install_requires=[

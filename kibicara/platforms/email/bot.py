@@ -1,49 +1,50 @@
 # Copyright (C) 2020 by Maike <maike@systemli.org>
+# Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
 #
 # SPDX-License-Identifier: 0BSD
 
-from kibicara.platforms.email.model import EmailSubscribers, Email
-from kibicara.platformapi import Censor, Spawner
-from kibicara.email import send_email
 from kibicara.config import config
+from kibicara.email import send_email
+from kibicara.model import Hood
+from kibicara.platformapi import Censor, Spawner
+from kibicara.platforms.email.model import EmailSubscribers
 from kibicara.webapi.admin import to_token
-from smtplib import SMTPException
 from logging import getLogger
+from smtplib import SMTPException
 
 
 logger = getLogger(__name__)
 
 
 class EmailBot(Censor):
-    def __init__(self, email_model):
-        super().__init__(email_model.hood)
-        self.model = email_model
-        self.messages = []
+    def __init__(self, hood):
+        super().__init__(hood)
 
     async def run(self):
         """ Loop which waits for new messages and sends emails to all subscribers. """
         while True:
             message = await self.receive()
-            logger.info("Received Email from %s: %s" % (message.author, message.text))
-            for subscriber in EmailSubscribers.objects.filter(hood=self.hood.id):
+            logger.debug(
+                'Received message from censor (%s): %s' % (self.hood.name, message.text)
+            )
+            logger.debug('a')
+            for subscriber in await EmailSubscribers.objects.filter(
+                hood=self.hood
+            ).all():
                 token = to_token(email=subscriber.email, hood=self.hood.id)
-                unsubscribe_link = (
-                    config['root_url']
-                    + 'api/hoods/%d/email/unsubscribe/' % self.hood.id
-                    + token
-                )
-                message.text += (
-                    "\n\n--\nIf you want to stop receiving these mails, "
-                    "follow this link: " + unsubscribe_link
-                )
+                body = (
+                    '%s\n\n--\n'
+                    'If you want to stop receiving these mails,'
+                    'follow this link: %s/api/hoods/%d/email/unsubscribe/%s'
+                ) % (message.text, config['root_url'], self.hood.id, token)
                 try:
+                    logger.debug('Trying to send: \n%s' % body)
                     send_email(
-                        subscriber.email,
-                        "Kibicara " + self.hood.name,
-                        body=message.text,
+                        subscriber.email, "Kibicara " + self.hood.name, body=body,
                     )
                 except (ConnectionRefusedError, SMTPException):
-                    logger.exception("Sending subscription confirmation email failed.")
+                    logger.exception("Sending email to subscriber failed.")
 
 
-spawner = Spawner(Email, EmailBot)
+spawner = Spawner(Hood, EmailBot)
