@@ -122,11 +122,12 @@ def test_id(client, hood_id, auth_header):
 
 @fixture(scope="function")
 def email_row(client, hood_id, auth_header):
-    response = client.post('/api/hoods/%d/email/' % hood_id, headers=auth_header)
+    response = client.post(
+        '/api/hoods/%d/email/' % hood_id,
+        json={'name': 'kibicara-test'},
+        headers=auth_header,
+    )
     assert response.status_code == status.HTTP_201_CREATED
-    assert response.json()["hood"]["id"] == hood_id
-    email_row = response.json()
-    response = client.post('/api/hoods/%d/email/' % hood_id, headers=auth_header)
-    assert response.status_code == status.HTTP_409_CONFLICT
-    yield email_row
-    client.delete('/api/hoods/%d/email/' % hood_id, headers=auth_header)
+    email_id = int(response.headers['Location'])
+    yield response.json()
+    client.delete('/api/hoods/%d/email/%d' % (hood_id, email_id), headers=auth_header)
