@@ -82,7 +82,7 @@ async def admin_register(values: BodyAdmin):
     logger.debug(f'register_token={register_token}')
     # TODO implement check to see if email already is in database
     if len(values.password) < 8:
-        logger.info('Password is too short')
+        logger.debug('Password is too short')
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail='Password is too short'
         )
