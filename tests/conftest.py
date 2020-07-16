@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Christian Hagenest <c.hagenest@pm.me>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -45,7 +46,7 @@ def receive_email(monkeymodule):
 @fixture(scope='module')
 def register_token(client, receive_email):
     response = client.post(
-        '/api/admin/register/', json={'email': 'user', 'password': 'pass'}
+        '/api/admin/register/', json={'email': 'user', 'password': 'password'}
     )
     assert response.status_code == status.HTTP_202_ACCEPTED
     return receive_email()['body']
@@ -60,7 +61,7 @@ def register_confirmed(client, register_token):
 @fixture(scope='module')
 def access_token(client, register_confirmed):
     response = client.post(
-        '/api/admin/login/', data={'username': 'user', 'password': 'pass'}
+        '/api/admin/login/', data={'username': 'user', 'password': 'password'}
     )
     assert response.status_code == status.HTTP_200_OK
     return response.json()['access_token']
