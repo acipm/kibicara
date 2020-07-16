@@ -1,4 +1,4 @@
-# Copyright (C) 2020 by Christian <c.hagenest@pm.me>
+# Copyright (C) 2020 by Christian Hagenest <c.hagenest@pm.me>
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
 #
 # SPDX-License-Identifier: 0BSD
