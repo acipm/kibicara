@@ -1,5 +1,6 @@
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Christian Hagenest <c.hagenest@pm.me>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -78,14 +79,14 @@ async def admin_register(values: BodyAdmin):
     - **email**: E-Mail Address of new hood admin
     - **password**: Password of new hood admin
     """
-    register_token = to_token(**values.__dict__)
-    logger.debug(f'register_token={register_token}')
-    # TODO implement check to see if email already is in database
     if len(values.password) < 8:
         logger.debug('Password is too short')
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail='Password is too short'
         )
+    register_token = to_token(**values.__dict__)
+    logger.debug(f'register_token={register_token}')
+    # TODO implement check to see if email already is in database
     try:
         email.send_email(
             to=values.email,
