@@ -5,11 +5,11 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
+from kibicara import email
 from kibicara.platforms.email.bot import spawner
 from kibicara.platforms.email.model import Email, EmailSubscribers
 from kibicara.platformapi import Message
 from kibicara.config import config
-from kibicara.email import send_email
 from kibicara.webapi.admin import from_token, to_token
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
@@ -99,7 +99,7 @@ async def email_read(email=Depends(get_email)):
 
 @router.put('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def email_update(email=Depends(get_email)):
-    await email.update()
+    await email.update()  # TODO
 
 
 @router.delete('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
@@ -123,13 +123,13 @@ async def email_subscribe(
     :return: Returns status code 200 after sending confirmation email.
     """
     token = to_token(hood=hood.id, email=subscriber.email)
-    confirm_link = '%s/api/%d/email/subscribe/confirm/%s' % (
+    confirm_link = '%s/api/hoods/%d/email/subscribe/confirm/%s' % (
         config['root_url'],
         hood.id,
         token,
     )
     try:
-        send_email(
+        email.send_email(
             subscriber.email,
             "Subscribe to Kibicara " + hood.name,
             sender=hood.name,
@@ -177,7 +177,10 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     # If token.hood and url.hood are different, raise an error:
     if hood.id is not payload['hood']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
-    await EmailSubscribers.objects.delete(hood=payload['hood'], email=payload['email'])
+    subscriber = await EmailSubscribers.objects.filter(
+        hood=payload['hood'], email=payload['email']
+    ).get()
+    await subscriber.delete()
 
 
 @router.get('/subscribers/')

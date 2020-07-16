@@ -4,8 +4,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from kibicara import email
 from kibicara.config import config
-from kibicara.email import send_email
 from kibicara.model import Hood
 from kibicara.platformapi import Censor, Spawner
 from kibicara.platforms.email.model import EmailSubscribers
@@ -40,7 +40,7 @@ class EmailBot(Censor):
                 ) % (message.text, config['root_url'], self.hood.id, token)
                 try:
                     logger.debug('Trying to send: \n%s' % body)
-                    send_email(
+                    email.send_email(
                         subscriber.email, "Kibicara " + self.hood.name, body=body,
                     )
                 except (ConnectionRefusedError, SMTPException):
