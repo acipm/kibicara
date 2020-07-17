@@ -18,10 +18,9 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     mail = receive_email()
     body = mail['body']
     confirm_url = findall(
-        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+        r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
         body,
     )[0]
-    print(urlparse(confirm_url).path)
     response = client.post(urlparse(confirm_url).path)
     assert response.status_code == status.HTTP_201_CREATED
     response = client.post(urlparse(confirm_url).path)
