@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from asyncio import gather, sleep
+from asyncio import gather, sleep, CancelledError
 from kibicara.config import config
 from kibicara.platformapi import Censor, Message, Spawner
 from kibicara.platforms.twitter.model import Twitter
