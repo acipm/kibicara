@@ -3,11 +3,13 @@
 # SPDX-License-Identifier: 0BSD
 
 from aiogram import Bot, Dispatcher, exceptions, types
-from asyncio import gather, sleep
+from asyncio import gather, sleep, CancelledError
 from kibicara.config import config
 from kibicara.platformapi import Censor, Message, Spawner
 from kibicara.platforms.telegram.model import Telegram, TelegramUser
 from logging import getLogger
+from ormantic.exceptions import NoMatch
+from sqlite3 import IntegrityError
 
 
 logger = getLogger(__name__)
@@ -17,15 +19,37 @@ class TelegramBot(Censor):
     def __init__(self, telegram_model):
         super().__init__(telegram_model.hood)
         self.telegram_model = telegram_model
-        self.bot = Bot(token=telegram_model.api_token)
-        self.dp = Dispatcher(self.bot)
-        self.dp.register_message_handler(self._send_welcome, commands=['start'])
-        self.dp.register_message_handler(self._receive_message)
+        try:
+            self.bot = Bot(token=telegram_model.api_token)
+            self.dp = self._create_dispatcher()
+        except exceptions.ValidationError as e:
+            self.telegram_model.enabled = False
+        finally:
+            self.enabled = self.telegram_model.enabled
+
+    def _create_dispatcher(self):
+        dp = Dispatcher(self.bot)
+        dp.register_message_handler(self._send_welcome, commands=['start'])
+        dp.register_message_handler(self._remove_user, commands=['stop'])
+        dp.register_message_handler(self._receive_message)
+        return dp
 
     async def run(self):
-        await gather(self.dp.start_polling(), self.push())
+        try:
+            if not self.dp:
+                self.dp = self._create_dispatcher()
+            logger.debug(f'Bot {self.telegram_model.hood.name} starting.')
+            await gather(self.dp.start_polling(), self._push())
+        except CancelledError:
+            logger.debug(f'Bot {self.telegram_model.hood.name} received Cancellation.')
+            self.dp = None
+            raise
+        except exceptions.ValidationError:
+            logger.debug(f'Bot {self.telegram_model.hood.name} has invalid auth token.')
+        finally:
+            logger.debug(f'Bot {self.telegram_model.hood.name} stopped.')
 
-    async def push(self):
+    async def _push(self):
         while True:
             message = await self.receive()
             logger.debug(
@@ -78,6 +102,16 @@ class TelegramBot(Censor):
             await message.reply(self.telegram_model.welcome_message)
         except IntegrityError:
             await message.reply('Error: You are already registered.')
+
+    async def _remove_user(self, message: types.Message):
+        try:
+            telegram_user = await TelegramUser.objects.get(
+                user_id=message.from_user.id, bot=self.telegram_model
+            )
+            await telegram_user.delete()
+            await message.reply('You were removed successfully from this bot.')
+        except NoMatch:
+            await message.reply('Error: You are not subscribed to this bot.')
 
     async def _receive_message(self, message: types.Message):
         if not message.text:

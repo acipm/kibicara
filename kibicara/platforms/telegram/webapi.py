@@ -2,15 +2,17 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from aiogram.bot.api import check_token
+from aiogram import exceptions
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.config import config
 from kibicara.platforms.telegram.bot import spawner
 from kibicara.platforms.telegram.model import Telegram
 from kibicara.webapi.hoods import get_hood
 from logging import getLogger
-from sqlite3 import IntegrityError
+from sqlite3 import IntegrityError, OperationalError
 from ormantic.exceptions import NoMatch
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 logger = getLogger(__name__)
@@ -19,6 +21,14 @@ logger = getLogger(__name__)
 class BodyTelegram(BaseModel):
     api_token: str
     welcome_message: str = 'Welcome!'
+
+    @validator('api_token')
+    def valid_api_token(cls, value):
+        try:
+            check_token(value)
+            return value
+        except exceptions.ValidationError as e:
+            raise ValueError(e)
 
 
 async def get_telegram(telegram_id: int, hood=Depends(get_hood)):
@@ -49,7 +59,9 @@ async def telegram_delete(telegram=Depends(get_telegram)):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def telegram_create(values: BodyTelegram, hood=Depends(get_hood)):
+async def telegram_create(
+    response: Response, values: BodyTelegram, hood=Depends(get_hood)
+):
     try:
         telegram = await Telegram.objects.create(hood=hood, **values.__dict__)
         spawner.start(telegram)
@@ -57,3 +69,33 @@ async def telegram_create(values: BodyTelegram, hood=Depends(get_hood)):
         return telegram
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+
+@router.put('/{telegram_id}', status_code=status.HTTP_202_ACCEPTED)
+async def telegram_update(values: BodyTelegram, telegram=Depends(get_telegram)):
+    try:
+        spawner.stop(telegram)
+        await telegram.update(**values.__dict__)
+        spawner.start(telegram)
+        return telegram
+    except IntegrityError:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+
+@router.get('/{telegram_id}/status', status_code=status.HTTP_200_OK)
+async def telegram_status(telegram=Depends(get_telegram)):
+    return {'status': spawner.get(telegram).status.name}
+
+
+@router.post('/{telegram_id}/start', status_code=status.HTTP_200_OK)
+async def telegram_start(telegram=Depends(get_telegram)):
+    await telegram.update(enabled=True)
+    spawner.get(telegram).start()
+    return {}
+
+
+@router.post('/{telegram_id}/stop', status_code=status.HTTP_200_OK)
+async def telegram_stop(telegram=Depends(get_telegram)):
+    await telegram.update(enabled=False)
+    spawner.get(telegram).stop()
+    return {}

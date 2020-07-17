@@ -9,8 +9,9 @@ from ormantic import Boolean, Integer, ForeignKey, Model, Text
 class Telegram(Model):
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
-    api_token: Text()
+    api_token: Text(unique=True)
     welcome_message: Text()
+    enabled: Boolean() = True
 
     class Mapping(Mapping):
         table_name = 'telegrambots'
