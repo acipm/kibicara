@@ -4,13 +4,11 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from argparse import ArgumentParser
 from asyncio import run as asyncio_run
 from email.parser import BytesParser
 from email.policy import default
 from fastapi import status
 from kibicara.config import args, config
-from kibicara.model import Hood
 from kibicara.platforms.email.model import Email
 from logging import getLogger
 from ormantic import NoMatch

@@ -18,7 +18,8 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     mail = receive_email()
     body = mail['body']
     confirm_url = findall(
-        r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+        r'http[s]?://'
+        r'(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
         body,
     )[0]
     response = client.post(urlparse(confirm_url).path)
@@ -55,7 +56,6 @@ Message-ID: <B5F50812.F55DFD8B@example.com>
 Date: Tue, 16 Jun 2020 06:53:19 -0700
 Reply-To: "Test" <test@example.com>
 From: "Test" <test@example.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.8.1.17) Gecko/20080914 Thunderbird/2.0.0.17
 MIME-Version: 1.0
 To: <hood@localhost>
 Subject: Chat: test

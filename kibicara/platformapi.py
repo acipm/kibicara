@@ -20,7 +20,7 @@ class Message:
 
     Examples:
         ```
-        message = Message('Message sent by a user from platform xyz', xyz_message_id=123)
+        message = Message('Message sent from platform xyz', xyz_message_id=123)
         ```
 
     Args:
@@ -183,7 +183,8 @@ class Spawner:
 
     @classmethod
     async def init_all(cls):
-        """ Instantiate and start a bot for every row in the corresponding ORM model. """
+        """ Instantiate and start a bot for every row in the corresponding ORM model.
+        """
         for spawner in cls.__instances:
             await spawner._init()
 

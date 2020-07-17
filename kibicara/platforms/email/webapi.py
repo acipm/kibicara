@@ -55,7 +55,7 @@ async def get_email(email_id: int, hood=Depends(get_hood)):
 
 async def get_subscriber(subscriber_id: int, hood=Depends(get_hood)):
     try:
-        return await EmailSubscriber.objects.get(id=subscriber_id, hood=hood)
+        return await EmailSubscribers.objects.get(id=subscriber_id, hood=hood)
     except NoMatch:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -203,11 +203,8 @@ async def email_message_create(
     :param hood: Hood the Email bot belongs to.
     :return: returns status code 201 if the message is accepted by the censor.
     """
-    for email in await Email.objects.filter(hood=hood).all():
-        if message.secret == email.secret:
-            # check API secret
-            logger.warning(str(message))
-            logger.warning(str(email))
+    for receiver in await Email.objects.filter(hood=hood).all():
+        if message.secret == receiver.secret:
             # pass message.text to bot.py
             if await spawner.get(hood).publish(Message(message.text)):
                 logger.warning("Message was accepted: " + message.text)

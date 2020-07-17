@@ -5,12 +5,11 @@
 from aiogram.bot.api import check_token
 from aiogram import exceptions
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara.config import config
 from kibicara.platforms.telegram.bot import spawner
 from kibicara.platforms.telegram.model import Telegram
 from kibicara.webapi.hoods import get_hood
 from logging import getLogger
-from sqlite3 import IntegrityError, OperationalError
+from sqlite3 import IntegrityError
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel, validator
 

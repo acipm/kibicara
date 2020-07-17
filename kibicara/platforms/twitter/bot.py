@@ -31,10 +31,10 @@ class TwitterBot(Censor):
         if self.twitter_model.successful_verified:
             if self.twitter_model.mentions_since_id is None:
                 logger.debug('since_id is None in model, fetch newest mention id')
-                mentions = await self._poll_mentions()
+                await self._poll_mentions()
             if self.twitter_model.dms_since_id is None:
                 logger.debug('since_id is None in model, fetch newest dm id')
-                dms = await self._poll_direct_messages()
+                await self._poll_direct_messages()
             logger.debug('Starting Twitter bot: %s' % self.twitter_model.__dict__)
             await gather(self.poll(), self.push())
         else:

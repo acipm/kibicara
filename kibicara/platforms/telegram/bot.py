@@ -4,7 +4,6 @@
 
 from aiogram import Bot, Dispatcher, exceptions, types
 from asyncio import gather, sleep, CancelledError
-from kibicara.config import config
 from kibicara.platformapi import Censor, Message, Spawner
 from kibicara.platforms.telegram.model import Telegram, TelegramUser
 from logging import getLogger
@@ -22,7 +21,7 @@ class TelegramBot(Censor):
         try:
             self.bot = Bot(token=telegram_model.api_token)
             self.dp = self._create_dispatcher()
-        except exceptions.ValidationError as e:
+        except exceptions.ValidationError:
             self.telegram_model.enabled = False
         finally:
             self.enabled = self.telegram_model.enabled
@@ -80,7 +79,7 @@ class TelegramBot(Censor):
                 % (user_id, self.telegram_model.hood.name, e.timeout)
             )
             await sleep(e.timeout)
-            return await self._send_message(user_id, text)
+            return await self._send_message(user_id, message)
         except exceptions.UserDeactivated:
             logger.error(
                 'Target [ID:%s] (%s): user is deactivated'

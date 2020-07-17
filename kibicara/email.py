@@ -23,7 +23,7 @@ def send_email(to, subject, sender='kibicara', body=''):
     Example:
         ```
         from kibicara import email
-        email.send_email('abc@de.fg', 'My Email subject', body='Hi this is a mail body.')
+        email.send_email('abc@de.fg', 'Email subject', body='Hi this is a mail body.')
         ```
 
     Args:
