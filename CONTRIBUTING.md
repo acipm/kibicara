@@ -1,4 +1,5 @@
-# Kibicara Contribution Guidelines
+# Kibicara Contribution HowTo
+
 
 ## Setup Development Environment
 
@@ -55,7 +56,8 @@
 email address and register via frontend or manually at `http://localhost:8000/api/docs`.
 
 
-## Branches
+## Contribution Guidelines
+### Branches
 
 - **Master:** The master branch tracks the last stable release.
   - Releases will be done using release tags.
@@ -71,12 +73,12 @@ email address and register via frontend or manually at `http://localhost:8000/ap
   - A rebase onto development is necessary to merge the feature. Code reviews
     are encouraged.
 
-## Write Tests
+### Write Tests
 
 We use [pytest](https://docs.pytest.org/en/stable/) as a test engine. It is
 executed by `tox`, so you need to run `tox` on the command line to run the tests.
 
-## Commit Messages
+### Commit Messages
 
 Commits should define small components. Please write your commits with the
 following pattern:
@@ -101,34 +103,34 @@ Don't use tags which are not listed here. Don't start your commit message with
 lower case. Commit messages which do not fulfill these guidelines will not be
 merged into the `development` branch.
 
-## Comments
+### Comments
 
-### Python
+#### Python
 
 We use pdoc3, which takes prose and comments automatically from the docstrings
 in the repository.
 
-Use [google
-style](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings)
+Use [google style](https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings)
 comments to secure correct display of your docstrings.
 
 Please don't leave trailing whitespace or empty lines at the end of your files.
 
-## Merge Requests
+### Merge Requests
 
 The main development team does not need to make merge requests.
 
 If you open a merge request, please include a description which explains the
 improvement.
 
-### Code reviews
+#### Code reviews
 
 Before a merge request gets rebased onto and merged into `development`, at
 least one person has to approve it; this also increases the number of people
 who know the code. So please request a review from someone from the core
 development team.
 
-## Implement a new Platform/Social Network
+
+## How to implement a new Platform/Social Network
 
 ### tl;dr
 
@@ -162,3 +164,40 @@ You will need them to:
 
 To run the platform, you need to import the bot in
 `kibicara/webapi/__init__.py`.
+
+### Acceptance criteria for bots (Checklist)
+
+A bot should have at least this functionality:
+
+- Kibicara REST API (hood admins):
+    - Endpoint for creating a bot associated with a hood
+    - Endpoint for deleting a bot associated with a hood
+    - Endpoint for updating a bot associated with a hood by id
+        (_The update endpoint may be optional if it does not provide any
+        additional benefit to delete and create.
+        An example where it does provide additional benefit is when there is
+        a database which holds state like user ids in telegram. Then deleting the bot
+        would also delete the user ids which would stop the bot from working._)
+    - Endpoint for getting the bot configuration by id
+    - Endpoint for starting and enabling a created bot by id
+    - Endpoint for stopping and disabling a created bot by id
+    - Endpoint for getting the status of a bot (INSTANTIATED, RUNNING, STOPPED)
+    - Endpoint for getting all bots of a hood
+
+- Bot functionality (user):
+    - Possibility for a user to subscribe to the bot on their platform
+        - e.g. Twitter itself already covers this by their follow/unfollow button
+        - e.g. Telegram /start command
+        - e.g. E-Mail REST Endpoint for entering and confirming an email
+    - Possibility for a user to unsubscribe to the bot on their platform
+        - e.g. Twitter itself already covers this by their follow/unfollow button
+        - e.g. Telegram /stop command
+        - e.g. E-Mail REST Endpoint for removing an email by token
+    - Possibility for a user to send a message to the bot that gets broadcasted
+        - e.g. Twitter via mentions or direct message
+        - e.g. Telegram via direct message to the bot
+        - e.g. E-Mail via e-mail to a specified address
+    - Possibility for a user to get bot messages
+        - e.g. Twitter via posts or retweets
+        - e.g. Telegram via direct message from the bot
+        - e.g. E-Mail via e-mail to the user's address
