@@ -18,13 +18,7 @@ class TelegramBot(Censor):
     def __init__(self, telegram_model):
         super().__init__(telegram_model.hood)
         self.telegram_model = telegram_model
-        try:
-            self.bot = Bot(token=telegram_model.api_token)
-            self.dp = self._create_dispatcher()
-        except exceptions.ValidationError:
-            self.telegram_model.enabled = False
-        finally:
-            self.enabled = self.telegram_model.enabled
+        self.enabled = self.telegram_model.enabled
 
     def _create_dispatcher(self):
         dp = Dispatcher(self.bot)
@@ -35,8 +29,8 @@ class TelegramBot(Censor):
 
     async def run(self):
         try:
-            if not self.dp:
-                self.dp = self._create_dispatcher()
+            self.bot = Bot(token=self.telegram_model.api_token)
+            self.dp = self._create_dispatcher()
             logger.debug(f'Bot {self.telegram_model.hood.name} starting.')
             await gather(self.dp.start_polling(), self._push())
         except CancelledError:
@@ -45,6 +39,7 @@ class TelegramBot(Censor):
             raise
         except exceptions.ValidationError:
             logger.debug(f'Bot {self.telegram_model.hood.name} has invalid auth token.')
+            await self.telegram_model.update(enabled=False)
         finally:
             logger.debug(f'Bot {self.telegram_model.hood.name} stopped.')
 
