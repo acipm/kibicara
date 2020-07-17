@@ -43,8 +43,30 @@ async def twitter_delete(twitter=Depends(get_twitter)):
     await twitter.delete()
 
 
+@router.get('/{twitter_id}/status', status_code=status.HTTP_200_OK)
+async def twitter_status(twitter=Depends(get_twitter)):
+    return {'status': spawner.get(twitter).status.name}
+
+
+@router.post('/{twitter_id}/start', status_code=status.HTTP_200_OK)
+async def twitter_start(twitter=Depends(get_twitter)):
+    await twitter.update(enabled=True)
+    spawner.get(twitter).start()
+    return {}
+
+
+@router.post('/{twitter_id}/stop', status_code=status.HTTP_200_OK)
+async def twitter_stop(twitter=Depends(get_twitter)):
+    await twitter.update(enabled=False)
+    spawner.get(twitter).stop()
+    return {}
+
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def twitter_create(response: Response, hood=Depends(get_hood)):
+    """
+    `https://api.twitter.com/oauth/authorize?oauth_token=`
+    """
     try:
         request_token = await get_oauth_token(
             config['twitter']['consumer_key'],
@@ -78,7 +100,8 @@ async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
         await twitter.update(
             access_token=access_token['oauth_token'],
             access_token_secret=access_token['oauth_token_secret'],
-            successful_verified=True,
+            verified=True,
+            enabled=True,
         )
         spawner.start(twitter)
         return []

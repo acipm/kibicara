@@ -7,7 +7,7 @@ from kibicara.config import config
 from kibicara.platformapi import Censor, Message, Spawner
 from kibicara.platforms.twitter.model import Twitter
 from logging import getLogger
-from peony import PeonyClient
+from peony import PeonyClient, exceptions
 
 
 logger = getLogger(__name__)
@@ -17,18 +17,21 @@ class TwitterBot(Censor):
     def __init__(self, twitter_model):
         super().__init__(twitter_model.hood)
         self.twitter_model = twitter_model
-        self.client = PeonyClient(
-            consumer_key=config['twitter']['consumer_key'],
-            consumer_secret=config['twitter']['consumer_secret'],
-            access_token=twitter_model.access_token,
-            access_token_secret=twitter_model.access_token_secret,
-        )
+        self.enabled = self.twitter_model.enabled
         self.polling_interval_sec = 60
         self.mentions_since_id = self.twitter_model.mentions_since_id
         self.dms_since_id = self.twitter_model.dms_since_id
 
     async def run(self):
-        if self.twitter_model.successful_verified:
+        try:
+            if not self.twitter_model.verified:
+                raise ValueError('Oauth Handshake not completed')
+            self.client = PeonyClient(
+                consumer_key=config['twitter']['consumer_key'],
+                consumer_secret=config['twitter']['consumer_secret'],
+                access_token=self.twitter_model.access_token,
+                access_token_secret=self.twitter_model.access_token_secret,
+            )
             if self.twitter_model.mentions_since_id is None:
                 logger.debug('since_id is None in model, fetch newest mention id')
                 await self._poll_mentions()
@@ -37,8 +40,16 @@ class TwitterBot(Censor):
                 await self._poll_direct_messages()
             logger.debug('Starting Twitter bot: %s' % self.twitter_model.__dict__)
             await gather(self.poll(), self.push())
-        else:
-            logger.debug('Twitter Bot not started: Oauth Handshake not completed')
+        except CancelledError:
+            logger.debug(f'Bot {self.twitter_model.hood.name} received Cancellation.')
+            raise
+        except exceptions.Unauthorized:
+            logger.debug(f'Bot {self.twitter_model.hood.name} has invalid auth token.')
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
+            raise
+        finally:
+            logger.debug(f'Bot {self.twitter_model.hood.name} stopped.')
 
     async def poll(self):
         while True:

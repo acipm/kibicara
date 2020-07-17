@@ -13,7 +13,8 @@ class Twitter(Model):
     mentions_since_id: Integer(allow_null=True) = None
     access_token: Text()
     access_token_secret: Text()
-    successful_verified: Boolean() = False
+    verified: Boolean() = False
+    enabled: Boolean() = False
 
     class Mapping(Mapping):
         table_name = 'twitterbots'
