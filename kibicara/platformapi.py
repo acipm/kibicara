@@ -6,6 +6,7 @@
 """ API classes for implementing bots for platforms. """
 
 from asyncio import create_task, Queue
+from enum import auto, Enum
 from kibicara.model import BadWord, Trigger
 from logging import getLogger
 from re import match
@@ -34,6 +35,12 @@ class Message:
     def __init__(self, text, **kwargs):
         self.text = text
         self.__dict__.update(kwargs)
+
+
+class BotStatus(Enum):
+    INSTANTIATED = auto()
+    RUNNING = auto()
+    STOPPED = auto()
 
 
 class Censor:
@@ -74,32 +81,34 @@ class Censor:
 
     def __init__(self, hood):
         self.hood = hood
+        self.enabled = True
         self._inbox = Queue()
         self.__task = None
         self.__hood_censors = self.__instances.setdefault(hood.id, [])
         self.__hood_censors.append(self)
+        self.status = BotStatus.INSTANTIATED
 
     def start(self):
-        """ Start the bot.
-
-        Note: This will be called by a spawner, a platform bot should not call this.
-        """
+        """ Start the bot. """
         if self.__task is None:
             self.__task = create_task(self.__run())
 
     def stop(self):
-        """ Stop the bot.
-
-        Note: This will be called by a spawner, a platform bot should not call this.
-        """
+        """ Stop the bot. """
         if self.__task is not None:
             self.__task.cancel()
-            self.__task = None
 
     async def __run(self):
         await self.hood.load()
         self.__task.set_name('%s %s' % (self.__class__.__name__, self.hood.name))
-        await self.run()
+        try:
+            self.status = BotStatus.RUNNING
+            await self.run()
+        except Exception as e:
+            logger.exception(e)
+        finally:
+            self.__task = None
+            self.status = BotStatus.STOPPED
 
     async def run(self):
         """ Entry point for a bot.
@@ -193,7 +202,8 @@ class Spawner:
             item (ORM Model object): Argument to the bot constructor
         """
         bot = self.__bots.setdefault(item.pk, self.BotClass(item))
-        bot.start()
+        if bot.enabled:
+            bot.start()
 
     def stop(self, item):
         """ Stop and delete a bot.
