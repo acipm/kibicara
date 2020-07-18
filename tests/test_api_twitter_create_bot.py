@@ -120,11 +120,16 @@ def test_twitter_callback_invalid_oauth_token(client):
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_twitter_create_twitter_invalid_hood(client, auth_header):
+def test_twitter_create_twitter_invalid_id(client, auth_header):
     response = client.post('/api/hoods/1337/twitter/', headers=auth_header)
     assert response.status_code == status.HTTP_404_NOT_FOUND
     response = client.post('/api/hoods/wrong/twitter/', headers=auth_header)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+
+def test_twitter_create_unauthorized(client, hood_id):
+    response = client.post('/api/hoods/{hood_id}/twitter/')
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 def test_twitter_create_wrong_consumer_keys(client, monkeypatch, auth_header, hood_id):
