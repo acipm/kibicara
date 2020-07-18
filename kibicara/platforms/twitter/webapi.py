@@ -11,6 +11,7 @@ from logging import getLogger
 from sqlite3 import IntegrityError
 from ormantic.exceptions import NoMatch
 from peony.oauth_dance import get_oauth_token, get_access_token
+from peony.exceptions import NotAuthenticated
 
 
 logger = getLogger(__name__)
@@ -84,6 +85,8 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
         return twitter
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+    except (KeyError, ValueError, NotAuthenticated):
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @twitter_callback_router.get('/callback')
@@ -104,8 +107,10 @@ async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
             enabled=True,
         )
         spawner.start(twitter)
-        return []
+        return {}
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
     except NoMatch:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except (KeyError, ValueError, NotAuthenticated):
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

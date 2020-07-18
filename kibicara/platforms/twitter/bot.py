@@ -42,12 +42,14 @@ class TwitterBot(Censor):
             await gather(self.poll(), self.push())
         except CancelledError:
             logger.debug(f'Bot {self.twitter_model.hood.name} received Cancellation.')
-            raise
         except exceptions.Unauthorized:
             logger.debug(f'Bot {self.twitter_model.hood.name} has invalid auth token.')
             await self.twitter_model.update(enabled=False)
             self.enabled = self.twitter_model.enabled
-            raise
+        except (KeyError, ValueError, exceptions.NotAuthenticated):
+            logger.warning('Missing consumer_keys for Twitter in your configuration.')
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
         finally:
             logger.debug(f'Bot {self.twitter_model.hood.name} stopped.')
 
