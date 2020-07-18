@@ -6,7 +6,8 @@
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
 from kibicara import email
-from kibicara.model import Mapping
+from kibicara.model import Hood, Mapping
+from kibicara.platforms.twitter.model import Twitter
 from kibicara.webapi import router
 from pytest import fixture
 
@@ -131,3 +132,15 @@ def email_row(client, hood_id, auth_header):
     email_id = int(response.headers['Location'])
     yield response.json()
     client.delete('/api/hoods/%d/email/%d' % (hood_id, email_id), headers=auth_header)
+
+
+@fixture(scope='function')
+def twitter(event_loop, hood_id):
+    hood = event_loop.run_until_complete(Hood.objects.get(id=hood_id))
+    return event_loop.run_until_complete(
+        Twitter.objects.create(
+            hood=hood,
+            access_token='access_token123',
+            access_token_secret='access_token_secret123',
+        )
+    )
