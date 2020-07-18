@@ -1,0 +1,143 @@
+# Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+#
+# SPDX-License-Identifier: 0BSD
+
+from fastapi import status
+from kibicara import config
+from kibicara.platforms import twitter
+from kibicara.platforms.twitter.model import Twitter
+from pytest import fixture
+import pytest
+
+
+@fixture(scope='function')
+def receive_oauth_request_token(monkeypatch, twitter_request_response):
+    @pytest.mark.asyncio
+    async def mock_get_oauth_request_token(
+        consumer_key, consumer_secret, callback_uri=''
+    ):
+        return twitter_request_response
+
+    monkeypatch.setattr(twitter.webapi, 'get_oauth_token', mock_get_oauth_request_token)
+
+
+@fixture(scope='function')
+def receive_oauth_access_token(monkeypatch, twitter_access_response):
+    @pytest.mark.asyncio
+    async def mock_get_oauth_access_token(
+        consumer_key, consumer_secret, access_token, access_token_secret, oauth_verifier
+    ):
+        return twitter_access_response
+
+    monkeypatch.setattr(twitter.webapi, 'get_access_token', mock_get_oauth_access_token)
+
+
+@fixture(scope='function')
+def disable_spawner(monkeypatch):
+    class DoNothing:
+        def start(self, bot):
+            assert bot is not None
+
+    monkeypatch.setattr(twitter.webapi, 'spawner', DoNothing())
+
+
+@pytest.mark.parametrize(
+    'twitter_request_response, twitter_access_response',
+    [
+        (
+            {
+                'oauth_callback_confirmed': 'true',
+                'oauth_token': 'oauth_request_token123',
+                'oauth_token_secret': 'oauth_request_secret123',
+            },
+            {
+                'oauth_token': 'oauth_access_token123',
+                'oauth_token_secret': 'oauth_access_secret123',
+            },
+        )
+    ],
+)
+def test_twitter_create_bot(
+    client,
+    event_loop,
+    monkeypatch,
+    auth_header,
+    hood_id,
+    receive_oauth_request_token,
+    receive_oauth_access_token,
+    disable_spawner,
+    twitter_request_response,
+    twitter_access_response,
+):
+    monkeypatch.setitem(
+        config.config,
+        'twitter',
+        {'consumer_key': 'consumer_key123', 'consumer_secret': 'consumer_secret123'},
+    )
+
+    # Twitter create endpoint
+    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    assert response.status_code == status.HTTP_201_CREATED
+    bot_id = response.json()['id']
+    twitter = event_loop.run_until_complete(Twitter.objects.get(id=bot_id))
+    assert (
+        response.json()['access_token']
+        == twitter_request_response['oauth_token']
+        == twitter.access_token
+    )
+    assert (
+        response.json()['access_token_secret']
+        == twitter_request_response['oauth_token_secret']
+        == twitter.access_token_secret
+    )
+    assert not twitter.verified
+    assert response.json()['verified'] == twitter.verified
+    assert not twitter.enabled
+    assert response.json()['enabled'] == twitter.enabled
+    assert response.json()['hood']['id'] == hood_id
+
+    # Twitter callback endpoint should enable bot
+    response = client.get(
+        '/api/twitter/callback',
+        params={
+            'oauth_token': twitter_request_response['oauth_token'],
+            'oauth_verifier': 'oauth_verifier123',
+        },
+    )
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == {}
+    twitter = event_loop.run_until_complete(Twitter.objects.get(id=bot_id))
+    assert twitter_access_response['oauth_token'] == twitter.access_token
+    assert twitter_access_response['oauth_token_secret'] == twitter.access_token_secret
+    assert twitter.verified
+    assert twitter.enabled
+
+
+def test_twitter_callback_invalid_oauth_token(client):
+    response = client.get(
+        '/api/twitter/callback', params={'oauth_token': 'abc', 'oauth_verifier': 'def'}
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_twitter_create_twitter_invalid_hood(client, auth_header):
+    response = client.post('/api/hoods/1337/twitter/', headers=auth_header)
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    response = client.post('/api/hoods/wrong/twitter/', headers=auth_header)
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+
+
+def test_twitter_create_wrong_consumer_keys(client, monkeypatch, auth_header, hood_id):
+    # No consumer keys
+    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
+
+    # Invalid consumer keys
+    monkeypatch.setitem(
+        config.config,
+        'twitter',
+        {'consumer_key': 'consumer_key123', 'consumer_secret': 'consumer_secret123'},
+    )
+
+    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
