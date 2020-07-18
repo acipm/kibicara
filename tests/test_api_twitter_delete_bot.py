@@ -8,7 +8,7 @@ from ormantic.exceptions import NoMatch
 from pytest import raises
 
 
-def test_twitter_delete_bot(client, event_loop, twitter, auth_header, monkeypatch):
+def test_twitter_delete_bot(client, event_loop, twitter, auth_header):
     response = client.delete(
         f'/api/hoods/{twitter.hood.id}/twitter/{twitter.id}', headers=auth_header
     )
