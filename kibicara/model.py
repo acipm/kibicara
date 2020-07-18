@@ -7,7 +7,7 @@
 
 from databases import Database
 from kibicara.config import config
-from ormantic import Integer, ForeignKey, Model, Text
+from ormantic import Boolean, Integer, ForeignKey, Model, Text
 from sqlalchemy import create_engine, MetaData
 
 
@@ -39,6 +39,7 @@ class Hood(Model):
     id: Integer(primary_key=True) = None
     name: Text(unique=True)
     landingpage: Text()
+    email_enabled: Boolean() = True
 
     class Mapping(Mapping):
         table_name = 'hoods'

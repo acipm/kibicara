@@ -15,7 +15,7 @@ from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
 from ormantic.exceptions import NoMatch
 from os import urandom
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from smtplib import SMTPException
 from sqlite3 import IntegrityError
 
@@ -25,6 +25,12 @@ logger = getLogger(__name__)
 
 class BodyEmail(BaseModel):
     name: str
+
+    @validator('name')
+    def valid_prefix(cls, value):
+        if not value.startswith('kibicara-'):
+            raise ValueError('Recipient address didn\'t start with kibicara-')
+        return value
 
 
 class BodyMessage(BaseModel):
@@ -76,30 +82,38 @@ async def email_create(values: BodyEmail, response: Response, hood=Depends(get_h
     :param hood: Hood row of the hood the Email bot is supposed to belong to.
     :return: Email row of the new email bot.
     """
-    if not values.name.startswith('kibicara-'):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Recipient address didn\'t start with kibicara-',
-        )
     try:
         email = await Email.objects.create(
             hood=hood, secret=urandom(32).hex(), **values.__dict__
         )
-        spawner.start(email)
         response.headers['Location'] = '%d' % hood.id
         return email
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
+@router.get('/status', status_code=status.HTTP_200_OK)
+async def email_status(hood=Depends(get_hood)):
+    return {'status': spawner.get(hood).status.name}
+
+
+@router.post('/start', status_code=status.HTTP_200_OK)
+async def email_start(hood=Depends(get_hood)):
+    await hood.update(email_enabled=True)
+    spawner.get(hood).start()
+    return {}
+
+
+@router.post('/stop', status_code=status.HTTP_200_OK)
+async def email_stop(hood=Depends(get_hood)):
+    await hood.update(email_enabled=False)
+    spawner.get(hood).stop()
+    return {}
+
+
 @router.get('/{email_id}')
 async def email_read(email=Depends(get_email)):
     return email
-
-
-@router.put('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def email_update(email=Depends(get_email)):
-    await email.update()  # TODO
 
 
 @router.delete('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)

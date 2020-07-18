@@ -7,6 +7,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.model import AdminHoodRelation, Hood
+from kibicara.platforms.email.bot import spawner
 from kibicara.webapi.admin import get_admin
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
@@ -58,6 +59,7 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
     try:
         hood = await Hood.objects.create(**values.__dict__)
         await AdminHoodRelation.objects.create(admin=admin.id, hood=hood.id)
+        spawner.start(hood)
         response.headers['Location'] = '%d' % hood.id
         return hood
     except IntegrityError:

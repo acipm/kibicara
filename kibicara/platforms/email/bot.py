@@ -20,6 +20,7 @@ logger = getLogger(__name__)
 class EmailBot(Censor):
     def __init__(self, hood):
         super().__init__(hood)
+        self.enabled = hood.email_enabled
 
     async def run(self):
         """ Loop which waits for new messages and sends emails to all subscribers. """
@@ -28,7 +29,6 @@ class EmailBot(Censor):
             logger.debug(
                 'Received message from censor (%s): %s' % (self.hood.name, message.text)
             )
-            logger.debug('a')
             for subscriber in await EmailSubscribers.objects.filter(
                 hood=self.hood
             ).all():
