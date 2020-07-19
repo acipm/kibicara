@@ -6,13 +6,12 @@ from fastapi import status
 from kibicara import config
 from kibicara.platforms import twitter
 from kibicara.platforms.twitter.model import Twitter
-from pytest import fixture
-import pytest
+from pytest import fixture, mark
 
 
 @fixture(scope='function')
 def receive_oauth_request_token(monkeypatch, twitter_request_response):
-    @pytest.mark.asyncio
+    @mark.asyncio
     async def mock_get_oauth_request_token(
         consumer_key, consumer_secret, callback_uri=''
     ):
@@ -23,7 +22,7 @@ def receive_oauth_request_token(monkeypatch, twitter_request_response):
 
 @fixture(scope='function')
 def receive_oauth_access_token(monkeypatch, twitter_access_response):
-    @pytest.mark.asyncio
+    @mark.asyncio
     async def mock_get_oauth_access_token(
         consumer_key, consumer_secret, access_token, access_token_secret, oauth_verifier
     ):
@@ -41,7 +40,7 @@ def disable_spawner(monkeypatch):
     monkeypatch.setattr(twitter.webapi, 'spawner', DoNothing())
 
 
-@pytest.mark.parametrize(
+@mark.parametrize(
     'twitter_request_response, twitter_access_response',
     [
         (

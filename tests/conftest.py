@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 from kibicara import email
 from kibicara.model import Hood, Mapping
 from kibicara.platforms.twitter.model import Twitter
+from kibicara.platforms.telegram.model import Telegram
 from kibicara.webapi import router
 from pytest import fixture
 from urllib.parse import urlparse
@@ -143,5 +144,17 @@ def twitter(event_loop, hood_id):
             hood=hood,
             access_token='access_token123',
             access_token_secret='access_token_secret123',
+        )
+    )
+
+
+@fixture(scope='function')
+def telegram(event_loop, hood_id, bot):
+    hood = event_loop.run_until_complete(Hood.objects.get(id=hood_id))
+    return event_loop.run_until_complete(
+        Telegram.objects.create(
+            hood=hood,
+            api_token=bot['api_token'],
+            welcome_message=bot['welcome_message'],
         )
     )
