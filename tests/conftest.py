@@ -6,9 +6,7 @@
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
 from kibicara import email
-from kibicara.model import Hood, Mapping
-from kibicara.platforms.twitter.model import Twitter
-from kibicara.platforms.telegram.model import Telegram
+from kibicara.model import Mapping
 from kibicara.webapi import router
 from pytest import fixture
 from urllib.parse import urlparse
@@ -121,40 +119,3 @@ def test_id(client, hood_id, auth_header):
     test_id = int(response.headers['Location'])
     yield test_id
     client.delete('/api/hoods/%d/test/%d' % (hood_id, test_id), headers=auth_header)
-
-
-@fixture(scope="function")
-def email_row(client, hood_id, auth_header):
-    response = client.post(
-        '/api/hoods/%d/email/' % hood_id,
-        json={'name': 'kibicara-test'},
-        headers=auth_header,
-    )
-    assert response.status_code == status.HTTP_201_CREATED
-    email_id = int(response.headers['Location'])
-    yield response.json()
-    client.delete('/api/hoods/%d/email/%d' % (hood_id, email_id), headers=auth_header)
-
-
-@fixture(scope='function')
-def twitter(event_loop, hood_id):
-    hood = event_loop.run_until_complete(Hood.objects.get(id=hood_id))
-    return event_loop.run_until_complete(
-        Twitter.objects.create(
-            hood=hood,
-            access_token='access_token123',
-            access_token_secret='access_token_secret123',
-        )
-    )
-
-
-@fixture(scope='function')
-def telegram(event_loop, hood_id, bot):
-    hood = event_loop.run_until_complete(Hood.objects.get(id=hood_id))
-    return event_loop.run_until_complete(
-        Telegram.objects.create(
-            hood=hood,
-            api_token=bot['api_token'],
-            welcome_message=bot['welcome_message'],
-        )
-    )
