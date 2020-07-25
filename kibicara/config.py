@@ -26,6 +26,8 @@ config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
     'frontend_path': None,
     'root_url': 'http://localhost:8000',
+    'production': True,
+    'cors_allow_origin': 'http://localhost:4200',
 }
 """ Default configuration.
 

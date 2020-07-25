@@ -7,6 +7,7 @@
 
 from asyncio import run as asyncio_run
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from hypercorn.config import Config
 from hypercorn.asyncio import serve
@@ -57,6 +58,14 @@ class Main:
         server_config = Config()
         server_config.accesslog = '-'
         app.include_router(router, prefix='/api')
+        if not config['production'] and config['cors_allow_origin']:
+            app.add_middleware(
+                CORSMiddleware,
+                allow_origins=config['cors_allow_origin'],
+                allow_credentials=True,
+                allow_methods=["*"],
+                allow_headers=["*"],
+            )
         if config['frontend_path'] is not None:
             app.mount(
                 '/',
