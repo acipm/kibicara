@@ -5,10 +5,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { HomepageComponent } from './homepage/homepage.component';
+import { OrganizerspageComponent } from './organizerspage/organizerspage.component';
+import { AuthModule } from './auth/auth.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { HoodpageComponent } from './hoodpage/hoodpage.component';
+import { HoodspageComponent } from './hoodspage/hoodspage.component';
 
 @NgModule({
-  declarations: [AppComponent, HomepageComponent],
-  imports: [BrowserModule, AppRoutingModule, SharedModule],
+  declarations: [
+    AppComponent,
+    HomepageComponent,
+    OrganizerspageComponent,
+    HoodpageComponent,
+    HoodspageComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    AuthModule,
+    DashboardModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
