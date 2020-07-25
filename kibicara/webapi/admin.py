@@ -150,7 +150,7 @@ async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
 @router.get(
     '/hoods/',
     # TODO response_model,
-    operation_id='get_hoods',
+    operation_id='get_hoods_admin',
 )
 async def admin_hood_read_all(admin=Depends(get_admin)):
     """ Get a list of all hoods of a given admin. """

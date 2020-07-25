@@ -23,8 +23,12 @@ from kibicara.webapi.hoods.triggers import router as triggers_router
 
 router = APIRouter()
 router.include_router(admin_router, prefix='/admin', tags=['admin'])
-hoods_router.include_router(triggers_router, prefix='/{hood_id}/triggers')
-hoods_router.include_router(badwords_router, prefix='/{hood_id}/badwords')
+hoods_router.include_router(
+    triggers_router, prefix='/{hood_id}/triggers', tags=['triggers']
+)
+hoods_router.include_router(
+    badwords_router, prefix='/{hood_id}/badwords', tags=['badwords']
+)
 hoods_router.include_router(test_router, prefix='/{hood_id}/test', tags=['test'])
 hoods_router.include_router(
     telegram_router, prefix='/{hood_id}/telegram', tags=['telegram']
@@ -34,4 +38,4 @@ hoods_router.include_router(
 )
 router.include_router(twitter_callback_router, prefix='/twitter', tags=['twitter'])
 hoods_router.include_router(email_router, prefix='/{hood_id}/email', tags=['email'])
-router.include_router(hoods_router, prefix='/hoods', tags=['hoods'])
+router.include_router(hoods_router, prefix='/hoods')

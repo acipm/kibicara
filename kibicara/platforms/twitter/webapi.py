@@ -31,7 +31,7 @@ twitter_callback_router = APIRouter()
 @router.get(
     '/',
     # TODO response_model,
-    operation_id='get_all',
+    operation_id='get_twitters',
 )
 async def twitter_read_all(hood=Depends(get_hood)):
     return await Twitter.objects.filter(hood=hood).all()
@@ -40,7 +40,7 @@ async def twitter_read_all(hood=Depends(get_hood)):
 @router.get(
     '/{twitter_id}',
     # TODO response_model
-    operation_id='get',
+    operation_id='get_twitter',
 )
 async def twitter_read(twitter=Depends(get_twitter)):
     return twitter
@@ -50,7 +50,7 @@ async def twitter_read(twitter=Depends(get_twitter)):
     '/{twitter_id}',
     status_code=status.HTTP_204_NO_CONTENT,
     # TODO response_model
-    operation_id='delete',
+    operation_id='delete_twitter',
 )
 async def twitter_delete(twitter=Depends(get_twitter)):
     spawner.stop(twitter)
@@ -61,7 +61,7 @@ async def twitter_delete(twitter=Depends(get_twitter)):
     '/{twitter_id}/status',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='status',
+    operation_id='status_twitter',
 )
 async def twitter_status(twitter=Depends(get_twitter)):
     return {'status': spawner.get(twitter).status.name}
@@ -71,7 +71,7 @@ async def twitter_status(twitter=Depends(get_twitter)):
     '/{twitter_id}/start',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='start',
+    operation_id='start_twitter',
 )
 async def twitter_start(twitter=Depends(get_twitter)):
     await twitter.update(enabled=True)
@@ -83,7 +83,7 @@ async def twitter_start(twitter=Depends(get_twitter)):
     '/{twitter_id}/stop',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='stop',
+    operation_id='stop_twitter',
 )
 async def twitter_stop(twitter=Depends(get_twitter)):
     await twitter.update(enabled=False)
@@ -95,7 +95,7 @@ async def twitter_stop(twitter=Depends(get_twitter)):
     '/',
     status_code=status.HTTP_201_CREATED,
     # TODO response_model
-    operation_id='create',
+    operation_id='create_twitter',
 )
 async def twitter_create(response: Response, hood=Depends(get_hood)):
     """
@@ -125,7 +125,7 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
 @twitter_callback_router.get(
     '/callback',
     # TODO response_model
-    operation_id='callback',
+    operation_id='callback_twitter',
 )
 async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
     try:

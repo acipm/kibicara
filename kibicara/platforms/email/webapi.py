@@ -73,7 +73,7 @@ router = APIRouter()
 @router.get(
     '/',
     # TODO response_model
-    operation_id='get_all',
+    operation_id='get_emails',
 )
 async def email_read_all(hood=Depends(get_hood)):
     return await Email.objects.filter(hood=hood).all()
@@ -83,7 +83,7 @@ async def email_read_all(hood=Depends(get_hood)):
     '/',
     status_code=status.HTTP_201_CREATED,
     # TODO response_model
-    operation_id='create',
+    operation_id='create_email',
 )
 async def email_create(values: BodyEmail, response: Response, hood=Depends(get_hood)):
     """ Create an Email bot. Call this when creating a hood.
@@ -105,7 +105,7 @@ async def email_create(values: BodyEmail, response: Response, hood=Depends(get_h
     '/status',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='status',
+    operation_id='status_email',
 )
 async def email_status(hood=Depends(get_hood)):
     return {'status': spawner.get(hood).status.name}
@@ -115,7 +115,7 @@ async def email_status(hood=Depends(get_hood)):
     '/start',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='start',
+    operation_id='start_email',
 )
 async def email_start(hood=Depends(get_hood)):
     await hood.update(email_enabled=True)
@@ -127,7 +127,7 @@ async def email_start(hood=Depends(get_hood)):
     '/stop',
     status_code=status.HTTP_200_OK,
     # TODO response_model
-    operation_id='stop',
+    operation_id='stop_email',
 )
 async def email_stop(hood=Depends(get_hood)):
     await hood.update(email_enabled=False)
@@ -138,14 +138,14 @@ async def email_stop(hood=Depends(get_hood)):
 @router.get(
     '/{email_id}',
     # TODO response_model
-    operation_id='get',
+    operation_id='get_email',
 )
 async def email_read(email=Depends(get_email)):
     return email
 
 
 @router.delete(
-    '/{email_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='delete'
+    '/{email_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='delete_email'
 )
 async def email_delete(email=Depends(get_email)):
     """ Delete an Email bot.
@@ -253,7 +253,7 @@ async def subscribers_read_all(hood=Depends(get_hood)):
 @router.get(
     '/subscribers/{subscriber_id}',
     # TODO response_model
-    operation_id='get_subscribers',
+    operation_id='get_subscriber',
 )
 async def subscribers_read(subscriber=Depends(get_subscriber)):
     return subscriber
@@ -263,7 +263,7 @@ async def subscribers_read(subscriber=Depends(get_subscriber)):
     '/messages/',
     status_code=status.HTTP_201_CREATED,
     # TODO response_model
-    operation_id='create_email',
+    operation_id='send_message',
 )
 async def email_message_create(
     message: BodyMessage, hood=Depends(get_hood_unauthorized)

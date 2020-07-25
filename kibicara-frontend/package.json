@@ -2,6 +2,7 @@
   "name": "kibicara-frontend",
   "version": "0.0.0",
   "scripts": {
+    "openapi-generator": "openapi-generator generate -g typescript-angular --additional-properties=providedInRoot=true -o src/app/api -i http://localhost:8000/openapi.json",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -19,7 +20,6 @@
     "@angular/platform-browser": "~9.1.4",
     "@angular/platform-browser-dynamic": "~9.1.4",
     "@angular/router": "~9.1.4",
-    "@openapitools/openapi-generator-cli": "^1.0.15-4.3.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -29,6 +29,7 @@
     "@angular/cli": "~9.1.4",
     "@angular/compiler-cli": "~9.1.4",
     "@angular/language-service": "~9.1.4",
+    "@openapitools/openapi-generator-cli": "^1.0.15-4.3.1",
     "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",

@@ -46,7 +46,8 @@ router = APIRouter()
 @router.get(
     '/',
     # TODO response_model,
-    operation_id='get_all',
+    operation_id='get_hoods',
+    tags=['hoods'],
 )
 async def hood_read_all():
     """ Get all existing hoods. """
@@ -58,6 +59,7 @@ async def hood_read_all():
     status_code=status.HTTP_201_CREATED,
     # TODO response_model,
     operation_id='create_hood',
+    tags=['hoods'],
 )
 async def hood_create(values: BodyHood, response: Response, admin=Depends(get_admin)):
     """ Creates a hood.
@@ -79,6 +81,7 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
     '/{hood_id}',
     # TODO response_model,
     operation_id='get_hood',
+    tags=['hoods'],
 )
 async def hood_read(hood=Depends(get_hood)):
     """ Get hood with id **hood_id**. """
@@ -86,7 +89,10 @@ async def hood_read(hood=Depends(get_hood)):
 
 
 @router.put(
-    '/{hood_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='update_hood',
+    '/{hood_id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='update_hood',
+    tags=['hoods'],
 )
 async def hood_update(values: BodyHood, hood=Depends(get_hood)):
     """ Updates hood with id **hood_id**.
@@ -98,7 +104,10 @@ async def hood_update(values: BodyHood, hood=Depends(get_hood)):
 
 
 @router.delete(
-    '/{hood_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='update_hood',
+    '/{hood_id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='delete_hood',
+    tags=['hoods'],
 )
 async def hood_delete(hood=Depends(get_hood)):
     """ Deletes hood with id **hood_id**. """
