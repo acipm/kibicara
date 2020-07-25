@@ -41,23 +41,38 @@ router = APIRouter()
 telegram_callback_router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    '/',
+    # TODO response_model,
+    operation_id='get_all',
+)
 async def telegram_read_all(hood=Depends(get_hood)):
     return await Telegram.objects.filter(hood=hood).all()
 
 
-@router.get('/{telegram_id}')
+@router.get(
+    '/{telegram_id}',
+    # TODO response_model,
+    operation_id='get',
+)
 async def telegram_read(telegram=Depends(get_telegram)):
     return telegram
 
 
-@router.delete('/{telegram_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    '/{telegram_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='delete'
+)
 async def telegram_delete(telegram=Depends(get_telegram)):
     spawner.stop(telegram)
     await telegram.delete()
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/',
+    status_code=status.HTTP_201_CREATED,
+    # TODO response_model,
+    operation_id='create',
+)
 async def telegram_create(
     response: Response, values: BodyTelegram, hood=Depends(get_hood)
 ):
@@ -70,7 +85,12 @@ async def telegram_create(
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.put('/{telegram_id}', status_code=status.HTTP_202_ACCEPTED)
+@router.put(
+    '/{telegram_id}',
+    status_code=status.HTTP_202_ACCEPTED,
+    # TODO response_model,
+    operation_id='update',
+)
 async def telegram_update(values: BodyTelegram, telegram=Depends(get_telegram)):
     try:
         spawner.stop(telegram)
@@ -81,19 +101,34 @@ async def telegram_update(values: BodyTelegram, telegram=Depends(get_telegram)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.get('/{telegram_id}/status', status_code=status.HTTP_200_OK)
+@router.get(
+    '/{telegram_id}/status',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model,
+    operation_id='status',
+)
 async def telegram_status(telegram=Depends(get_telegram)):
     return {'status': spawner.get(telegram).status.name}
 
 
-@router.post('/{telegram_id}/start', status_code=status.HTTP_200_OK)
+@router.post(
+    '/{telegram_id}/start',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model,
+    operation_id='start',
+)
 async def telegram_start(telegram=Depends(get_telegram)):
     await telegram.update(enabled=True)
     spawner.get(telegram).start()
     return {}
 
 
-@router.post('/{telegram_id}/stop', status_code=status.HTTP_200_OK)
+@router.post(
+    '/{telegram_id}/stop',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model,
+    operation_id='stop',
+)
 async def telegram_stop(telegram=Depends(get_telegram)):
     await telegram.update(enabled=False)
     spawner.get(telegram).stop()

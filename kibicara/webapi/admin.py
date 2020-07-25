@@ -31,6 +31,11 @@ class BodyAdmin(BaseModel):
     password: str
 
 
+class BodyAccessToken(BaseModel):
+    access_token: str
+    token_type: str = 'bearer'
+
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/admin/login')
 secret_box = SecretBox(random(SecretBox.KEY_SIZE))
 
@@ -72,7 +77,12 @@ async def get_admin(access_token=Depends(oauth2_scheme)):
 router = APIRouter()
 
 
-@router.post('/register/', status_code=status.HTTP_202_ACCEPTED)
+@router.post(
+    '/register/',
+    status_code=status.HTTP_202_ACCEPTED,
+    response_model=BaseModel,
+    operation_id='register',
+)
 async def admin_register(values: BodyAdmin):
     """ Sends an email with a confirmation link.
 
@@ -100,7 +110,9 @@ async def admin_register(values: BodyAdmin):
     return {}
 
 
-@router.post('/confirm/{register_token}')
+@router.post(
+    '/confirm/{register_token}', response_model=BodyAccessToken, operation_id='confirm',
+)
 async def admin_confirm(register_token: str):
     """ Registration confirmation and account creation.
 
@@ -110,12 +122,14 @@ async def admin_confirm(register_token: str):
         values = from_token(register_token)
         passhash = argon2.hash(values['password'])
         await Admin.objects.create(email=values['email'], passhash=passhash)
-        return {'access_token': register_token, 'token_type': 'bearer'}
+        return BodyAccessToken(access_token=register_token)
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.post('/login/')
+@router.post(
+    '/login/', response_model=BodyAccessToken, operation_id='login',
+)
 async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
     """ Get an access token.
 
@@ -130,10 +144,14 @@ async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
             detail='Incorrect email or password',
         )
     token = to_token(email=form_data.username, password=form_data.password)
-    return {'access_token': token, 'token_type': 'bearer'}
+    return BodyAccessToken(access_token=token)
 
 
-@router.get('/hoods/')
+@router.get(
+    '/hoods/',
+    # TODO response_model,
+    operation_id='get_hoods',
+)
 async def admin_hood_read_all(admin=Depends(get_admin)):
     """ Get a list of all hoods of a given admin. """
     return (

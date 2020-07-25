@@ -70,12 +70,21 @@ async def get_subscriber(subscriber_id: int, hood=Depends(get_hood)):
 router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    '/',
+    # TODO response_model
+    operation_id='get_all',
+)
 async def email_read_all(hood=Depends(get_hood)):
     return await Email.objects.filter(hood=hood).all()
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/',
+    status_code=status.HTTP_201_CREATED,
+    # TODO response_model
+    operation_id='create',
+)
 async def email_create(values: BodyEmail, response: Response, hood=Depends(get_hood)):
     """ Create an Email bot. Call this when creating a hood.
 
@@ -92,31 +101,52 @@ async def email_create(values: BodyEmail, response: Response, hood=Depends(get_h
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.get('/status', status_code=status.HTTP_200_OK)
+@router.get(
+    '/status',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model
+    operation_id='status',
+)
 async def email_status(hood=Depends(get_hood)):
     return {'status': spawner.get(hood).status.name}
 
 
-@router.post('/start', status_code=status.HTTP_200_OK)
+@router.post(
+    '/start',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model
+    operation_id='start',
+)
 async def email_start(hood=Depends(get_hood)):
     await hood.update(email_enabled=True)
     spawner.get(hood).start()
     return {}
 
 
-@router.post('/stop', status_code=status.HTTP_200_OK)
+@router.post(
+    '/stop',
+    status_code=status.HTTP_200_OK,
+    # TODO response_model
+    operation_id='stop',
+)
 async def email_stop(hood=Depends(get_hood)):
     await hood.update(email_enabled=False)
     spawner.get(hood).stop()
     return {}
 
 
-@router.get('/{email_id}')
+@router.get(
+    '/{email_id}',
+    # TODO response_model
+    operation_id='get',
+)
 async def email_read(email=Depends(get_email)):
     return email
 
 
-@router.delete('/{email_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    '/{email_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='delete'
+)
 async def email_delete(email=Depends(get_email)):
     """ Delete an Email bot.
     Stops and deletes the Email bot.
@@ -126,7 +156,12 @@ async def email_delete(email=Depends(get_email)):
     await email.delete()
 
 
-@router.post('/subscribe/', status_code=status.HTTP_202_ACCEPTED)
+@router.post(
+    '/subscribe/',
+    status_code=status.HTTP_202_ACCEPTED,
+    operation_id='subscribe',
+    response_model=BaseModel,
+)
 async def email_subscribe(
     subscriber: BodySubscriber, hood=Depends(get_hood_unauthorized)
 ):
@@ -160,7 +195,12 @@ async def email_subscribe(
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
 
 
-@router.post('/subscribe/confirm/{token}', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/subscribe/confirm/{token}',
+    status_code=status.HTTP_201_CREATED,
+    operation_id='confirm_subscriber',
+    response_model=BaseModel,
+)
 async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
     """ Confirm a new subscriber and add them to the database.
 
@@ -179,7 +219,11 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.delete('/unsubscribe/{token}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    '/unsubscribe/{token}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='unsubscribe',
+)
 async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     """ Remove a subscriber from the database when they click on an unsubscribe link.
 
@@ -197,17 +241,30 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     await subscriber.delete()
 
 
-@router.get('/subscribers/')
+@router.get(
+    '/subscribers/',
+    # TODO response_model
+    operation_id='get_subscribers',
+)
 async def subscribers_read_all(hood=Depends(get_hood)):
     return await EmailSubscribers.objects.filter(hood=hood).all()
 
 
-@router.get('/subscribers/{subscriber_id}')
+@router.get(
+    '/subscribers/{subscriber_id}',
+    # TODO response_model
+    operation_id='get_subscribers',
+)
 async def subscribers_read(subscriber=Depends(get_subscriber)):
     return subscriber
 
 
-@router.post('/messages/', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/messages/',
+    status_code=status.HTTP_201_CREATED,
+    # TODO response_model
+    operation_id='create_email',
+)
 async def email_message_create(
     message: BodyMessage, hood=Depends(get_hood_unauthorized)
 ):

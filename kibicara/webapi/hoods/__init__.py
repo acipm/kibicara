@@ -43,13 +43,22 @@ async def get_hood(hood=Depends(get_hood_unauthorized), admin=Depends(get_admin)
 router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    '/',
+    # TODO response_model,
+    operation_id='get_all',
+)
 async def hood_read_all():
     """ Get all existing hoods. """
     return await Hood.objects.all()
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/',
+    status_code=status.HTTP_201_CREATED,
+    # TODO response_model,
+    operation_id='create_hood',
+)
 async def hood_create(values: BodyHood, response: Response, admin=Depends(get_admin)):
     """ Creates a hood.
 
@@ -66,13 +75,19 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
 
 
-@router.get('/{hood_id}')
+@router.get(
+    '/{hood_id}',
+    # TODO response_model,
+    operation_id='get_hood',
+)
 async def hood_read(hood=Depends(get_hood)):
     """ Get hood with id **hood_id**. """
     return hood
 
 
-@router.put('/{hood_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.put(
+    '/{hood_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='update_hood',
+)
 async def hood_update(values: BodyHood, hood=Depends(get_hood)):
     """ Updates hood with id **hood_id**.
 
@@ -82,7 +97,9 @@ async def hood_update(values: BodyHood, hood=Depends(get_hood)):
     await hood.update(**values.__dict__)
 
 
-@router.delete('/{hood_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    '/{hood_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='update_hood',
+)
 async def hood_delete(hood=Depends(get_hood)):
     """ Deletes hood with id **hood_id**. """
     for relation in await AdminHoodRelation.objects.filter(hood=hood).all():

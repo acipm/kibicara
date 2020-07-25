@@ -34,13 +34,22 @@ async def get_trigger(trigger_id: int, hood=Depends(get_hood)):
 router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    '/',
+    # TODO response_model,
+    operation_id='get_triggers',
+)
 async def trigger_read_all(hood=Depends(get_hood)):
     """ Get all triggers of hood with id **hood_id**. """
     return await Trigger.objects.filter(hood=hood).all()
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post(
+    '/',
+    status_code=status.HTTP_201_CREATED,
+    # TODO response_model,
+    operation_id='create_trigger',
+)
 async def trigger_create(
     values: BodyTrigger, response: Response, hood=Depends(get_hood)
 ):
@@ -59,13 +68,21 @@ async def trigger_create(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
-@router.get('/{trigger_id}')
+@router.get(
+    '/{trigger_id}',
+    # TODO response_model,
+    operation_id='get_trigger',
+)
 async def trigger_read(trigger=Depends(get_trigger)):
     """ Reads trigger with id **trigger_id** for hood with id **hood_id**. """
     return trigger
 
 
-@router.put('/{trigger_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.put(
+    '/{trigger_id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='update_trigger',
+)
 async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
     """ Updates trigger with id **trigger_id** for hood with id **hood_id**.
 
@@ -74,7 +91,11 @@ async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
     await trigger.update(**values.__dict__)
 
 
-@router.delete('/{trigger_id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    '/{trigger_id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='delete_trigger',
+)
 async def trigger_delete(trigger=Depends(get_trigger)):
     """ Deletes trigger with id **trigger_id** for hood with id **hood_id**. """
     await trigger.delete()
