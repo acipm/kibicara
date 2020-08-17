@@ -11,7 +11,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { HoodspageComponent } from './hoodspage/hoodspage.component';
 import { ApiModule } from './api/api.module';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { ApiModule } from './api/api.module';
     AuthModule,
     DashboardModule,
     ApiModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
