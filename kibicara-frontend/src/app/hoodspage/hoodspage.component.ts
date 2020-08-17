@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HoodsService } from '../api/api/hoods.service';
+import { HoodsService } from '../core/api/api/hoods.service';
 
 @Component({
   selector: 'app-hoodspage',

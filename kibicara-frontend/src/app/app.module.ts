@@ -6,14 +6,16 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { HomepageComponent } from './homepage/homepage.component';
 import { OrganizerspageComponent } from './organizerspage/organizerspage.component';
-import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { HoodspageComponent } from './hoodspage/hoodspage.component';
-import { ApiModule } from './api/api.module';
+import { ApiModule } from './core/api/api.module';
 import { HttpClientModule } from '@angular/common/http';
-import { BASE_PATH } from './api/variables';
+import { BASE_PATH } from './core/api/variables';
 import { environment } from 'src/environments/environment';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,15 +24,17 @@ import { environment } from 'src/environments/environment';
     OrganizerspageComponent,
     HoodpageComponent,
     HoodspageComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    AuthModule,
     DashboardModule,
     ApiModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
   bootstrap: [AppComponent],
