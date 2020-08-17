@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { BodyBadWord } from '../model/models';
 import { HTTPValidationError } from '../model/models';
 
@@ -48,7 +47,6 @@ export class BadwordsService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -95,9 +93,9 @@ export class BadwordsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public createBadword(hoodId: number, bodyBadWord: BodyBadWord, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling createBadword.');
@@ -143,7 +141,7 @@ export class BadwordsService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/`,
             bodyBadWord,
             {
                 responseType: <any>responseType,
@@ -221,9 +219,9 @@ export class BadwordsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getBadword(badwordId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getBadword(badwordId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getBadword(badwordId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getBadword(badwordId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getBadword(badwordId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getBadword(badwordId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getBadword(badwordId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (badwordId === null || badwordId === undefined) {
             throw new Error('Required parameter badwordId was null or undefined when calling getBadword.');
@@ -260,7 +258,7 @@ export class BadwordsService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/${encodeURIComponent(String(badwordId))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/${encodeURIComponent(String(badwordId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -278,9 +276,9 @@ export class BadwordsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getBadwords(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getBadwords(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getBadwords(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getBadwords(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getBadwords(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getBadwords(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getBadwords(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling getBadwords.');
@@ -314,7 +312,7 @@ export class BadwordsService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/badwords/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { BodyTelegram } from '../model/models';
 import { HTTPValidationError } from '../model/models';
 
@@ -48,7 +47,6 @@ export class TelegramService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -94,9 +92,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public createTelegram(hoodId: number, bodyTelegram: BodyTelegram, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling createTelegram.');
@@ -142,7 +140,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/`,
             bodyTelegram,
             {
                 responseType: <any>responseType,
@@ -218,9 +216,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getTelegram(telegramId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (telegramId === null || telegramId === undefined) {
             throw new Error('Required parameter telegramId was null or undefined when calling getTelegram.');
@@ -257,7 +255,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -274,9 +272,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTelegrams(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getTelegrams(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getTelegrams(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getTelegrams(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getTelegrams(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getTelegrams(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getTelegrams(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling getTelegrams.');
@@ -310,7 +308,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -328,9 +326,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public startTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public startTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public startTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public startTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public startTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public startTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public startTelegram(telegramId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (telegramId === null || telegramId === undefined) {
             throw new Error('Required parameter telegramId was null or undefined when calling startTelegram.');
@@ -367,7 +365,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/start`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/start`,
             null,
             {
                 responseType: <any>responseType,
@@ -386,9 +384,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public statusTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public statusTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public statusTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public statusTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public statusTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public statusTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public statusTelegram(telegramId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (telegramId === null || telegramId === undefined) {
             throw new Error('Required parameter telegramId was null or undefined when calling statusTelegram.');
@@ -425,7 +423,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/status`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/status`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -443,9 +441,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public stopTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public stopTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public stopTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public stopTelegram(telegramId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public stopTelegram(telegramId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public stopTelegram(telegramId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public stopTelegram(telegramId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (telegramId === null || telegramId === undefined) {
             throw new Error('Required parameter telegramId was null or undefined when calling stopTelegram.');
@@ -482,7 +480,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/stop`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}/stop`,
             null,
             {
                 responseType: <any>responseType,
@@ -502,9 +500,9 @@ export class TelegramService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public updateTelegram(telegramId: number, hoodId: number, bodyTelegram: BodyTelegram, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (telegramId === null || telegramId === undefined) {
             throw new Error('Required parameter telegramId was null or undefined when calling updateTelegram.');
@@ -553,7 +551,7 @@ export class TelegramService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/telegram/${encodeURIComponent(String(telegramId))}`,
             bodyTelegram,
             {
                 responseType: <any>responseType,

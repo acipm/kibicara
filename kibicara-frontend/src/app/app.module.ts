@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { HoodspageComponent } from './hoodspage/hoodspage.component';
+import { ApiModule } from './api/api.module';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { HoodspageComponent } from './hoodspage/hoodspage.component';
     SharedModule,
     AuthModule,
     DashboardModule,
+    ApiModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

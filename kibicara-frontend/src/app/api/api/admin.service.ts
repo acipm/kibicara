@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { BodyAccessToken } from '../model/models';
 import { BodyAdmin } from '../model/models';
 import { HTTPValidationError } from '../model/models';
@@ -63,7 +62,6 @@ export class AdminService {
         }
         return false;
     }
-
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
@@ -154,9 +152,9 @@ export class AdminService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getHoodsAdmin(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getHoodsAdmin(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getHoodsAdmin(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getHoodsAdmin(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getHoodsAdmin(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getHoodsAdmin(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getHoodsAdmin(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -187,7 +185,7 @@ export class AdminService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/admin/hoods/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/admin/hoods/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

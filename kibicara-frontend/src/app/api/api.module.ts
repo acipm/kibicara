@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
-
 import { AdminService } from './api/admin.service';
 import { BadwordsService } from './api/badwords.service';
 import { EmailService } from './api/email.service';

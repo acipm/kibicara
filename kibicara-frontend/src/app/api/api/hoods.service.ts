@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { BodyHood } from '../model/models';
 import { HTTPValidationError } from '../model/models';
 
@@ -48,7 +47,6 @@ export class HoodsService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -94,9 +92,9 @@ export class HoodsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createHood(bodyHood: BodyHood, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public createHood(bodyHood: BodyHood, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public createHood(bodyHood: BodyHood, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public createHood(bodyHood: BodyHood, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public createHood(bodyHood: BodyHood, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public createHood(bodyHood: BodyHood, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public createHood(bodyHood: BodyHood, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (bodyHood === null || bodyHood === undefined) {
             throw new Error('Required parameter bodyHood was null or undefined when calling createHood.');
@@ -139,7 +137,7 @@ export class HoodsService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/`,
             bodyHood,
             {
                 responseType: <any>responseType,
@@ -212,9 +210,9 @@ export class HoodsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getHood(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getHood(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getHood(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getHood(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getHood(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getHood(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getHood(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling getHood.');
@@ -248,7 +246,7 @@ export class HoodsService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -265,9 +263,9 @@ export class HoodsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getHoods(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getHoods(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getHoods(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getHoods(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getHoods(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getHoods(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getHoods(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -290,7 +288,7 @@ export class HoodsService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

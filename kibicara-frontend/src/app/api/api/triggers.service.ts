@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { BodyTrigger } from '../model/models';
 import { HTTPValidationError } from '../model/models';
 
@@ -48,7 +47,6 @@ export class TriggersService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -95,9 +93,9 @@ export class TriggersService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public createTrigger(hoodId: number, bodyTrigger: BodyTrigger, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling createTrigger.');
@@ -143,7 +141,7 @@ export class TriggersService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/`,
             bodyTrigger,
             {
                 responseType: <any>responseType,
@@ -221,9 +219,9 @@ export class TriggersService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTrigger(triggerId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getTrigger(triggerId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getTrigger(triggerId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getTrigger(triggerId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getTrigger(triggerId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getTrigger(triggerId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getTrigger(triggerId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (triggerId === null || triggerId === undefined) {
             throw new Error('Required parameter triggerId was null or undefined when calling getTrigger.');
@@ -260,7 +258,7 @@ export class TriggersService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/${encodeURIComponent(String(triggerId))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/${encodeURIComponent(String(triggerId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -278,9 +276,9 @@ export class TriggersService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTriggers(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public getTriggers(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public getTriggers(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public getTriggers(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public getTriggers(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public getTriggers(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public getTriggers(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling getTriggers.');
@@ -314,7 +312,7 @@ export class TriggersService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/triggers/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

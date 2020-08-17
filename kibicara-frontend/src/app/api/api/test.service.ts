@@ -17,7 +17,6 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { AnyType } from '../model/models';
 import { HTTPValidationError } from '../model/models';
 import { KibicaraPlatformsTestWebapiBodyMessage } from '../model/models';
 
@@ -48,7 +47,6 @@ export class TestService {
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
-
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -93,9 +91,9 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling testCreateApiHoodsHoodIdTestPost.');
@@ -129,7 +127,7 @@ export class TestService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/`,
             null,
             {
                 responseType: <any>responseType,
@@ -206,9 +204,9 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
             throw new Error('Required parameter testId was null or undefined when calling testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost.');
@@ -257,7 +255,7 @@ export class TestService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}/messages/`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}/messages/`,
             kibicaraPlatformsTestWebapiBodyMessage,
             {
                 responseType: <any>responseType,
@@ -276,9 +274,9 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
             throw new Error('Required parameter testId was null or undefined when calling testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet.');
@@ -315,7 +313,7 @@ export class TestService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}/messages/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}/messages/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -332,9 +330,9 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling testReadAllApiHoodsHoodIdTestGet.');
@@ -368,7 +366,7 @@ export class TestService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -386,9 +384,9 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<AnyType>;
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<AnyType>>;
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<AnyType>>;
+    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
     public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
             throw new Error('Required parameter testId was null or undefined when calling testReadApiHoodsHoodIdTestTestIdGet.');
@@ -425,7 +423,7 @@ export class TestService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<AnyType>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/test/${encodeURIComponent(String(testId))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
