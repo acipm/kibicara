@@ -2,7 +2,7 @@
   "name": "kibicara-frontend",
   "version": "0.0.0",
   "scripts": {
-    "openapi-generator": "openapi-generator generate -g typescript-angular --additional-properties=providedInRoot=true -o src/app/api -i http://localhost:8000/openapi.json",
+    "openapi-generator": "openapi-generator generate -g typescript-angular --additional-properties=providedInRoot=true -o src/app/core/api -i http://localhost:8000/openapi.json",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
