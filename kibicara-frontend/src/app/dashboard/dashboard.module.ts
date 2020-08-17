@@ -4,12 +4,8 @@ import { HoodsComponent } from './hoods/hoods.component';
 import { SettingspageComponent } from './settingspage/settingspage.component';
 import { DashboardComponent } from './dashboard.component';
 
-
-
 @NgModule({
   declarations: [HoodsComponent, SettingspageComponent, DashboardComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class DashboardModule { }
+export class DashboardModule {}

@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AdminService } from '../api';
+import { AdminService, BodyAccessToken } from '../api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private currentHoodAdminSubject: BehaviorSubject<any>;
-  public currentHoodAdmin: Observable<any>;
+  private currentHoodAdminSubject: BehaviorSubject<BodyAccessToken>;
+  public currentHoodAdmin: Observable<BodyAccessToken>;
+  private identifier = 'currentHoodAdmin';
 
   constructor(private readonly adminService: AdminService) {
-    this.currentHoodAdminSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem('currentHoodAdmin'))
+    this.currentHoodAdminSubject = new BehaviorSubject<BodyAccessToken>(
+      JSON.parse(localStorage.getItem(this.identifier))
     );
     this.currentHoodAdmin = this.currentHoodAdminSubject.asObservable();
   }
@@ -24,7 +25,7 @@ export class LoginService {
   login(email, password) {
     return this.adminService.login(email, password).pipe(
       map((response) => {
-        localStorage.setItem('currentHoodAdmin', JSON.stringify(response));
+        localStorage.setItem(this.identifier, JSON.stringify(response));
         this.currentHoodAdminSubject.next(response);
         return response;
       })
@@ -32,7 +33,7 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.removeItem('currentHoodAdmin');
+    localStorage.removeItem(this.identifier);
     this.currentHoodAdminSubject.next(null);
   }
 }
