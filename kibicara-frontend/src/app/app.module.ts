@@ -12,6 +12,8 @@ import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { HoodspageComponent } from './hoodspage/hoodspage.component';
 import { ApiModule } from './api/api.module';
 import { HttpClientModule } from '@angular/common/http';
+import { BASE_PATH } from './api/variables';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     ApiModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
