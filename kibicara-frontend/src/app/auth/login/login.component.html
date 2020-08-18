@@ -1,4 +1,5 @@
 <div *ngIf="error" class="error">{{ error }}</div>
+<div *ngIf="info" class="success">{{ info }}</div>
 <h2>Login</h2>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="form-group">

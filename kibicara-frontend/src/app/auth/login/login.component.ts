@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../core/auth/login.service';
+import { LoginService } from '../../core/auth/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   error: string;
   loading = false;
   submitted = false;
+  info: string;
 
   constructor(
     private loginService: LoginService,
@@ -32,7 +33,12 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl =
+      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+
+    if (this.route.snapshot.queryParams['registered'] === true) {
+      this.info = 'Registration infoful';
+    }
   }
 
   onSubmit() {
