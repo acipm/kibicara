@@ -1,15 +1,36 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HoodsService, BodyHood } from '../core/api';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hoodpage',
   templateUrl: './hoodpage.component.html',
-  styleUrls: ['./hoodpage.component.scss']
+  styleUrls: ['./hoodpage.component.scss'],
 })
 export class HoodpageComponent implements OnInit {
+  hood: BodyHood;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private readonly hoodService: HoodsService
+  ) {}
 
   ngOnInit(): void {
+    const hoodId = this.route.snapshot.params['id'];
+    if (hoodId) {
+      this.hoodService
+        .getHood(hoodId)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            this.hood = data;
+          },
+          (error) => {
+            this.router.navigate(['/404']);
+          }
+        );
+    }
   }
-
 }

@@ -3,15 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { HoodsComponent } from './hoods/hoods.component';
 import { SettingspageComponent } from './settingspage/settingspage.component';
+import { AuthGuard } from '../core/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
-      { path: 'list', component: HoodsComponent },
+      { path: '', component: HoodsComponent },
       { path: 'settings', component: SettingspageComponent },
     ],
+    canActivate: [AuthGuard],
   },
 ];
 
