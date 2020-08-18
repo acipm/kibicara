@@ -13,10 +13,12 @@ import { ApiModule } from './core/api/api.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BASE_PATH } from './core/api/variables';
 import { environment } from 'src/environments/environment';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
+import { ConfirmComponent } from './auth/confirm/confirm.component';
+import { ErrorInterceptor } from './core/auth/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
     HoodspageComponent,
     LoginComponent,
     RegisterComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
   providers: [
     { provide: BASE_PATH, useValue: environment.API_BASE_PATH },
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
