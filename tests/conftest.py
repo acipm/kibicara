@@ -10,6 +10,7 @@ from kibicara.model import Hood, Mapping
 from kibicara.platforms.twitter.model import Twitter
 from kibicara.webapi import router
 from pytest import fixture
+from urllib.parse import urlparse
 
 
 @fixture(scope='module')
@@ -50,7 +51,7 @@ def register_token(client, receive_email):
         '/api/admin/register/', json={'email': 'user', 'password': 'password'}
     )
     assert response.status_code == status.HTTP_202_ACCEPTED
-    return receive_email()['body']
+    return urlparse(receive_email()['body']).query.split('=', 1)[1]
 
 
 @fixture(scope='module')

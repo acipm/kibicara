@@ -83,7 +83,7 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
     operation_id='get_hood',
     tags=['hoods'],
 )
-async def hood_read(hood=Depends(get_hood)):
+async def hood_read(hood=Depends(get_hood_unauthorized)):
     """ Get hood with id **hood_id**. """
     return hood
 

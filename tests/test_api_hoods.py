@@ -16,9 +16,9 @@ def test_hood_create_unauthorized(client, hood_id):
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_hood_read_unauthorized(client, hood_id):
+def test_hood_read(client, hood_id):
     response = client.get('/api/hoods/%d' % hood_id)
-    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_hood_update_unauthorized(client, hood_id):

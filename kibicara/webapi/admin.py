@@ -9,6 +9,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from kibicara import email
+from kibicara.config import config
 from kibicara.model import Admin, AdminHoodRelation
 from logging import getLogger
 from nacl.encoding import URLSafeBase64Encoder
@@ -96,13 +97,14 @@ async def admin_register(values: BodyAdmin):
         )
     register_token = to_token(**values.__dict__)
     logger.debug(f'register_token={register_token}')
-    # TODO implement check to see if email already is in database
     try:
+        admin = await Admin.objects.filter(email=values.email).all()
+        if admin:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+        body = f'{config["root_url"]}/confirm?token={register_token}'
+        logger.debug(body)
         email.send_email(
-            to=values.email,
-            subject='Confirm Account',
-            # XXX create real confirm link
-            body=register_token,
+            to=values.email, subject='Confirm Account', body=body,
         )
     except (ConnectionRefusedError, SMTPException):
         logger.exception('Email sending failed')
