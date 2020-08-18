@@ -17,10 +17,10 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.loginService.currentHoodAdminValue;
-    if (token) {
+    if (token && token.access_token) {
       request = request.clone({
         setHeaders: {
-          Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + token.access_token,
         },
       });
     }
