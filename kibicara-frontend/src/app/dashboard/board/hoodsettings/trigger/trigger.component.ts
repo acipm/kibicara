@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { TriggersService, BodyTrigger } from 'src/app/core/api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-trigger',
@@ -6,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./trigger.component.scss'],
 })
 export class TriggerComponent implements OnInit {
-  constructor() {}
+  @Input() hoodId: number;
+  triggers$: Observable<Array<any>>;
 
-  ngOnInit(): void {}
+  constructor(private triggersService: TriggersService) {}
+
+  ngOnInit(): void {
+    this.triggers$ = this.triggersService.getTriggers(this.hoodId);
+  }
 }

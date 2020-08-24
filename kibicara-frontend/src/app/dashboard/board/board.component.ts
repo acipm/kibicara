@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class BoardComponent implements OnInit {
   hoodId: number;
-  hood$: Observable<BodyHood>;
+  hood$: Observable<any>;
 
   constructor(
     private route: ActivatedRoute,

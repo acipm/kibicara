@@ -1,11 +1,41 @@
 <mat-card>
   <mat-card-title>Badwords</mat-card-title>
   <mat-card-subtitle
-    >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</mat-card-subtitle
+    >Discards an incoming message that matches the pattern (spam-protection, insult-filtering)</mat-card-subtitle
   >
   <mat-card-content>
-    <div>
-      <app-option-card></app-option-card>
-    </div>
+    <ng-container *ngIf="badwords$ | async as badwords">
+      <mat-list *ngIf="badwords.length !== 0; else empty">
+        <mat-list-item *ngFor="let badword of badwords">
+          <div class="entry">
+            <div class="regex">
+              {{ badword.pattern }}
+            </div>
+            <button
+              mat-icon-button
+              color="primary"
+              aria-label="Edit"
+              class="button"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Delete"
+              class="button"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+    <ng-template #empty>
+      <div class="error-msg">
+        No badwords configured yet.
+      </div>
+    </ng-template>
   </mat-card-content>
 </mat-card>

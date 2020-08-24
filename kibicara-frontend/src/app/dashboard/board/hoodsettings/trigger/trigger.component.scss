@@ -1,0 +1,20 @@
+.entry {
+    display: grid;
+    grid-template-columns: 4fr 50px 50px;
+    width: 100%;
+}
+
+.regex {
+    margin: 5px;
+    margin-top: 10px;
+    font-size: medium;
+}
+
+.button {
+    align-self: stretch;
+}
+
+.error-msg {
+    display: flex;
+    font-style: italic;
+}

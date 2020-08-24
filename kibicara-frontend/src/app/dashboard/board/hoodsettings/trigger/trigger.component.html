@@ -1,11 +1,42 @@
 <mat-card>
   <mat-card-title>Triggers</mat-card-title>
   <mat-card-subtitle
-    >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</mat-card-subtitle
+    >Only shares an incoming message if it matches a pattern (topic-setting). <br />
+    <strong>Add at least one trigger!</strong></mat-card-subtitle
   >
   <mat-card-content>
-    <div>
-      <app-option-card></app-option-card>
-    </div>
+    <ng-container *ngIf="triggers$ | async as triggers">
+      <mat-list *ngIf="triggers.length !== 0; else empty">
+        <mat-list-item *ngFor="let trigger of triggers">
+          <div class="entry">
+            <div class="regex">
+              {{ trigger.pattern }}
+            </div>
+            <button
+              mat-icon-button
+              color="primary"
+              aria-label="Edit"
+              class="button"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Delete"
+              class="button"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+    <ng-template #empty>
+      <div class="error-msg">
+        No triggers configured yet.
+      </div>
+    </ng-template>
   </mat-card-content>
 </mat-card>

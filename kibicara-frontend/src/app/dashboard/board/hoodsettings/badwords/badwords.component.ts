@@ -9,11 +9,11 @@ import { Observable } from 'rxjs';
 })
 export class BadwordsComponent implements OnInit {
   @Input() hoodId;
-  badwords$: Observable<BodyBadWord>;
+  badwords$: Observable<Array<any>>;
 
   constructor(private badwordService: BadwordsService) {}
 
   ngOnInit(): void {
-    //this.badwords$ = this.badwordService.getBadwords(this.hoodId);
+    this.badwords$ = this.badwordService.getBadwords(this.hoodId);
   }
 }

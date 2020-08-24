@@ -11,25 +11,20 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nisi
-          enim, semper at metus dapibus, mattis rutrum risus. Nam sit amet
-          venenatis ipsum. Nulla accumsan blandit est, vel dignissim nisl
-          consectetur in. Phasellus pretium vulputate lorem, ornare lobortis est
-          euismod ut. Nullam sit amet malesuada diam. Sed condimentum felis eu
-          scelerisque fringilla. Mauris vel sapien et nisl faucibus rutrum. Ut
-          dictum erat nec mattis tristique. Suspendisse ultrices tempus
-          facilisis. Fusce ac quam tempus sapien commodo vehicula. Suspendisse
-          viverra accumsan nunc, lacinia sagittis augue porttitor non. Cras
-          auctor, lorem sed convallis bibendum, odio sapien blandit nisl, sed
-          pulvinar augue risus a ligula. In dui massa, fringilla eu dolor eu,
-          volutpat varius lorem. Vivamus et molestie eros.
+          To avoid misuse of the service, some safety mechanisms are in place.
+          For a message to be shared, it needs to contain
+          <strong>at least one trigger word</strong>. Additionally, <strong>no badwords
+            may occur in the message</strong>. Therefore triggers are words that only
+          appear in legitimate messages. Badwords on the other hand, are words
+          that completely discard the message, even if the remaining message is
+          legitimate. For example insults or spam words like "blockchain".
         </p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
 
   <div class="container">
-    <app-trigger class="container-item"></app-trigger>
-    <app-badwords class="container-item"></app-badwords>
+    <app-trigger [hoodId]="hoodId"></app-trigger>
+    <app-badwords [hoodId]="hoodId"></app-badwords>
   </div>
 </div>
