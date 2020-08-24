@@ -7,6 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatExpansionModule,
     MatListModule,
+    MatInputModule,
   ],
   exports: [
     MatButtonModule,
@@ -29,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatExpansionModule,
     MatListModule,
+    MatInputModule,
   ],
 })
 export class MaterialModule {}

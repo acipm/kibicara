@@ -1,12 +1,23 @@
 <mat-card>
   <mat-card-title>Triggers</mat-card-title>
   <mat-card-subtitle
-    >Only shares an incoming message if it matches a pattern (topic-setting). <br />
+    >Only shares an incoming message if it matches a pattern (topic-setting).
     <strong>Add at least one trigger!</strong></mat-card-subtitle
   >
   <mat-card-content>
+    <form class="input" [formGroup]="regexForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Add trigger</mat-label>
+        <input formControlName="regex" matInput />
+        <mat-error *ngIf="regexForm.invalid">Invalid regex</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" aria-label="Add" class="button">
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
     <ng-container *ngIf="triggers$ | async as triggers">
       <mat-list *ngIf="triggers.length !== 0; else empty">
+        <mat-divider></mat-divider>
         <mat-list-item *ngFor="let trigger of triggers">
           <div class="entry">
             <div class="regex">
@@ -17,6 +28,7 @@
               color="primary"
               aria-label="Edit"
               class="button"
+              (click)="onEdit(trigger.id)"
             >
               <mat-icon>edit</mat-icon>
             </button>
@@ -25,6 +37,7 @@
               color="warn"
               aria-label="Delete"
               class="button"
+              (click)="onDelete(trigger.id)"
             >
               <mat-icon>delete</mat-icon>
             </button>

@@ -1,20 +1,31 @@
 .entry {
-    display: grid;
-    grid-template-columns: 4fr 50px 50px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 4fr 50px 50px;
+  width: 100%;
+}
+
+.input {
+  display: grid;
+  grid-template-columns: 4fr 50px;
+  width: 100%;
+  margin: 10px;
+}
+
+.mat-form-field {
+  width: 100%;
 }
 
 .regex {
-    margin: 5px;
-    margin-top: 10px;
-    font-size: medium;
+  margin: 5px;
+  margin-top: 10px;
+  font-size: medium;
 }
 
 .button {
-    align-self: stretch;
+  align-self: stretch;
 }
 
 .error-msg {
-    display: flex;
-    font-style: italic;
+  display: flex;
+  font-style: italic;
 }

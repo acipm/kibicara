@@ -1,11 +1,23 @@
 <mat-card>
   <mat-card-title>Badwords</mat-card-title>
   <mat-card-subtitle
-    >Discards an incoming message that matches the pattern (spam-protection, insult-filtering)</mat-card-subtitle
+    >Discards an incoming message that matches the pattern (spam-protection,
+    insult-filtering)</mat-card-subtitle
   >
   <mat-card-content>
+    <form class="input" [formGroup]="regexForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Add badword</mat-label>
+        <input formControlName="regex" matInput />
+        <mat-error *ngIf="regexForm.invalid">Invalid regex</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" aria-label="Add" class="button">
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
     <ng-container *ngIf="badwords$ | async as badwords">
       <mat-list *ngIf="badwords.length !== 0; else empty">
+        <mat-divider></mat-divider>
         <mat-list-item *ngFor="let badword of badwords">
           <div class="entry">
             <div class="regex">
@@ -16,6 +28,7 @@
               color="primary"
               aria-label="Edit"
               class="button"
+              (click)="onEdit(badword.id)"
             >
               <mat-icon>edit</mat-icon>
             </button>
@@ -24,6 +37,7 @@
               color="warn"
               aria-label="Delete"
               class="button"
+              (click)="onDelete(badword.id)"
             >
               <mat-icon>delete</mat-icon>
             </button>

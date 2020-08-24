@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
 
     if (this.route.snapshot.queryParams['registered'] === true) {
-      this.info = 'Registration infoful';
+      this.info = 'Registration successful';
     }
   }
 
