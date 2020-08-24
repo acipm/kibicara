@@ -1,0 +1,21 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.container-item {
+  align-items: center;
+}
+
+.settings {
+  margin: 1%;
+}
+
+.explanation {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

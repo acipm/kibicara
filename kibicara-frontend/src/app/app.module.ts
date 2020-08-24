@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
 import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ErrorInterceptor } from './core/auth/error.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ErrorInterceptor } from './core/auth/error.interceptor';
     ApiModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: BASE_PATH, useValue: environment.API_BASE_PATH },

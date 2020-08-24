@@ -14,23 +14,18 @@ export class HoodpageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private readonly hoodService: HoodsService
+    private readonly hoodsService: HoodsService
   ) {}
 
   ngOnInit(): void {
     const hoodId = this.route.snapshot.params['id'];
     if (hoodId) {
-      this.hoodService
+      this.hoodsService
         .getHood(hoodId)
         .pipe(first())
-        .subscribe(
-          (data) => {
-            this.hood = data;
-          },
-          (error) => {
-            this.router.navigate(['/404']);
-          }
-        );
+        .subscribe((data) => {
+          this.hood = data;
+        });
     }
   }
 }
