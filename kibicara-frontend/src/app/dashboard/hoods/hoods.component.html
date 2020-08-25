@@ -1,2 +1,32 @@
-<p>hoods works!</p>
-<!--<div *ngFor="let item of hoods$ | async">{{ item.name }}</div>-->
+<div class="container">
+  <div class="title">
+    <h1>Your Hoods</h1>
+    <p>
+      Your role as an hood admin is to build a community in real life that
+      supports each other. Kibicara hoods will support you by providing the
+      technology for your community to florish!
+    </p>
+    <mat-selection-list [multiple]="false">
+      <div mat-subheader>Configure your hoods</div>
+      <mat-divider></mat-divider>
+      <a
+        *ngFor="let hood of hoods$ | async"
+        [routerLink]="['/dashboard/hoods', hood.id]"
+      >
+        <mat-list-option>
+          <div class="list-entry-container">
+            <mat-icon>settings</mat-icon>
+            <div class="list-entry">
+              Your Hood - <strong>{{ hood.name }}</strong>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </a>
+    </mat-selection-list>
+    <button mat-raised-button color="primary" class="add-hood-button">
+      New hood
+    </button>
+  </div>
+  <div class="banner"></div>
+</div>
