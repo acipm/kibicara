@@ -1,9 +1,5 @@
 <mat-card>
   <mat-card-title>Triggers</mat-card-title>
-  <mat-card-subtitle
-    >Only shares an incoming message if it matches a pattern (topic-setting).
-    <strong>Add at least one trigger!</strong></mat-card-subtitle
-  >
   <mat-card-content>
     <form class="input" [formGroup]="regexForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
@@ -17,7 +13,6 @@
     </form>
     <ng-container *ngIf="triggers$ | async as triggers">
       <mat-list *ngIf="triggers.length !== 0; else empty">
-        <mat-divider></mat-divider>
         <mat-list-item *ngFor="let trigger of triggers">
           <div class="entry">
             <div class="regex">
