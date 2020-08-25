@@ -10,7 +10,11 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { HoodspageComponent } from './hoodspage/hoodspage.component';
 import { ApiModule } from './core/api/api.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+} from '@angular/common/http';
 import { BASE_PATH } from './core/api/variables';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './auth/login/login.component';
@@ -20,6 +24,7 @@ import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
 import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ErrorInterceptor } from './core/auth/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [
     { provide: BASE_PATH, useValue: environment.API_BASE_PATH },

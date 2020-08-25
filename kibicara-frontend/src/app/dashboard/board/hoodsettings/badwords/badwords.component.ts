@@ -54,7 +54,6 @@ export class BadwordsComponent implements OnInit {
           this.reload();
         },
         (error) => {
-          console.log(error);
           this.regexForm.controls['regex'].setErrors({ incorrect: true });
         }
       );

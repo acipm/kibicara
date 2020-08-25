@@ -11,6 +11,8 @@ import { TriggerComponent } from './board/hoodsettings/trigger/trigger.component
 import { BadwordsComponent } from './board/hoodsettings/badwords/badwords.component';
 import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,12 @@ import { CommonModule } from '@angular/common';
     TriggerComponent,
     BadwordsComponent,
   ],
-  imports: [DashboardRoutingModule, MaterialModule, SharedModule, CommonModule],
+  imports: [
+    DashboardRoutingModule,
+    MaterialModule,
+    SharedModule,
+    CommonModule,
+    MarkdownModule.forRoot({ loader: HttpClient }),
+  ],
 })
 export class DashboardModule {}

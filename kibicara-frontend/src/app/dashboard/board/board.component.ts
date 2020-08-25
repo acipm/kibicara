@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HoodsService, BodyHood } from 'src/app/core/api';
 import { first } from 'rxjs/operators';

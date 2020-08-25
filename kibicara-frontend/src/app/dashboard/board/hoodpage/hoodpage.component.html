@@ -1,1 +1,61 @@
-<p>hoodpage works!</p>
+<div class="settings">
+  <div class="explanation">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>info</mat-icon>
+            <div class="info-title">How to configure the public hood page</div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+          malesuada orci justo, id cursus orci bibendum ac. Nulla ut sapien a
+          dolor sodales facilisis at ac lacus. Nam nulla felis, malesuada id
+          pharetra varius, congue luctus magna. Duis et tellus pretium, euismod
+          ipsum nec, fringilla orci. Sed dapibus at velit id posuere. Aenean at
+          nunc sed arcu malesuada dapibus. Nunc quis rutrum diam. Morbi placerat
+          diam sit amet tincidunt hendrerit. Cras viverra, tortor sed congue
+          congue, dui ante lobortis purus, quis elementum tortor nulla vel mi.
+          Etiam nec leo consectetur lorem fringilla commodo. Duis lectus est,
+          vulputate sit amet ipsum eget, efficitur condimentum diam. Duis eget
+          quam est. Ut et semper turpis. Aliquam eget fermentum sem.
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="buttonbar">
+    <div *ngIf="!saved && submit" class="saved-button">
+      <mat-icon>warning</mat-icon>
+    </div>
+    <div *ngIf="saved" class="saved-button">
+      <mat-icon>done</mat-icon>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      class="save-button"
+      (click)="onSubmit()"
+    >
+      Save
+    </button>
+    <a
+      mat-icon-button
+      [routerLink]="['/hoods', hoodId]"
+      target="_blank"
+      aria-label="Open in new tab"
+    >
+      <mat-icon>open_in_new</mat-icon>
+    </a>
+  </div>
+  <div class="container">
+    <textarea
+      class="textarea"
+      matInput
+      [(ngModel)]="markdown"
+      wrap="soft"
+      (change)="onChange()"
+    ></textarea>
+    <markdown class="markdown" [data]="markdown"></markdown>
+  </div>
+</div>

@@ -1,18 +1,23 @@
+<div class="back">
+  <a mat-button [routerLink]="['/dashboard']"
+    ><mat-icon>keyboard_backspace</mat-icon> back</a
+  >
+</div>
 <div class="dashboard">
   <mat-card>
-    <mat-card-title> Dashboard: {{ (hood$ | async).name }} </mat-card-title>
-    <mat-card-subtitle>Lorem ipsum</mat-card-subtitle>
+    <mat-card-title> Hood: {{ (hood$ | async).name }} </mat-card-title>
+    <mat-card-subtitle>Dashboard</mat-card-subtitle>
   </mat-card>
 
   <mat-tab-group>
-    <mat-tab label="Overview">
+    <mat-tab label="Filters">
       <app-hoodsettings [hoodId]="hoodId"> </app-hoodsettings>
     </mat-tab>
     <mat-tab label="Platforms">
       <app-platforms></app-platforms>
     </mat-tab>
     <mat-tab label="Hoodpage">
-      <app-hoodpage></app-hoodpage>
+      <app-hoodpage [hoodId]="hoodId"></app-hoodpage>
     </mat-tab>
   </mat-tab-group>
 </div>
