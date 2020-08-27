@@ -1,1 +1,36 @@
-<div *ngFor="let item of hoods$ | async">{{ item.name }}</div>
+<div class="banner">
+  <h1>Discover hoods</h1>
+</div>
+<div class="page">
+  <mat-form-field class="searchbar">
+    <mat-label> <mat-icon>search</mat-icon> Search for hoods</mat-label>
+    <input matInput type="search" [(ngModel)]="searchText" autocomplete="off" />
+  </mat-form-field>
+  <mat-selection-list
+    [multiple]="false"
+    *ngIf="hoods$ | async; let hoods; else: noHoods"
+    class="list"
+  >
+    <a
+      [routerLink]="['/register']"
+      *ngIf="(hoods | filter: searchText).length === 0"
+    >
+      <mat-list-option>
+        <p>No matching hood found. Start by creating <u>a new hood!</u></p>
+      </mat-list-option>
+    </a>
+    <a
+      *ngFor="let hood of hoods | filter: searchText"
+      [routerLink]="['/hoods', hood.id]"
+    >
+      <mat-list-option>
+        {{ hood.name }}
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </a>
+  </mat-selection-list>
+  <ng-template #noHoods>
+    No hoods available yet. Create
+    <a [routerLink]="['/dashboard']">a new hood! </a>
+  </ng-template>
+</div>

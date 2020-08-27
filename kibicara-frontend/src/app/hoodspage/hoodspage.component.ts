@@ -7,9 +7,12 @@ import { HoodsService } from '../core/api/api/hoods.service';
   styleUrls: ['./hoodspage.component.scss'],
 })
 export class HoodspageComponent implements OnInit {
-  hoods$ = this.hoodsService.getHoods();
+  hoods$;
+  searchText: string;
 
   constructor(private readonly hoodsService: HoodsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.hoods$ = this.hoodsService.getHoods();
+  }
 }

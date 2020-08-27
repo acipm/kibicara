@@ -3,18 +3,28 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MaterialModule } from './material/material.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MarkdownModule } from 'ngx-markdown';
-import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [ToolbarComponent, NotFoundComponent],
-  imports: [MaterialModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
+    CommonModule,
+    Ng2SearchPipeModule,
+  ],
   exports: [
     ToolbarComponent,
     NotFoundComponent,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    CommonModule,
+    Ng2SearchPipeModule,
   ],
 })
 export class SharedModule {}
