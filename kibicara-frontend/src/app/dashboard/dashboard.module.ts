@@ -6,14 +6,13 @@ import { HoodsettingsComponent } from './board/hoodsettings/hoodsettings.compone
 import { PlatformsComponent } from './board/platforms/platforms.component';
 import { HoodpageComponent } from './board/hoodpage/hoodpage.component';
 import { BoardComponent } from './board/board.component';
-import { MaterialModule } from '../shared/material/material.module';
 import { TriggerComponent } from './board/hoodsettings/trigger/trigger.component';
 import { BadwordsComponent } from './board/hoodsettings/badwords/badwords.component';
 import { SharedModule } from '../shared/shared.module';
-import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.component';
+import { PlatformsModule } from '../platforms/platforms.module';
 
 @NgModule({
   declarations: [
@@ -29,10 +28,9 @@ import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.
   ],
   imports: [
     DashboardRoutingModule,
-    MaterialModule,
     SharedModule,
-    CommonModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
+    PlatformsModule,
   ],
 })
 export class DashboardModule {}
