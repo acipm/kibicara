@@ -24,7 +24,12 @@
         </mat-list-option>
       </a>
     </mat-selection-list>
-    <button mat-raised-button color="primary" class="add-hood-button">
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-hood-button"
+      (click)="openNewHoodDialog()"
+    >
       New hood
     </button>
   </div>

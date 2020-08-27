@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
+import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClient } from '@angular/common/http';
     BoardComponent,
     TriggerComponent,
     BadwordsComponent,
+    NewHoodDialogComponent,
   ],
   imports: [
     DashboardRoutingModule,
