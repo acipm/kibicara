@@ -1,25 +1,22 @@
 <mat-toolbar color="primary">
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
+  <a mat-button [routerLink]="['/']" routerLinkActive="router-link-active"
+    >Kibicara</a
   >
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>Kibicara</span>
+  <a mat-button [routerLink]="['/hoods']" routerLinkActive="router-link-active"
+    >All hoods</a
+  >
+  <a
+    mat-button
+    [routerLink]="['/organizers']"
+    routerLinkActive="router-link-active"
+    >Become a hood admin!</a
+  >
   <span class="example-spacer"></span>
-  <button
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>share</mat-icon>
-  </button>
+  <div *ngIf="authenticated; else unauthenticated">
+    <a mat-raised-button [routerLink]="['/dashboard']" routerLinkActive="router-link-active">Dashboard</a>
+    <a mat-button (click)="onLogout()" routerLinkActive="router-link-active">Logout</a>
+  </div>
+  <ng-template #unauthenticated>
+    <a mat-button [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
+  </ng-template>
 </mat-toolbar>
