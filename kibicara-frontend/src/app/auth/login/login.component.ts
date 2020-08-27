@@ -3,6 +3,7 @@ import { LoginService } from '../../core/auth/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -12,16 +13,16 @@ import { first } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
-  error: string;
   loading = false;
   submitted = false;
-  info: string;
+  hide = true;
 
   constructor(
     private loginService: LoginService,
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) {
     if (this.loginService.currentHoodAdminValue) {
       this.router.navigate(['/dashboard']);
@@ -37,7 +38,9 @@ export class LoginComponent implements OnInit {
       this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
 
     if (this.route.snapshot.queryParams['registered'] === true) {
-      this.info = 'Registration successful';
+      this.snackBar.open('Registration successful', 'Close', {
+        duration: 2000,
+      });
     }
   }
 
@@ -59,7 +62,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         (error) => {
-          this.error = 'Wrong credentials! Try again.';
+          this.snackBar.open('Wrong credentials! Try again.', 'Close', {
+            duration: 2000,
+          });
           this.loading = false;
         }
       );

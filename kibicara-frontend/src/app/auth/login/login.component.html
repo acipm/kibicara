@@ -1,47 +1,49 @@
-<div *ngIf="error" class="error">{{ error }}</div>
-<div *ngIf="info" class="success">{{ info }}</div>
-<h2>Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="email">E-Mail</label>
-    <input
-      type="text"
-      formControlName="email"
-      class="form-control"
-      [ngClass]="{ 'is-invalid': submitted && loginForm.controls.email.errors }"
-    />
-    <div
-      *ngIf="submitted && loginForm.controls.email.errors"
-      class="invalid-feedback"
-    >
-      <div *ngIf="loginForm.controls.email.errors.required">
-        Email is required
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      formControlName="password"
-      class="form-control"
-      [ngClass]="{
-        'is-invalid': submitted && loginForm.controls.password.errors
-      }"
-    />
-    <div
-      *ngIf="submitted && loginForm.controls.password.errors"
-      class="invalid-feedback"
-    >
-      <div *ngIf="loginForm.controls.password.errors.required">
-        Password is required
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <button [disabled]="loading" class="btn btn-primary">
-      Login
-    </button>
-    <a routerLink="/register">Register</a>
-  </div>
-</form>
+<div class="container">
+  <mat-card class="login-form">
+    <mat-card-header>
+      <h2>Log in as hood admin!</h2>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="input-container">
+          <mat-form-field appearance="fill">
+            <mat-label>E-Mail</mat-label>
+            <input type="text" formControlName="email" matInput />
+            <mat-error
+              *ngIf="
+                loginForm.controls.email.errors &&
+                loginForm.controls.email.errors.required
+              "
+            >
+              Email is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input
+              type="password"
+              formControlName="password"
+              matInput
+              [type]="'password'"
+            />
+            <mat-error
+              *ngIf="
+                loginForm.controls.password.errors &&
+                loginForm.controls.password.errors.required
+              "
+            >
+              Password is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="buttons">
+          <button mat-raised-button color="primary" [disabled]="loading">
+            Log In
+          </button>
+          <a mat-button routerLink="/register">Register</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <div class="banner"></div>
+</div>
