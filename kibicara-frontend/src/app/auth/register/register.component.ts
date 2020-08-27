@@ -3,6 +3,8 @@ import { AdminService } from '../../core/api';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LoginService } from 'src/app/core/auth/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -13,23 +15,34 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
-  error: string;
-  info: string;
 
   constructor(
     private readonly adminService: AdminService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private loginService: LoginService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
+    if (this.loginService.currentHoodAdminValue) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
     if (this.route.snapshot.queryParams['error']) {
-      this.error = 'Invalid confirmation link. Try registering again';
+      this.snackBar.open(
+        'Invalid confirmation link. Try registering again',
+        'Close',
+        {
+          duration: 2000,
+        }
+      );
     }
   }
 
@@ -44,12 +57,23 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.info =
-            'Registration E-Mail has been sent. Please check your inbox.';
+          this.snackBar.open(
+            'Registration E-Mail has been sent. Please check your inbox.',
+            'Close',
+            {
+              duration: 2000,
+            }
+          );
           this.loading = false;
         },
         (error) => {
-          this.error = 'Registration failed! E-Mail exists or is not valid.';
+          this.snackBar.open(
+            'Registration failed! E-Mail exists or is not valid.',
+            'Close',
+            {
+              duration: 2000,
+            }
+          );
           this.loading = false;
         }
       );
