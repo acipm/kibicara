@@ -3,6 +3,7 @@ import { BadwordsService, BodyBadWord } from 'src/app/core/api';
 import { Observable } from 'rxjs';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-badwords',
@@ -16,7 +17,8 @@ export class BadwordsComponent implements OnInit {
 
   constructor(
     private badwordService: BadwordsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +56,9 @@ export class BadwordsComponent implements OnInit {
           this.reload();
         },
         (error) => {
-          this.regexForm.controls['regex'].setErrors({ incorrect: true });
+          this.snackBar.open('Invalid regular expression', 'Close', {
+            duration: 2000,
+          });
         }
       );
   }

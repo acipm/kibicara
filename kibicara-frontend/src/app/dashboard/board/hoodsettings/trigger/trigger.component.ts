@@ -5,6 +5,7 @@ import { ResourceLoader } from '@angular/compiler';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { invalid } from '@angular/compiler/src/render3/view/util';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-trigger',
@@ -18,7 +19,8 @@ export class TriggerComponent implements OnInit {
 
   constructor(
     private triggersService: TriggersService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +58,9 @@ export class TriggerComponent implements OnInit {
           this.reload();
         },
         (error) => {
-          console.log(error);
-          this.regexForm.controls['regex'].setErrors({ incorrect: true });
+          this.snackBar.open('Invalid regular expression', 'Close', {
+            duration: 2000,
+          });
         }
       );
   }

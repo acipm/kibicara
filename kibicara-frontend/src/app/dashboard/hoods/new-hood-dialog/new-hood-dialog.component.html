@@ -5,7 +5,9 @@
     <mat-form-field>
       <mat-label>New hood name</mat-label>
       <input matInput formControlName="hoodName" />
-      <mat-error *ngIf="hoodForm.invalid">Name already taken</mat-error>
+      <mat-error *ngIf="hoodForm.controls.hoodName"
+        >Hood name is required</mat-error
+      >
     </mat-form-field>
   </form>
 </mat-dialog-content>

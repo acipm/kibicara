@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HoodsService } from 'src/app/core/api';
 import { first } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-hood-dialog',
@@ -15,7 +16,8 @@ export class NewHoodDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<NewHoodDialogComponent>,
     private hoodsService: HoodsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +46,9 @@ export class NewHoodDialogComponent implements OnInit {
           this.dialogRef.close(data);
         },
         (error) => {
-          this.hoodForm.controls['hoodName'].setErrors({ incorrect: true });
+          this.snackBar.open('Hood name already taken', 'Close', {
+            duration: 2000,
+          });
         }
       );
   }
