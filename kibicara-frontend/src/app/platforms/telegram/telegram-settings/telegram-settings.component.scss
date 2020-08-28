@@ -4,3 +4,14 @@
   width: 100%;
   align-items: center;
 }
+
+.platform-title {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  width: 100%;
+  align-items: center;
+}
+
+.platform-heading {
+  align-self: flex-end;
+}
