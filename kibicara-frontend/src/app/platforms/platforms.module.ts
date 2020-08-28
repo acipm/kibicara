@@ -4,12 +4,16 @@ import { TelegramSettingsComponent } from './telegram/telegram-settings/telegram
 import { SharedModule } from '../shared/shared.module';
 import { TwitterSettingsComponent } from './twitter/twitter-settings/twitter-settings.component';
 import { EmailSettingsComponent } from './email/email-settings/email-settings.component';
+import { EmailDialogComponent } from './email/email-dialog/email-dialog.component';
+import { EmailInfoDialogComponent } from './email/email-info-dialog/email-info-dialog.component';
 
 @NgModule({
   declarations: [
     TelegramSettingsComponent,
     TwitterSettingsComponent,
     EmailSettingsComponent,
+    EmailDialogComponent,
+    EmailInfoDialogComponent,
   ],
   imports: [CommonModule, SharedModule],
   exports: [
