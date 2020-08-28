@@ -1,6 +1,29 @@
 .entry {
   display: grid;
-  grid-template-columns: 4fr 40px 20px;
+  grid-template-columns: 4fr 20px;
   width: 100%;
   align-items: center;
+}
+
+.platform-title {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  width: 100%;
+  align-items: center;
+}
+
+.platform-heading {
+  align-self: flex-end;
+}
+
+.toggle-container {
+  display: grid;
+  grid-template-columns: 4fr 30px;
+  width: 100%;
+  align-items: center;
+}
+
+.toggle {
+  grid-column-start: 2;
+  align-self: flex-start;
 }

@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Create new inbox</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form class="input" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>New inbox address</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error
+        *ngIf="form.controls.name.errors && form.controls.name.errors.required"
+        >Inbox address is required</mat-error
+      >
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial>
+    Create address
+  </button>
+</mat-dialog-actions>
