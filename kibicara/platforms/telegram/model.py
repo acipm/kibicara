@@ -11,6 +11,7 @@ class Telegram(Model):
     hood: ForeignKey(Hood)
     api_token: Text(unique=True)
     welcome_message: Text()
+    username: Text(allow_null=True) = None
     enabled: Boolean() = True
 
     class Mapping(Mapping):

@@ -32,6 +32,9 @@ class TelegramBot(Censor):
             self.bot = Bot(token=self.telegram_model.api_token)
             self.dp = self._create_dispatcher()
             logger.debug(f'Bot {self.telegram_model.hood.name} starting.')
+            user = await self.bot.get_me()
+            if user.username:
+                await self.telegram_model.update(username=user.username)
             await gather(self.dp.start_polling(), self._push())
         except CancelledError:
             logger.debug(f'Bot {self.telegram_model.hood.name} received Cancellation.')
