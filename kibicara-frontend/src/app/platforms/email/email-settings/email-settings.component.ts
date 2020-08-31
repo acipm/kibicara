@@ -2,12 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { EmailService, HoodsService } from 'src/app/core/api';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
 import { EmailInfoDialogComponent } from '../email-info-dialog/email-info-dialog.component';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BotStatus } from '../../../core/model/status';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-email-settings',
@@ -18,6 +17,7 @@ export class EmailSettingsComponent implements OnInit {
   @Input() hoodId;
   emails$: Observable<Array<any>>;
   start = false;
+  domain = environment.EMAIL_DOMAIN;
 
   constructor(
     private emailService: EmailService,

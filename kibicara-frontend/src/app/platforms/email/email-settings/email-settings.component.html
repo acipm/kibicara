@@ -37,7 +37,7 @@
       </ng-template>
       <mat-list-item *ngFor="let email of emails">
         <div class="entry">
-          {{ email.name }}
+          {{ email.name }}@{{ domain }}
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
