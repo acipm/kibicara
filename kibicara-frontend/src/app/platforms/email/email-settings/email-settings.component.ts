@@ -1,9 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { EmailService } from 'src/app/core/api';
+import { EmailService, HoodsService } from 'src/app/core/api';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
+import { EmailInfoDialogComponent } from '../email-info-dialog/email-info-dialog.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BotStatus } from '../../../core/model/status';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-email-settings',
@@ -13,11 +17,12 @@ import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
 export class EmailSettingsComponent implements OnInit {
   @Input() hoodId;
   emails$: Observable<Array<any>>;
+  start = false;
 
   constructor(
     private emailService: EmailService,
     public dialog: MatDialog,
-    private router: Router
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -26,6 +31,11 @@ export class EmailSettingsComponent implements OnInit {
 
   private reload() {
     this.emails$ = this.emailService.getEmails(this.hoodId);
+    this.emailService.statusEmail(this.hoodId).subscribe((status) => {
+      if (status.status === BotStatus.RUNNING.toString()) {
+        this.start = true;
+      }
+    });
   }
 
   onDelete(emailId) {
@@ -35,12 +45,42 @@ export class EmailSettingsComponent implements OnInit {
   }
 
   onCreate() {
-    const dialogRef = this.dialog.open(EmailDialogComponent);
-
-    dialogRef.afterClosed().subscribe((hood) => {
-      // if (hood && hood.id) {
-      //   this.router.navigate(['/dashboard/hoods', hood.id]);
-      // }
+    const dialogRef = this.dialog.open(EmailDialogComponent, {
+      data: { hoodId: this.hoodId },
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.reload();
+    });
+  }
+
+  onInfoClick() {
+    this.dialog.open(EmailInfoDialogComponent);
+  }
+
+  onToggle() {
+    if (this.start) {
+      this.emailService.startEmail(this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not start. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    } else {
+      this.emailService.stopEmail(this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not stop. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    }
+    // TODO yeah i know this is bad, implement disabling/enabling
+    setTimeout(() => {
+      this.reload();
+    }, 100);
   }
 }

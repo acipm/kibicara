@@ -4,8 +4,12 @@
       <div class="platform-heading">
         E-Mails
       </div>
-      <button mat-icon-button aria-label="How to use">
-        <mat-icon matTooltip="How to use" class="info-button">info</mat-icon>
+      <button mat-icon-button aria-label="How to use" (click)="onInfoClick()">
+        <mat-icon
+          matTooltip="How to add an email inbox to your hood"
+          class="info-button"
+          >info</mat-icon
+        >
       </button>
     </mat-card-title>
   </mat-card-header>
@@ -21,7 +25,12 @@
       <ng-template #startButton>
         <mat-list-item>
           <div class="toggle-container">
-            <mat-slide-toggle class="toggle"></mat-slide-toggle>
+            <mat-slide-toggle
+              name="enableEmails"
+              class="toggle"
+              (change)="onToggle()"
+              [(ngModel)]="start"
+            ></mat-slide-toggle>
           </div>
           <mat-divider></mat-divider>
         </mat-list-item>

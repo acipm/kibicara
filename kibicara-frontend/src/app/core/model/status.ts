@@ -1,0 +1,5 @@
+export enum BotStatus {
+  INSTANTIATED = 'INSTANTIATED',
+  RUNNING = 'RUNNING',
+  STOPPED = 'STOPPED',
+}

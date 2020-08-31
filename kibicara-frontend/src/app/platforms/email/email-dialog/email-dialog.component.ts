@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Validators, FormBuilder } from '@angular/forms';
 import { EmailService } from 'src/app/core/api';
 import { first } from 'rxjs/operators';
@@ -11,14 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./email-dialog.component.scss'],
 })
 export class EmailDialogComponent implements OnInit {
-  @Input() hoodId;
   form;
 
   constructor(
     public dialogRef: MatDialogRef<EmailDialogComponent>,
     private formBuilder: FormBuilder,
     private emailService: EmailService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
   ngOnInit(): void {
@@ -36,12 +36,12 @@ export class EmailDialogComponent implements OnInit {
       return;
     }
     this.emailService
-      .createEmail(this.hoodId, {
-        name: this.form.controls.name.value,
+      .createEmail(this.data.hoodId, {
+        name: 'kibicara-' + this.form.controls.name.value,
       })
       .pipe(first())
       .subscribe(
-        () => {
+        (data) => {
           this.dialogRef.close();
         },
         (error) => {
