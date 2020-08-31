@@ -13,6 +13,7 @@ class Twitter(Model):
     mentions_since_id: Integer(allow_null=True) = None
     access_token: Text()
     access_token_secret: Text()
+    username: Text(allow_null=True) = None
     verified: Boolean() = False
     enabled: Boolean() = False
 

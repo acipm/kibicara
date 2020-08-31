@@ -38,6 +38,9 @@ class TwitterBot(Censor):
             if self.twitter_model.dms_since_id is None:
                 logger.debug('since_id is None in model, fetch newest dm id')
                 await self._poll_direct_messages()
+            user = await self.client.user
+            if user.screen_name:
+                await self.twitter_model.update(username=user.screen_name)
             logger.debug('Starting Twitter bot: %s' % self.twitter_model.__dict__)
             await gather(self.poll(), self.push())
         except CancelledError:
