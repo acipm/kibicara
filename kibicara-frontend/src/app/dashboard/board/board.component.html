@@ -5,8 +5,8 @@
 </div>
 <div class="dashboard">
   <mat-card>
-    <mat-card-title>
-      Your Hood - <strong>{{ (hood$ | async).name }}</strong>
+    <mat-card-title *ngIf="hood$ | async as hood">
+      Your Hood - <strong>{{ hood.name }}</strong>
     </mat-card-title>
   </mat-card>
 
