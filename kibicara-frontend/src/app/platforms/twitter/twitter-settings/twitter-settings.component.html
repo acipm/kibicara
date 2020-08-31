@@ -5,7 +5,12 @@
         Twitter
       </div>
       <button mat-icon-button aria-label="How to use">
-        <mat-icon matTooltip="How to use" class="info-button">info</mat-icon>
+        <mat-icon
+          matTooltip="How to add an twitter account to your hood"
+          class="info-button"
+          (click)="onInfoClick()"
+          >info</mat-icon
+        >
       </button>
     </mat-card-title>
   </mat-card-header>
@@ -20,7 +25,7 @@
       </mat-list-item>
       <mat-list-item *ngFor="let twitter of twitters">
         <div class="entry">
-          Twitterdummy
+          @{{ twitter.username }}
           <mat-slide-toggle></mat-slide-toggle>
           <button
             mat-icon-button
@@ -34,10 +39,6 @@
       </mat-list-item>
     </mat-list>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
       <button mat-menu-item>
         <mat-icon>delete</mat-icon>
         <span>Delete</span>
