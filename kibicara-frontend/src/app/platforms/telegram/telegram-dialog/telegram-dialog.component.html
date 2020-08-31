@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Create new inbox</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form class="input" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Telegram API Token</mat-label>
+      <input matInput formControlName="api_token" />
+      <mat-error
+        *ngIf="
+          form.controls.api_token.errors &&
+          form.controls.api_token.errors.required
+        "
+        >API Token is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Welcome message</mat-label>
+      <textarea matInput formControlName="welcome_message"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onSubmit()" cdkFocusInitial>
+    Add telegram bot
+  </button>
+</mat-dialog-actions>

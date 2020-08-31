@@ -5,14 +5,19 @@
         Telegram
       </div>
       <button mat-icon-button aria-label="How to use">
-        <mat-icon matTooltip="How to use" class="info-button">info</mat-icon>
+        <mat-icon
+          matTooltip="How to add an telegram bot to your hood"
+          class="info-button"
+          (click)="onInfoClick()"
+          >info</mat-icon
+        >
       </button>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-list *ngIf="telegrams$ | async as telegrams">
       <mat-list-item *ngIf="telegrams.length === 0">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onCreate()">
           <mat-icon>add</mat-icon>
           <span> Add a platform connection!</span>
         </button>
@@ -20,7 +25,7 @@
       </mat-list-item>
       <mat-list-item *ngFor="let telegram of telegrams">
         <div class="entry">
-          Telegramdummy
+          @{{ telegram.username }}
           <mat-slide-toggle></mat-slide-toggle>
           <button
             mat-icon-button
@@ -31,21 +36,21 @@
           </button>
         </div>
         <mat-divider></mat-divider>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onEdit(telegram.id)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="onDelete(telegram.id)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-menu-item (click)="onCreate()">
+            <mat-icon>add</mat-icon>
+            <span>Add another</span>
+          </button>
+        </mat-menu>
       </mat-list-item>
     </mat-list>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        <span>Delete</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>add</mat-icon>
-        <span>Add another</span>
-      </button>
-    </mat-menu>
   </mat-card-content>
 </mat-card>
