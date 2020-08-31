@@ -105,7 +105,8 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
         request_token = await get_oauth_token(
             config['twitter']['consumer_key'],
             config['twitter']['consumer_secret'],
-            callback_uri='http://127.0.0.1:8000/api/twitter/callback',
+            callback_uri=f""""""
+            f"""{config["frontend_url"]}/dashboard/twitter-callback?hood={hood.id}""",
         )
         if request_token['oauth_callback_confirmed'] != 'true':
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)

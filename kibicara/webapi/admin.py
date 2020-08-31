@@ -101,7 +101,7 @@ async def admin_register(values: BodyAdmin):
         admin = await Admin.objects.filter(email=values.email).all()
         if admin:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-        body = f'{config["root_url"]}/confirm?token={register_token}'
+        body = f'{config["frontend_url"]}/confirm?token={register_token}'
         logger.debug(body)
         email.send_email(
             to=values.email, subject='Confirm Account', body=body,
