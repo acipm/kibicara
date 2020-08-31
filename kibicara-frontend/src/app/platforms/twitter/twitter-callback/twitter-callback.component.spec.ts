@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TwitterDialogComponent } from './twitter-dialog.component';
+import { TwitterCallbackComponent } from './twitter-callback.component';
 
-describe('TwitterDialogComponent', () => {
-  let component: TwitterDialogComponent;
-  let fixture: ComponentFixture<TwitterDialogComponent>;
+describe('TwitterCallbackComponent', () => {
+  let component: TwitterCallbackComponent;
+  let fixture: ComponentFixture<TwitterCallbackComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TwitterDialogComponent],
+      declarations: [TwitterCallbackComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TwitterDialogComponent);
+    fixture = TestBed.createComponent(TwitterCallbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

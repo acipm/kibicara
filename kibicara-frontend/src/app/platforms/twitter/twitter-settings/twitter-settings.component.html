@@ -17,7 +17,7 @@
   <mat-card-content>
     <mat-list *ngIf="twitters$ | async as twitters">
       <mat-list-item *ngIf="twitters.length === 0">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onCreate()">
           <mat-icon>add</mat-icon>
           <span> Add a platform connection!</span>
         </button>
@@ -36,17 +36,17 @@
           </button>
         </div>
         <mat-divider></mat-divider>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onDelete(twitter.id)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button mat-menu-item (click)="onCreate()">
+            <mat-icon>add</mat-icon>
+            <span>Add another</span>
+          </button>
+        </mat-menu>
       </mat-list-item>
     </mat-list>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        <span>Delete</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>add</mat-icon>
-        <span>Add another</span>
-      </button>
-    </mat-menu>
   </mat-card-content>
 </mat-card>

@@ -8,8 +8,8 @@ import { EmailDialogComponent } from './email/email-dialog/email-dialog.componen
 import { EmailInfoDialogComponent } from './email/email-info-dialog/email-info-dialog.component';
 import { TelegramInfoDialogComponent } from './telegram/telegram-info-dialog/telegram-info-dialog.component';
 import { TelegramDialogComponent } from './telegram/telegram-dialog/telegram-dialog.component';
-import { TwitterDialogComponent } from './twitter/twitter-dialog/twitter-dialog.component';
 import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitter-info-dialog.component';
+import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-callback.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,8 @@ import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitte
     EmailInfoDialogComponent,
     TelegramInfoDialogComponent,
     TelegramDialogComponent,
-    TwitterDialogComponent,
     TwitterInfoDialogComponent,
+    TwitterCallbackComponent,
   ],
   imports: [CommonModule, SharedModule],
   exports: [

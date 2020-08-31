@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_BASE_PATH: 'http://localhost:8000',
-  EMAIL_DOMAIN: 'localhost',
+  API_BASE_PATH: 'http://127.0.0.1:8000',
+  EMAIL_DOMAIN: '127.0.0.1',
 };
 
 /*
