@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { TwitterService } from 'src/app/core/api';
 import { TwitterInfoDialogComponent } from '../twitter-info-dialog/twitter-info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-twitter-settings',
@@ -15,7 +16,8 @@ export class TwitterSettingsComponent implements OnInit {
 
   constructor(
     private twitterService: TwitterService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +47,31 @@ export class TwitterSettingsComponent implements OnInit {
         window.location.href = redirectUrl;
       }
     });
+  }
+
+  onChange(twitter) {
+    if (twitter.enabled === 0) {
+      this.twitterService.startTwitter(twitter.id, this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not start. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    } else if (twitter.enabled === 1) {
+      this.twitterService.stopTwitter(twitter.id, this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not stop. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    }
+    // TODO yeah i know this is bad, implement disabling/enabling
+    setTimeout(() => {
+      this.reload();
+    }, 100);
   }
 }

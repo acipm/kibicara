@@ -26,7 +26,10 @@
       <mat-list-item *ngFor="let twitter of twitters">
         <div class="entry">
           @{{ twitter.username }}
-          <mat-slide-toggle></mat-slide-toggle>
+          <mat-slide-toggle
+            [checked]="twitter.enabled === 1"
+            (change)="onChange(twitter)"
+          ></mat-slide-toggle>
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
