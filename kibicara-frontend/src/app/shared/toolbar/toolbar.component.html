@@ -2,21 +2,63 @@
   <a mat-button [routerLink]="['/']" routerLinkActive="router-link-active"
     >Kibicara</a
   >
-  <a mat-button [routerLink]="['/hoods']" routerLinkActive="router-link-active"
+  <a
+    mat-button
+    [routerLink]="['/hoods']"
+    routerLinkActive="router-link-active"
+    class="hide-button"
     >All hoods</a
+  >
+  <a
+    mat-icon-button
+    [routerLink]="['/hoods']"
+    routerLinkActive="router-link-active"
+    class="show-button"
+    ><mat-icon>search</mat-icon></a
   >
   <a
     mat-button
     [routerLink]="['/organizers']"
     routerLinkActive="router-link-active"
+    class="hide-button"
     >Become a hood admin!</a
+  >
+  <a
+    mat-icon-button
+    [routerLink]="['/organizers']"
+    routerLinkActive="router-link-active"
+    class="show-button"
+    ><mat-icon>add_box</mat-icon></a
   >
   <span class="example-spacer"></span>
   <div *ngIf="authenticated; else unauthenticated">
-    <a mat-raised-button [routerLink]="['/dashboard']" routerLinkActive="router-link-active">Dashboard</a>
-    <a mat-button (click)="onLogout()" routerLinkActive="router-link-active">Logout</a>
+    <a
+      mat-raised-button
+      [routerLink]="['/dashboard']"
+      routerLinkActive="router-link-active"
+      >Dashboard</a
+    >
+    <a
+      mat-button
+      (click)="onLogout()"
+      routerLinkActive="router-link-active"
+      class="hide-button"
+      >Logout</a
+    >
+    <a
+      mat-button
+      (click)="onLogout()"
+      routerLinkActive="router-link-active"
+      class="show-button"
+      ><mat-icon>exit_to_app</mat-icon></a
+    >
   </div>
   <ng-template #unauthenticated>
-    <a mat-button [routerLink]="['/login']" routerLinkActive="router-link-active">Login</a>
+    <a
+      mat-button
+      [routerLink]="['/login']"
+      routerLinkActive="router-link-active"
+      >Login</a
+    >
   </ng-template>
 </mat-toolbar>

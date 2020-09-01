@@ -1,3 +1,16 @@
 .example-spacer {
   flex: 1 auto;
 }
+
+.hide-button {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+
+.show-button {
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: initial;
+  }
+}
