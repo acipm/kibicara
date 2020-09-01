@@ -31,6 +31,14 @@ export class TwitterCallbackComponent implements OnInit {
             this.route.snapshot.queryParams['hood'],
           ]);
         });
+    } else if (
+      this.route.snapshot.queryParams['hood'] &&
+      this.route.snapshot.queryParams['denied']
+    ) {
+      this.router.navigate([
+        '/dashboard/hoods',
+        this.route.snapshot.queryParams['hood'],
+      ]);
     } else {
       this.router.navigate(['/404']);
     }

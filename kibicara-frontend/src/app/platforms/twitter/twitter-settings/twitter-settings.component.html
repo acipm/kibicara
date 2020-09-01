@@ -23,7 +23,7 @@
         </button>
         <mat-divider></mat-divider>
       </mat-list-item>
-      <mat-list-item *ngFor="let twitter of twitters">
+      <mat-list-item *ngFor="let twitter of twitters | twitterCorpses">
         <div class="entry">
           @{{ twitter.username }}
           <mat-slide-toggle
