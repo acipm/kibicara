@@ -4,6 +4,7 @@ import { Observer, Observable } from 'rxjs';
 import { TelegramInfoDialogComponent } from '../telegram-info-dialog/telegram-info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TelegramDialogComponent } from '../telegram-dialog/telegram-dialog.component';
+import { YesNoDialogComponent } from 'src/app/shared/yes-no-dialog/yes-no-dialog.component';
 
 @Component({
   selector: 'app-telegram-settings',
@@ -32,11 +33,23 @@ export class TelegramSettingsComponent implements OnInit {
   }
 
   onDelete(telegramId) {
-    this.telegramService
-      .deleteTelegram(telegramId, this.hoodId)
-      .subscribe(() => {
-        this.reload();
-      });
+    const dialogRef = this.dialog.open(YesNoDialogComponent, {
+      data: {
+        title: 'Warning',
+        content:
+          'This will also delete the list of subscribers of the telegram bot.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
+        this.telegramService
+          .deleteTelegram(telegramId, this.hoodId)
+          .subscribe(() => {
+            this.reload();
+          });
+      }
+    });
   }
 
   onCreate() {

@@ -6,9 +6,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
 
 @NgModule({
-  declarations: [ToolbarComponent, NotFoundComponent],
+  declarations: [ToolbarComponent, NotFoundComponent, YesNoDialogComponent],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
