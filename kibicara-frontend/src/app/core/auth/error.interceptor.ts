@@ -10,10 +10,16 @@ import { Observable, throwError } from 'rxjs';
 import { LoginService } from './login.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OverlayComponent } from 'src/app/shared/overlay/overlay.component';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -24,6 +30,12 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err.error instanceof ProgressEvent) {
           // TODO Add spinner/overlay in app to prevent user input
           console.log('Networkerror');
+          this._snackBar.openFromComponent(OverlayComponent, {
+            verticalPosition: 'top',
+          });
+          setTimeout(function () {
+            window.location.reload();
+          }, 20000);
         } else if (err.status === 401) {
           this.loginService.logout();
           location.reload(true);

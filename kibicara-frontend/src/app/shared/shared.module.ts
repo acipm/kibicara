@@ -7,9 +7,15 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
+import { OverlayComponent } from './overlay/overlay.component';
 
 @NgModule({
-  declarations: [ToolbarComponent, NotFoundComponent, YesNoDialogComponent],
+  declarations: [
+    ToolbarComponent,
+    NotFoundComponent,
+    YesNoDialogComponent,
+    OverlayComponent,
+  ],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
