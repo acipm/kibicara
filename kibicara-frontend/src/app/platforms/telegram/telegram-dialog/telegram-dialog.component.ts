@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TelegramService } from 'src/app/core/api';
+import { TelegramService, BodyTelegram } from 'src/app/core/api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-telegram-dialog',
@@ -26,31 +27,65 @@ export class TelegramDialogComponent implements OnInit {
       api_token: ['', Validators.required],
       welcome_message: '',
     });
+
+    if (this.data.telegramId) {
+      this.telegramService
+        .getTelegram(this.data.telegramId, this.data.hoodId)
+        .subscribe((data) => {
+          this.form.controls.api_token.setValue(data.api_token);
+          this.form.controls.welcome_message.setValue(data.welcome_message);
+        });
+    }
   }
 
   onCancel() {
     this.dialogRef.close();
   }
 
+  success() {
+    this.dialogRef.close();
+  }
+
+  error() {
+    this.snackBar.open('Invalid API Key. Try again!', 'Close', {
+      duration: 2000,
+    });
+  }
+
   onSubmit() {
     if (this.form.invalid) {
       return;
     }
-    this.telegramService
-      .createTelegram(this.data.hoodId, {
-        api_token: this.form.controls.api_token.value,
-        welcome_message: this.form.controls.welcome_message.value,
-      })
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.dialogRef.close();
-        },
-        (error) => {
-          this.snackBar.open('Invalid API Key. Try again!', 'Close', {
-            duration: 2000,
-          });
-        }
-      );
+
+    const response = {
+      api_token: this.form.controls.api_token.value,
+      welcome_message: this.form.controls.welcome_message.value,
+    };
+
+    if (this.data.telegramId) {
+      this.telegramService
+        .updateTelegram(this.data.telegramId, this.data.hoodId, response)
+        .pipe(first())
+        .subscribe(
+          () => {
+            this.success();
+          },
+          () => {
+            this.error();
+          }
+        );
+    } else {
+      this.telegramService
+        .createTelegram(this.data.hoodId, response)
+        .pipe(first())
+        .subscribe(
+          () => {
+            this.success();
+          },
+          () => {
+            this.error();
+          }
+        );
+    }
   }
 }
