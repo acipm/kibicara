@@ -10,6 +10,7 @@ import { TelegramInfoDialogComponent } from './telegram/telegram-info-dialog/tel
 import { TelegramDialogComponent } from './telegram/telegram-dialog/telegram-dialog.component';
 import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitter-info-dialog.component';
 import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-callback.component';
+import { TwitterCorpsesPipe } from './twitter/twitter-corpses-pipe/twitter-corpses.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-cal
     TelegramDialogComponent,
     TwitterInfoDialogComponent,
     TwitterCallbackComponent,
+    TwitterCorpsesPipe,
   ],
   imports: [CommonModule, SharedModule],
   exports: [
