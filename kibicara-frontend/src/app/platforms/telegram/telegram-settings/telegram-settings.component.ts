@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TelegramService } from 'src/app/core/api';
-import { Observer, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TelegramInfoDialogComponent } from '../telegram-info-dialog/telegram-info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TelegramDialogComponent } from '../telegram-dialog/telegram-dialog.component';
 import { YesNoDialogComponent } from 'src/app/shared/yes-no-dialog/yes-no-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-telegram-settings',
@@ -17,7 +18,8 @@ export class TelegramSettingsComponent implements OnInit {
 
   constructor(
     private telegramService: TelegramService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -70,5 +72,31 @@ export class TelegramSettingsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.reload();
     });
+  }
+
+  onChange(telegram) {
+    if (telegram.enabled === 0) {
+      this.telegramService.startTelegram(telegram.id, this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not start. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    } else if (telegram.enabled === 1) {
+      this.telegramService.stopTelegram(telegram.id, this.hoodId).subscribe(
+        () => {},
+        (error) => {
+          this.snackBar.open('Could not stop. Check your settings.', 'Close', {
+            duration: 2000,
+          });
+        }
+      );
+    }
+    // TODO yeah i know this is bad, implement disabling/enabling
+    setTimeout(() => {
+      this.reload();
+    }, 100);
   }
 }

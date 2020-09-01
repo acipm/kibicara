@@ -26,7 +26,10 @@
       <mat-list-item *ngFor="let telegram of telegrams">
         <div class="entry">
           @{{ telegram.username }}
-          <mat-slide-toggle></mat-slide-toggle>
+          <mat-slide-toggle
+            [checked]="telegram.enabled === 1"
+            (change)="onChange(telegram)"
+          ></mat-slide-toggle>
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
