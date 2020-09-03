@@ -1,0 +1,11 @@
+.twitter {
+  background-image: url("../../../../assets/twitter.png");
+  background-size: cover;
+}
+
+.platform-title {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  width: 100%;
+  align-items: center;
+}

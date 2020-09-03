@@ -1,0 +1,32 @@
+<div *ngIf="twitters$ | async as twitters">
+  <mat-card *ngIf="twitters.length !== 0">
+    <mat-card-header>
+      <div mat-card-avatar class="twitter"></div>
+      <mat-card-title class="platform-title">
+        Twitter
+        <button mat-icon-button aria-label="How to use">
+          <mat-icon
+            matTooltip="How to send and receive hood broadcast messages with twitter"
+            class="info-button"
+            (click)="onInfoClick()"
+            >info</mat-icon
+          >
+        </button>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-selection-list [multiple]="false" class="list">
+        <a
+          *ngFor="let twitter of twitters"
+          href="https://twitter.com/{{ twitter.username }}"
+          routerLinkActive="router-link-active"
+        >
+          <mat-list-option>
+            @{{ twitter.username }}
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </a>
+      </mat-selection-list>
+    </mat-card-content>
+  </mat-card>
+</div>
