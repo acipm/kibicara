@@ -1,0 +1,27 @@
+.email {
+  background-image: url("../../../../assets/email.png");
+  background-size: cover;
+}
+
+.platform-title {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  width: 100%;
+  align-items: center;
+}
+
+.input {
+  display: grid;
+  grid-template-columns: 4fr 50px;
+  width: 100%;
+  margin: 10px;
+}
+
+.button {
+  align-self: stretch;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}

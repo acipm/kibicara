@@ -1,0 +1,43 @@
+<div *ngIf="emails$ | async as emails">
+  <mat-card *ngIf="emails.length !== 0">
+    <mat-card-header>
+      <div mat-card-avatar class="email"></div>
+      <mat-card-title class="platform-title">
+        E-Mail
+        <button mat-icon-button aria-label="How to use">
+          <mat-icon
+            matTooltip="How to send and receive hood broadcast messages with email"
+            class="info-button"
+            (click)="onInfoClick()"
+            >info</mat-icon
+          >
+        </button>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h3>Subscribe to E-Mail list:</h3>
+      <form class="input" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Your E-Mail</mat-label>
+          <input formControlName="email" matInput />
+        </mat-form-field>
+        <button mat-icon-button color="primary" aria-label="Add" class="button">
+          <mat-icon>person_add</mat-icon>
+        </button>
+      </form>
+      <mat-divider></mat-divider>
+      <h3>Send e-mail to hood:</h3>
+      <mat-selection-list [multiple]="false" class="list">
+        <a
+          *ngFor="let email of emails"
+          href="mailto:{{ email.name }}@{{ emailDomain }}"
+        >
+          <mat-list-option>
+            {{ email.name }}@{{ emailDomain }}
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </a>
+      </mat-selection-list>
+    </mat-card-content>
+  </mat-card>
+</div>
