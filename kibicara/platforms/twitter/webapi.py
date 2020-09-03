@@ -6,15 +6,20 @@ from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.config import config
 from kibicara.platforms.twitter.bot import spawner
 from kibicara.platforms.twitter.model import Twitter
-from kibicara.webapi.hoods import get_hood
+from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
 from sqlite3 import IntegrityError
 from ormantic.exceptions import NoMatch
 from peony.oauth_dance import get_oauth_token, get_access_token
 from peony.exceptions import NotAuthenticated
+from pydantic import BaseModel
 
 
 logger = getLogger(__name__)
+
+
+class BodyTwitterPublic(BaseModel):
+    username: str
 
 
 async def get_twitter(twitter_id: int, hood=Depends(get_hood)):
@@ -26,6 +31,20 @@ async def get_twitter(twitter_id: int, hood=Depends(get_hood)):
 
 router = APIRouter()
 twitter_callback_router = APIRouter()
+
+
+@router.get(
+    '/public',
+    # TODO response_model,
+    operation_id='get_twitters_public',
+)
+async def twitter_read_all_public(hood=Depends(get_hood_unauthorized)):
+    twitterbots = await Twitter.objects.filter(hood=hood).all()
+    return [
+        BodyTwitterPublic(username=twitterbot.username)
+        for twitterbot in twitterbots
+        if twitterbot.verified == 1 and twitterbot.enabled == 1
+    ]
 
 
 @router.get(
