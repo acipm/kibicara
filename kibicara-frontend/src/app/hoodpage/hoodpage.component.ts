@@ -9,6 +9,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./hoodpage.component.scss'],
 })
 export class HoodpageComponent implements OnInit {
+  hoodId;
   hood: BodyHood;
 
   constructor(
@@ -18,10 +19,10 @@ export class HoodpageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const hoodId = this.route.snapshot.params['id'];
-    if (hoodId) {
+    this.hoodId = this.route.snapshot.params['id'];
+    if (this.hoodId) {
       this.hoodsService
-        .getHood(hoodId)
+        .getHood(this.hoodId)
         .pipe(first())
         .subscribe((data) => {
           this.hood = data;

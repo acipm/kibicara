@@ -1,5 +1,8 @@
-<h1>
-  {{ hood.name }}
-</h1>
+<div class="container">
+  <h1 class="heading">Hood - {{ hood.name }}</h1>
+  <div>
+    <markdown class="markdown" [data]="hood.landingpage"></markdown>
+  </div>
 
-<markdown class="markdown" [data]="hood.landingpage"></markdown>
+  <app-platforms-info-page [hoodId]="hoodId"></app-platforms-info-page>
+</div>
