@@ -33,6 +33,10 @@ class BodyEmail(BaseModel):
         return value
 
 
+class BodyEmailPublic(BaseModel):
+    name: str
+
+
 class BodyMessage(BaseModel):
     """ This model shows which values are supplied by the MDA listener script. """
 
@@ -68,6 +72,18 @@ async def get_subscriber(subscriber_id: int, hood=Depends(get_hood)):
 
 # registers the routes, gets imported in /kibicara/webapi/__init__.py
 router = APIRouter()
+
+
+@router.get(
+    '/public',
+    # TODO response_model
+    operation_id='get_emails_public',
+)
+async def email_read_all_public(hood=Depends(get_hood_unauthorized)):
+    if hood.email_enabled:
+        emails = await Email.objects.filter(hood=hood).all()
+        return [BodyEmailPublic(name=email.name) for email in emails]
+    return []
 
 
 @router.get(
