@@ -25,6 +25,7 @@ import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ErrorInterceptor } from './core/auth/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkdownModule } from 'ngx-markdown';
+import { PlatformsModule } from './platforms/platforms.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MarkdownModule } from 'ngx-markdown';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    PlatformsModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [

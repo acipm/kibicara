@@ -11,6 +11,14 @@ import { TelegramDialogComponent } from './telegram/telegram-dialog/telegram-dia
 import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitter-info-dialog.component';
 import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-callback.component';
 import { TwitterCorpsesPipe } from './twitter/twitter-corpses-pipe/twitter-corpses.pipe';
+import { PlatformsInfoPageComponent } from './platforms-info-page/platforms-info-page.component';
+import { EmailBotCardComponent } from './email/email-bot-card/email-bot-card.component';
+import { TelegramBotCardComponent } from './telegram/telegram-bot-card/telegram-bot-card.component';
+import { TwitterBotCardComponent } from './twitter/twitter-bot-card/twitter-bot-card.component';
+import { PlatformsInfoDialogComponent } from './platforms-info-page/platforms-info-dialog/platforms-info-dialog.component';
+import { EmailBotInfoDialogComponent } from './email/email-bot-card/email-bot-info-dialog/email-bot-info-dialog.component';
+import { TelegramBotInfoDialogComponent } from './telegram/telegram-bot-card/telegram-bot-info-dialog/telegram-bot-info-dialog.component';
+import { TwitterBotInfoDialogComponent } from './twitter/twitter-bot-card/twitter-bot-info-dialog/twitter-bot-info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,12 +32,21 @@ import { TwitterCorpsesPipe } from './twitter/twitter-corpses-pipe/twitter-corps
     TwitterInfoDialogComponent,
     TwitterCallbackComponent,
     TwitterCorpsesPipe,
+    PlatformsInfoPageComponent,
+    EmailBotCardComponent,
+    TelegramBotCardComponent,
+    TwitterBotCardComponent,
+    PlatformsInfoDialogComponent,
+    EmailBotInfoDialogComponent,
+    TelegramBotInfoDialogComponent,
+    TwitterBotInfoDialogComponent,
   ],
   imports: [CommonModule, SharedModule],
   exports: [
     TelegramSettingsComponent,
     TwitterSettingsComponent,
     EmailSettingsComponent,
+    PlatformsInfoPageComponent,
   ],
 })
 export class PlatformsModule {}
