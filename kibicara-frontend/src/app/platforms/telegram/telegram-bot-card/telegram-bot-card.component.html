@@ -1,0 +1,32 @@
+<div *ngIf="telegrams$ | async as telegrams">
+  <mat-card *ngIf="telegrams.length !== 0">
+    <mat-card-header>
+      <div mat-card-avatar class="telegram"></div>
+      <mat-card-title class="platform-title">
+        Telegram
+        <button mat-icon-button aria-label="How to use">
+          <mat-icon
+            matTooltip="How to send and receive hood broadcast messages with telegram"
+            class="info-button"
+            (click)="onInfoClick()"
+            >info</mat-icon
+          >
+        </button>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-selection-list [multiple]="false" class="list">
+        <a
+          *ngFor="let telegram of telegrams"
+          href="https://t.me/{{ telegram.username }}"
+          routerLinkActive="router-link-active"
+        >
+          <mat-list-option>
+            @{{ telegram.username }}
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </a>
+      </mat-selection-list>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,11 @@
+.telegram {
+  background-image: url("../../../../assets/telegram.png");
+  background-size: cover;
+}
+
+.platform-title {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  width: 100%;
+  align-items: center;
+}
