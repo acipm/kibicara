@@ -7,7 +7,7 @@ from aiogram import exceptions
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.platforms.telegram.bot import spawner
 from kibicara.platforms.telegram.model import Telegram
-from kibicara.webapi.hoods import get_hood
+from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
 from sqlite3 import IntegrityError
 from ormantic.exceptions import NoMatch
@@ -30,6 +30,10 @@ class BodyTelegram(BaseModel):
             raise ValueError(e)
 
 
+class BodyTelegramPublic(BaseModel):
+    username: str
+
+
 async def get_telegram(telegram_id: int, hood=Depends(get_hood)):
     try:
         return await Telegram.objects.get(id=telegram_id, hood=hood)
@@ -39,6 +43,20 @@ async def get_telegram(telegram_id: int, hood=Depends(get_hood)):
 
 router = APIRouter()
 telegram_callback_router = APIRouter()
+
+
+@router.get(
+    '/public',
+    # TODO response_model,
+    operation_id='get_telegrams_public',
+)
+async def telegram_read_all_public(hood=Depends(get_hood_unauthorized)):
+    telegrambots = await Telegram.objects.filter(hood=hood).all()
+    return [
+        BodyTelegramPublic(username=telegrambot.username)
+        for telegrambot in telegrambots
+        if telegrambot.enabled == 1
+    ]
 
 
 @router.get(
