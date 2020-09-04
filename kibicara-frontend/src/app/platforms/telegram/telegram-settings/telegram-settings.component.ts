@@ -66,7 +66,7 @@ export class TelegramSettingsComponent implements OnInit {
 
   onEdit(telegramId) {
     const dialogRef = this.dialog.open(TelegramDialogComponent, {
-      data: { hoodId: this.hoodId, telegramId: telegramId },
+      data: { hoodId: this.hoodId, telegramId },
     });
 
     dialogRef.afterClosed().subscribe(() => {

@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
-    if (this.route.snapshot.queryParams['error']) {
+    if (this.route.snapshot.queryParams.error) {
       this.snackBar.open(
         'Invalid confirmation link. Try registering again',
         'Close',

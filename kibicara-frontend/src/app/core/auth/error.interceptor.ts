@@ -18,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   intercept(
@@ -30,15 +30,15 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err.error instanceof ProgressEvent) {
           // TODO Add spinner/overlay in app to prevent user input
           console.log('Networkerror');
-          this._snackBar.openFromComponent(OverlayComponent, {
+          this.snackBar.openFromComponent(OverlayComponent, {
             verticalPosition: 'top',
           });
-          setTimeout(function () {
+          setTimeout(() => {
             window.location.reload();
           }, 20000);
         } else if (err.status === 401) {
           this.loginService.logout();
-          location.reload(true);
+          location.reload();
         } else if (err.status === 404) {
           this.router.navigate(['/404']);
         }

@@ -34,10 +34,9 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/dashboard';
 
-    if (this.route.snapshot.queryParams['registered'] === true) {
+    if (this.route.snapshot.queryParams.registered === true) {
       this.snackBar.open('Registration successful', 'Close', {
         duration: 2000,
       });

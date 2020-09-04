@@ -16,7 +16,7 @@ export class ConfirmComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = this.route.snapshot.queryParams['token'];
+    const token = this.route.snapshot.queryParams.token;
     if (token) {
       this.adminService
         .confirm(token)

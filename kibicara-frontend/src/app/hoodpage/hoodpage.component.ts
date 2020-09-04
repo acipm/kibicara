@@ -19,7 +19,7 @@ export class HoodpageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hoodId = this.route.snapshot.params['id'];
+    this.hoodId = this.route.snapshot.params.id;
     if (this.hoodId) {
       this.hoodsService
         .getHood(this.hoodId)

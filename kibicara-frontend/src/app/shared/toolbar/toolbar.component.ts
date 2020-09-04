@@ -14,7 +14,7 @@ export class ToolbarComponent implements OnInit {
   authenticated = false;
 
   constructor(private loginService: LoginService, private router: Router) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
 

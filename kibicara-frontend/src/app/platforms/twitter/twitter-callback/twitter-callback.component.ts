@@ -16,28 +16,28 @@ export class TwitterCallbackComponent implements OnInit {
 
   ngOnInit(): void {
     if (
-      this.route.snapshot.queryParams['hood'] &&
-      this.route.snapshot.queryParams['oauth_token'] &&
-      this.route.snapshot.queryParams['oauth_verifier']
+      this.route.snapshot.queryParams.hood &&
+      this.route.snapshot.queryParams.oauth_token &&
+      this.route.snapshot.queryParams.oauth_verifier
     ) {
       this.twitterService
         .callbackTwitter(
-          this.route.snapshot.queryParams['oauth_token'],
-          this.route.snapshot.queryParams['oauth_verifier']
+          this.route.snapshot.queryParams.oauth_token,
+          this.route.snapshot.queryParams.oauth_verifier
         )
         .subscribe(() => {
           this.router.navigate([
             '/dashboard/hoods',
-            this.route.snapshot.queryParams['hood'],
+            this.route.snapshot.queryParams.hood,
           ]);
         });
     } else if (
-      this.route.snapshot.queryParams['hood'] &&
-      this.route.snapshot.queryParams['denied']
+      this.route.snapshot.queryParams.hood &&
+      this.route.snapshot.queryParams.denied
     ) {
       this.router.navigate([
         '/dashboard/hoods',
-        this.route.snapshot.queryParams['hood'],
+        this.route.snapshot.queryParams.hood,
       ]);
     } else {
       this.router.navigate(['/404']);

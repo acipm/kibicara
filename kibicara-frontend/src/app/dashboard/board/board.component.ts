@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hoodId = this.route.snapshot.params['id'];
+    this.hoodId = this.route.snapshot.params.id;
     this.hood$ = this.hoodService.getHood(this.hoodId);
   }
 }
