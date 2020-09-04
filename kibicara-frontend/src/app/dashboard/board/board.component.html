@@ -1,15 +1,13 @@
+<app-heading-one
+  *ngIf="hood$ | async as hood"
+  [title]="hood.name + ' (Hood)'"
+></app-heading-one>
 <div class="back">
   <a mat-button [routerLink]="['/dashboard']"
     ><mat-icon>keyboard_backspace</mat-icon> back</a
   >
 </div>
 <div class="dashboard">
-  <mat-card>
-    <mat-card-title *ngIf="hood$ | async as hood">
-      Your Hood - <strong>{{ hood.name }}</strong>
-    </mat-card-title>
-  </mat-card>
-
   <mat-tab-group>
     <mat-tab label="Filters">
       <app-hoodsettings [hoodId]="hoodId"> </app-hoodsettings>

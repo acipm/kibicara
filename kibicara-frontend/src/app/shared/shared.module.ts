@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
 import { OverlayComponent } from './overlay/overlay.component';
+import { HeadingOneComponent } from './heading-one/heading-one.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { OverlayComponent } from './overlay/overlay.component';
     NotFoundComponent,
     YesNoDialogComponent,
     OverlayComponent,
+    HeadingOneComponent,
   ],
   imports: [
     MaterialModule,
@@ -27,6 +29,7 @@ import { OverlayComponent } from './overlay/overlay.component';
   exports: [
     ToolbarComponent,
     NotFoundComponent,
+    HeadingOneComponent,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,

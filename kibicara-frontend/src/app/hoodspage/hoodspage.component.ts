@@ -9,6 +9,7 @@ import { HoodsService } from '../core/api/api/hoods.service';
 export class HoodspageComponent implements OnInit {
   hoods$;
   searchText: string;
+  title = 'Discover hoods';
 
   constructor(private readonly hoodsService: HoodsService) {}
 
