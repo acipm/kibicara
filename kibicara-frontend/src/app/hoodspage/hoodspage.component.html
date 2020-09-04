@@ -1,8 +1,14 @@
-<!-- <div class="banner">
-  <h1>Discover hoods</h1>
-</div> -->
 <app-heading-one [title]="title"></app-heading-one>
 <div class="page">
+  <div class="description">
+    <p class="text">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </p>
+    <div class="banner"></div>
+  </div>
   <mat-form-field class="searchbar">
     <mat-label> <mat-icon>search</mat-icon> Search for hoods</mat-label>
     <input matInput type="search" [(ngModel)]="searchText" autocomplete="off" />
