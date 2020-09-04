@@ -16,10 +16,9 @@
   grid-template-columns: 1fr 1fr;
   margin-left: 10%;
   margin-right: 10%;
-  margin-top: 5%;
+  margin-top: 10%;
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
-    margin-top: 10%;
     margin-left: 5%;
     margin-right: 5%;
   }

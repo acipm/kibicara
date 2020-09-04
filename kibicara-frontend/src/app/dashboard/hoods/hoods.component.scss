@@ -5,10 +5,13 @@
   padding-top: 10%;
   padding-left: 15%;
   padding-right: 15%;
+  padding-bottom: 15%;
   @media (max-width: 600px) {
     text-align: center;
     padding-left: 10%;
     padding-right: 10%;
+    padding-bottom: 5%;
+    padding-top: 15%;
   }
 }
 
