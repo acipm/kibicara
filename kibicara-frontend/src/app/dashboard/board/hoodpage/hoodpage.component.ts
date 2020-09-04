@@ -13,12 +13,12 @@ export class HoodpageComponent implements OnInit {
   submit = false;
   hood: BodyHood;
 
-  constructor(private hoodService: HoodsService) {}
+  constructor(private hoodsService: HoodsService) {}
 
   markdown = `# TODO Hoodpage`;
 
   ngOnInit(): void {
-    this.hoodService.getHood(this.hoodId).subscribe((hood) => {
+    this.hoodsService.getHood(this.hoodId).subscribe((hood) => {
       if (hood) {
         this.hood = hood;
         if (hood.landingpage && hood.landingpage !== '') {
@@ -31,7 +31,7 @@ export class HoodpageComponent implements OnInit {
   onSubmit() {
     this.submit = true;
     this.hood.landingpage = this.markdown;
-    this.hoodService
+    this.hoodsService
       .updateHood(this.hoodId, this.hood)
       .pipe(first())
       .subscribe(

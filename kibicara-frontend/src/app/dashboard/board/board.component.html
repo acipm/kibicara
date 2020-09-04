@@ -18,5 +18,11 @@
     <mat-tab label="Hoodpage">
       <app-hoodpage [hoodId]="hoodId"></app-hoodpage>
     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>settings</mat-icon>
+      </ng-template>
+      <app-settings [hoodId]="hoodId"></app-settings>
+    </mat-tab>
   </mat-tab-group>
 </div>

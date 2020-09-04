@@ -13,6 +13,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient } from '@angular/common/http';
 import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.component';
 import { PlatformsModule } from '../platforms/platforms.module';
+import { SettingsComponent } from './board/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PlatformsModule } from '../platforms/platforms.module';
     TriggerComponent,
     BadwordsComponent,
     NewHoodDialogComponent,
+    SettingsComponent,
   ],
   imports: [
     DashboardRoutingModule,
