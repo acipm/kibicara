@@ -22,7 +22,7 @@ logger = getLogger(__name__)
 
 
 class Main:
-    """ Entrypoint for Kibicara.
+    """Entrypoint for Kibicara.
 
     Initializes the platform bots and starts the hypercorn webserver serving the
     Kibicara application and the specified frontend on port 8000.

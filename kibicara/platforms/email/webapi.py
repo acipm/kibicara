@@ -51,7 +51,7 @@ class BodySubscriber(BaseModel):
 
 
 async def get_email(email_id: int, hood=Depends(get_hood)):
-    """ Get Email row by hood.
+    """Get Email row by hood.
     You can specify an email_id to nail it down, but it works without as well.
 
     :param hood: Hood the Email bot belongs to.
@@ -102,7 +102,7 @@ async def email_read_all(hood=Depends(get_hood)):
     operation_id='create_email',
 )
 async def email_create(values: BodyEmail, response: Response, hood=Depends(get_hood)):
-    """ Create an Email bot. Call this when creating a hood.
+    """Create an Email bot. Call this when creating a hood.
 
     :param hood: Hood row of the hood the Email bot is supposed to belong to.
     :return: Email row of the new email bot.
@@ -164,7 +164,7 @@ async def email_read(email=Depends(get_email)):
     '/{email_id}', status_code=status.HTTP_204_NO_CONTENT, operation_id='delete_email'
 )
 async def email_delete(email=Depends(get_email)):
-    """ Delete an Email bot.
+    """Delete an Email bot.
     Stops and deletes the Email bot.
 
     :param hood: Hood the Email bot belongs to.
@@ -181,7 +181,7 @@ async def email_delete(email=Depends(get_email)):
 async def email_subscribe(
     subscriber: BodySubscriber, hood=Depends(get_hood_unauthorized)
 ):
-    """ Send a confirmation mail to subscribe to messages via email.
+    """Send a confirmation mail to subscribe to messages via email.
 
     :param subscriber: Subscriber object, holds the email address.
     :param hood: Hood the Email bot belongs to.
@@ -218,7 +218,7 @@ async def email_subscribe(
     response_model=BaseModel,
 )
 async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
-    """ Confirm a new subscriber and add them to the database.
+    """Confirm a new subscriber and add them to the database.
 
     :param token: encrypted JSON token, holds the email of the subscriber.
     :param hood: Hood the Email bot belongs to.
@@ -241,7 +241,7 @@ async def email_subscribe_confirm(token, hood=Depends(get_hood_unauthorized)):
     operation_id='unsubscribe',
 )
 async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
-    """ Remove a subscriber from the database when they click on an unsubscribe link.
+    """Remove a subscriber from the database when they click on an unsubscribe link.
 
     :param token: encrypted JSON token, holds subscriber email + hood.id.
     :param hood: Hood the Email bot belongs to.
@@ -284,7 +284,7 @@ async def subscribers_read(subscriber=Depends(get_subscriber)):
 async def email_message_create(
     message: BodyMessage, hood=Depends(get_hood_unauthorized)
 ):
-    """ Receive a message from the MDA and pass it to the censor.
+    """Receive a message from the MDA and pass it to the censor.
 
     :param message: BodyMessage object, holds the message.
     :param hood: Hood the Email bot belongs to.

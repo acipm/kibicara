@@ -85,7 +85,7 @@ router = APIRouter()
     operation_id='register',
 )
 async def admin_register(values: BodyAdmin):
-    """ Sends an email with a confirmation link.
+    """Sends an email with a confirmation link.
 
     - **email**: E-Mail Address of new hood admin
     - **password**: Password of new hood admin
@@ -104,7 +104,9 @@ async def admin_register(values: BodyAdmin):
         body = f'{config["frontend_url"]}/confirm?token={register_token}'
         logger.debug(body)
         email.send_email(
-            to=values.email, subject='Confirm Account', body=body,
+            to=values.email,
+            subject='Confirm Account',
+            body=body,
         )
     except (ConnectionRefusedError, SMTPException):
         logger.exception('Email sending failed')
@@ -113,10 +115,12 @@ async def admin_register(values: BodyAdmin):
 
 
 @router.post(
-    '/confirm/{register_token}', response_model=BodyAccessToken, operation_id='confirm',
+    '/confirm/{register_token}',
+    response_model=BodyAccessToken,
+    operation_id='confirm',
 )
 async def admin_confirm(register_token: str):
-    """ Registration confirmation and account creation.
+    """Registration confirmation and account creation.
 
     - **register_token**: Registration token received in email from /register
     """
@@ -130,10 +134,12 @@ async def admin_confirm(register_token: str):
 
 
 @router.post(
-    '/login/', response_model=BodyAccessToken, operation_id='login',
+    '/login/',
+    response_model=BodyAccessToken,
+    operation_id='login',
 )
 async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
-    """ Get an access token.
+    """Get an access token.
 
     - **username**: Email of a registered hood admin
     - **password**: Password of a registered hood admin

@@ -41,7 +41,9 @@ class EmailBot(Censor):
                 try:
                     logger.debug('Trying to send: \n%s' % body)
                     email.send_email(
-                        subscriber.email, "Kibicara " + self.hood.name, body=body,
+                        subscriber.email,
+                        "Kibicara " + self.hood.name,
+                        body=body,
                     )
                 except (ConnectionRefusedError, SMTPException):
                     logger.exception("Sending email to subscriber failed.")

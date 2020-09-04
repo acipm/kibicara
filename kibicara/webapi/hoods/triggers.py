@@ -53,7 +53,7 @@ async def trigger_read_all(hood=Depends(get_hood)):
 async def trigger_create(
     values: BodyTrigger, response: Response, hood=Depends(get_hood)
 ):
-    """ Creates a new trigger for hood with id **hood_id**.
+    """Creates a new trigger for hood with id **hood_id**.
 
     - **pattern**: Regular expression which is used to match a trigger.
     """
@@ -84,7 +84,7 @@ async def trigger_read(trigger=Depends(get_trigger)):
     operation_id='update_trigger',
 )
 async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
-    """ Updates trigger with id **trigger_id** for hood with id **hood_id**.
+    """Updates trigger with id **trigger_id** for hood with id **hood_id**.
 
     - **pattern**: Regular expression which is used to match a trigger
     """

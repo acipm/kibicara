@@ -52,7 +52,7 @@ async def badword_read_all(hood=Depends(get_hood)):
 async def badword_create(
     values: BodyBadWord, response: Response, hood=Depends(get_hood)
 ):
-    """ Creates a new badword for hood with id **hood_id**.
+    """Creates a new badword for hood with id **hood_id**.
 
     - **pattern**: Regular expression which is used to match a badword.
     """
@@ -83,7 +83,7 @@ async def badword_read(badword=Depends(get_badword)):
     operation_id='update_badword',
 )
 async def badword_update(values: BodyBadWord, badword=Depends(get_badword)):
-    """ Updates badword with id **badword_id** for hood with id **hood_id**.
+    """Updates badword with id **badword_id** for hood with id **hood_id**.
 
     - **pattern**: Regular expression which is used to match a badword
     """

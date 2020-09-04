@@ -62,7 +62,7 @@ async def hood_read_all():
     tags=['hoods'],
 )
 async def hood_create(values: BodyHood, response: Response, admin=Depends(get_admin)):
-    """ Creates a hood.
+    """Creates a hood.
 
     - **name**: Name of the hood
     - **landingpage**: Markdown formatted description of the hood
@@ -95,7 +95,7 @@ async def hood_read(hood=Depends(get_hood_unauthorized)):
     tags=['hoods'],
 )
 async def hood_update(values: BodyHood, hood=Depends(get_hood)):
-    """ Updates hood with id **hood_id**.
+    """Updates hood with id **hood_id**.
 
     - **name**: New name of the hood
     - **landingpage**: New Markdown formatted description of the hood

@@ -44,7 +44,7 @@ class BotStatus(Enum):
 
 
 class Censor:
-    """ The superclass for a platform bot.
+    """The superclass for a platform bot.
 
     The censor is the superclass for every platform bot. It distributes a message to all
     other bots from the same hood if it passes the message filter. It provides methods
@@ -111,14 +111,14 @@ class Censor:
             self.status = BotStatus.STOPPED
 
     async def run(self):
-        """ Entry point for a bot.
+        """Entry point for a bot.
 
         Note: Override this in the derived bot class.
         """
         pass
 
     async def publish(self, message):
-        """ Distribute a message to the bots in a hood.
+        """Distribute a message to the bots in a hood.
 
         Args:
             message (Message): Message to distribute
@@ -131,7 +131,7 @@ class Censor:
         return True
 
     async def receive(self):
-        """ Receive a message.
+        """Receive a message.
 
         Returns (Message): Received message
         """
@@ -151,7 +151,7 @@ class Censor:
 
 
 class Spawner:
-    """ Spawns a bot with a specific bot model.
+    """Spawns a bot with a specific bot model.
 
     Examples:
         ```
@@ -183,8 +183,7 @@ class Spawner:
 
     @classmethod
     async def init_all(cls):
-        """ Instantiate and start a bot for every row in the corresponding ORM model.
-        """
+        """Instantiate and start a bot for every row in the corresponding ORM model."""
         for spawner in cls.__instances:
             await spawner._init()
 
@@ -193,7 +192,7 @@ class Spawner:
             self.start(item)
 
     def start(self, item):
-        """ Instantiate and start a bot with the provided ORM object.
+        """Instantiate and start a bot with the provided ORM object.
 
         Example:
             ```
@@ -209,7 +208,7 @@ class Spawner:
             bot.start()
 
     def stop(self, item):
-        """ Stop and delete a bot.
+        """Stop and delete a bot.
 
         Args:
             item (ORM Model object): ORM object corresponding to bot.
@@ -219,7 +218,7 @@ class Spawner:
             bot.stop()
 
     def get(self, item):
-        """ Get a running bot.
+        """Get a running bot.
 
         Args:
             item (ORM Model object): ORM object corresponding to bot.

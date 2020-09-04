@@ -16,7 +16,7 @@ logger = getLogger(__name__)
 
 
 def send_email(to, subject, sender='kibicara', body=''):
-    """ E-Mail sender.
+    """E-Mail sender.
 
     Sends an E-Mail to a specified recipient with a body
 
