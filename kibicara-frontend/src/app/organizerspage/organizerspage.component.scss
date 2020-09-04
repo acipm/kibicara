@@ -1,0 +1,40 @@
+.howto-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5%;
+  margin: 5% 10% 5% 10%;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1%;
+  }
+}
+
+.howto {
+  color: grey;
+  font-size: 1.4375rem;
+  line-height: 1.875rem;
+}
+
+.container {
+  background-color: #673ab7;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 5% 10% 5% 10%;
+  min-height: 300px;
+  gap: 50px;
+  height: 70%;
+  align-items: center;
+  @media (max-width: 600px) {
+    padding-top: 10%;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+.text {
+  padding-top: 40px;
+  padding-bottom: 30px;
+  color: white;
+  font-size: 1.4375rem;
+  line-height: 1.875rem;
+}
