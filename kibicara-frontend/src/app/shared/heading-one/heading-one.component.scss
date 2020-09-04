@@ -1,12 +1,14 @@
+@import "variables";
+
 .h1 {
-  background-color: #46277a;
+  background-color: $h1-color;
   height: 10%;
   min-height: 70px;
   padding-left: 10%;
   padding-top: 5%;
   color: white;
-  font-size: 46px;
-  font-weight: 500;
+  font-size: $h1-font-size;
+  font-weight: $h1-font-weight;
   @media (max-width: 600px) {
     padding-top: 10%;
     font-size: 30px;

@@ -1,3 +1,5 @@
+@import "variables";
+
 .example-spacer {
   flex: 1 auto;
 }
@@ -21,6 +23,6 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  min-height: 64px;
-  max-height: 64px;
+  min-height: $toolbar-height;
+  max-height: $toolbar-height;
 }

@@ -1,3 +1,5 @@
+@import "variables";
+
 .title {
   text-align: left;
   padding-top: 10%;
@@ -12,8 +14,8 @@
 
 h1 {
   line-height: 3rem;
-  font-size: 46px;
-  font-weight: 500;
+  font-size: $h1-font-size;
+  font-weight: $h1-font-weight;
 }
 
 p {

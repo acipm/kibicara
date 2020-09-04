@@ -17,7 +17,6 @@
 }
 
 .textarea {
-  box-sizing: border-box;
   resize: none;
   max-width: 100%;
   max-height: 100%;
@@ -27,7 +26,6 @@
 }
 
 .markdown {
-  box-sizing: border-box;
   border: thin solid black;
   background-color: #fafafa;
   padding: 10px;
