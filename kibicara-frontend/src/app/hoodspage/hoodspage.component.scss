@@ -1,6 +1,5 @@
 .searchbar {
-  margin-top: 30px;
-  width: 100%;
+  width: calc(100% - 24px);
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
@@ -12,8 +11,7 @@
 .page {
   padding-left: 10%;
   padding-right: 10%;
-  margin-bottom: 5%;
-  margin-top: 50px;
+  margin-bottom: 3%;
 }
 
 .list {
@@ -31,7 +29,6 @@ h1 {
 }
 
 .banner {
-  padding-top: 15%;
   background: url("../../assets/hoods2.jpg");
   background-size: 100%;
   width: 100%;
@@ -41,12 +38,23 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+  margin-bottom: 20px;
 }
 
 .text {
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: 40px;
+  padding-bottom: 30px;
   color: gray;
   font-size: 1.4375rem;
   line-height: 1.875rem;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+  }
 }
