@@ -2,6 +2,8 @@
 
 ## Setup Development Environment
 
+### Backend
+
 1. Install `python>=3.7`
 2. Create a virtual environment with `python3 -m venv .venv`
 3. Activate your dev environment with `source .venv/bin/activate`
@@ -11,6 +13,18 @@
    `ln -s ../../git-hooks/pre-commit .git/hooks/pre-commit`
 7. Add git-hook to check commmit message format with
    `ln -s ../../git-hooks/commit-msg .git/hooks/commit-msg`
+
+### Frontend
+
+1. Install node.js (e.g. via
+   [nvm](https://github.com/nvm-sh/nvm#installation-and-update))
+2. `cd kibicara-frontend`
+3. Install the dependencies with `npm i`
+4. Install Angular with `npm i -g @angular/cli`
+5. Turn off production mode with `sudo su -c 'echo "production = 0" >> /etc/kibicara.conf'`
+6. Start the backend in a different terminal
+7. To serve and open the application, run ng s -o. The application will open
+   under [http://127.0.0.1:4200](http://127.0.0.1:4200).
 
 ### Build and Test Cycle
 
