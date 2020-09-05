@@ -57,6 +57,17 @@
   }
 }
 
+.howto-container-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+  margin: 10%;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 1%;
+  }
+}
+
 .banner2 {
   background: url("../../assets/hoods3.jpg");
   background-size: 100%;
