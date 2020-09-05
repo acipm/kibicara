@@ -1,6 +1,11 @@
-name: Python package
+name: Python Backend
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - "kibicara/**"
+      - "tests/**"
+  pull_request:
 
 jobs:
   build:
