@@ -99,7 +99,9 @@ def test_twitter_create_bot(
     # Twitter callback endpoint should enable bot
     response = client.get(
         '/api/twitter/callback',
+        headers=auth_header,
         params={
+            'hood_id': hood_id,
             'oauth_token': twitter_request_response['oauth_token'],
             'oauth_verifier': 'oauth_verifier123',
         },
@@ -113,9 +115,11 @@ def test_twitter_create_bot(
     assert twitter.enabled
 
 
-def test_twitter_callback_invalid_oauth_token(client):
+def test_twitter_callback_invalid_oauth_token(client, auth_header):
     response = client.get(
-        '/api/twitter/callback', params={'oauth_token': 'abc', 'oauth_verifier': 'def'}
+        '/api/twitter/callback',
+        headers=auth_header,
+        params={'hood_id': '1', 'oauth_token': 'abc', 'oauth_verifier': 'def'},
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 

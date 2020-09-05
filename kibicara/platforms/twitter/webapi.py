@@ -147,7 +147,9 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
     # TODO response_model
     operation_id='callback_twitter',
 )
-async def twitter_read_callback(oauth_token: str, oauth_verifier: str):
+async def twitter_read_callback(
+    oauth_token: str, oauth_verifier: str, hood=Depends(get_hood)
+):
     try:
         twitter = await Twitter.objects.filter(access_token=oauth_token).get()
         access_token = await get_access_token(

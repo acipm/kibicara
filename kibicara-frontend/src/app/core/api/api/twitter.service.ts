@@ -88,18 +88,22 @@ export class TwitterService {
      * Twitter Read Callback
      * @param oauthToken 
      * @param oauthVerifier 
+     * @param hoodId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public callbackTwitter(oauthToken: string, oauthVerifier: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public callbackTwitter(oauthToken: string, oauthVerifier: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public callbackTwitter(oauthToken: string, oauthVerifier: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public callbackTwitter(oauthToken: string, oauthVerifier: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public callbackTwitter(oauthToken: string, oauthVerifier: string, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public callbackTwitter(oauthToken: string, oauthVerifier: string, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public callbackTwitter(oauthToken: string, oauthVerifier: string, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public callbackTwitter(oauthToken: string, oauthVerifier: string, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (oauthToken === null || oauthToken === undefined) {
             throw new Error('Required parameter oauthToken was null or undefined when calling callbackTwitter.');
         }
         if (oauthVerifier === null || oauthVerifier === undefined) {
             throw new Error('Required parameter oauthVerifier was null or undefined when calling callbackTwitter.');
+        }
+        if (hoodId === null || hoodId === undefined) {
+            throw new Error('Required parameter hoodId was null or undefined when calling callbackTwitter.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -111,8 +115,20 @@ export class TwitterService {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>oauthVerifier, 'oauth_verifier');
         }
+        if (hoodId !== undefined && hoodId !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>hoodId, 'hood_id');
+        }
 
         let headers = this.defaultHeaders;
+
+        // authentication (OAuth2PasswordBearer) required
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {

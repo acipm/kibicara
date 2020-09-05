@@ -23,7 +23,8 @@ export class TwitterCallbackComponent implements OnInit {
       this.twitterService
         .callbackTwitter(
           this.route.snapshot.queryParams.oauth_token,
-          this.route.snapshot.queryParams.oauth_verifier
+          this.route.snapshot.queryParams.oauth_verifier,
+          this.route.snapshot.queryParams.hood
         )
         .subscribe(() => {
           this.router.navigate([
