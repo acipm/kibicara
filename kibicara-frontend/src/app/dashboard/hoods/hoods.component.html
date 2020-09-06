@@ -18,6 +18,9 @@
             <mat-icon>settings</mat-icon>
             <div class="list-entry">
               Your Hood - <strong>{{ hood.name }}</strong>
+	      <a [routerLink]="['/hoods', hood.id]">
+  	        <mat-icon class="list-entry-page">open_in_browser</mat-icon>
+	      </a>
             </div>
           </div>
           <mat-divider></mat-divider>
