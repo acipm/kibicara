@@ -13,7 +13,6 @@
         <a
           *ngFor="let hood of hoods$ | async"
           [routerLink]="['/dashboard/hoods', hood.id]"
-          target="_blank"
           matTooltip="Edit settings of {{ hood.name }}"
         >
           <mat-list-option>
@@ -32,6 +31,7 @@
         <mat-list-item *ngFor="let hood of hoods$ | async">
           <a
             [routerLink]="['/hoods', hood.id]"
+            target="_blank"
             matTooltip="View public page of hood {{ hood.name }}"
           >
             <mat-icon class="open-icon">open_in_new</mat-icon>

@@ -9,6 +9,8 @@ import { HoodspageComponent } from './hoodspage/hoodspage.component';
 import { HoodpageComponent } from './hoodpage/hoodpage.component';
 import { SharedModule } from './shared/shared.module';
 import { ConfirmComponent } from './auth/confirm/confirm.component';
+import { EmailConfirmationComponent } from './platforms/email/email-confirmation/email-confirmation.component';
+import { EmailUnsubscribeComponent } from './platforms/email/email-unsubscribe/email-unsubscribe.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -18,6 +20,8 @@ const routes: Routes = [
   { path: 'organizers', component: OrganizerspageComponent },
   { path: 'hoods', component: HoodspageComponent },
   { path: 'hoods/:id', component: HoodpageComponent },
+  { path: 'hoods/:id/email-confirm', component: EmailConfirmationComponent },
+  { path: 'hoods/:id/email-unsubscribe', component: EmailUnsubscribeComponent },
   {
     path: 'dashboard',
     loadChildren: () =>

@@ -19,6 +19,8 @@ import { PlatformsInfoDialogComponent } from './platforms-info-page/platforms-in
 import { EmailBotInfoDialogComponent } from './email/email-bot-card/email-bot-info-dialog/email-bot-info-dialog.component';
 import { TelegramBotInfoDialogComponent } from './telegram/telegram-bot-card/telegram-bot-info-dialog/telegram-bot-info-dialog.component';
 import { TwitterBotInfoDialogComponent } from './twitter/twitter-bot-card/twitter-bot-info-dialog/twitter-bot-info-dialog.component';
+import { EmailConfirmationComponent } from './email/email-confirmation/email-confirmation.component';
+import { EmailUnsubscribeComponent } from './email/email-unsubscribe/email-unsubscribe.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { TwitterBotInfoDialogComponent } from './twitter/twitter-bot-card/twitte
     EmailBotInfoDialogComponent,
     TelegramBotInfoDialogComponent,
     TwitterBotInfoDialogComponent,
+    EmailConfirmationComponent,
+    EmailUnsubscribeComponent,
   ],
   imports: [CommonModule, SharedModule],
   exports: [
