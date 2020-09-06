@@ -25,7 +25,7 @@ export class TelegramDialogComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       api_token: ['', Validators.required],
-      welcome_message: '',
+      welcome_message: ['', Validators.required],
     });
 
     if (this.data.telegramId) {
