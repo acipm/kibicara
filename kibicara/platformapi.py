@@ -117,6 +117,14 @@ class Censor:
         """
         pass
 
+    @classmethod
+    async def destroy_hood(cls, hood):
+        """Removes all its database entries.
+
+        Note: Override this in the derived bot class.
+        """
+        pass
+
     async def publish(self, message):
         """Distribute a message to the bots in a hood.
 
@@ -186,6 +194,16 @@ class Spawner:
         """Instantiate and start a bot for every row in the corresponding ORM model."""
         for spawner in cls.__instances:
             await spawner._init()
+
+    @classmethod
+    async def destroy_hood(cls, hood):
+        for spawner in cls.__instances:
+            for pk in list(spawner.__bots):
+                bot = spawner.__bots[pk]
+                if bot.hood.id == hood.id:
+                    del spawner.__bots[pk]
+                    bot.stop()
+            await spawner.BotClass.destroy_hood(hood)
 
     async def _init(self):
         for item in await self.ORMClass.objects.all():

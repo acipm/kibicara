@@ -92,7 +92,7 @@ async def email_read_all_public(hood=Depends(get_hood_unauthorized)):
     operation_id='get_emails',
 )
 async def email_read_all(hood=Depends(get_hood)):
-    return await Email.objects.filter(hood=hood).all()
+    return await Email.objects.filter(hood=hood).select_related('hood').all()
 
 
 @router.post(

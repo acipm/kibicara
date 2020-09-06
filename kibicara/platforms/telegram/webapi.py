@@ -6,7 +6,7 @@ from aiogram.bot.api import check_token
 from aiogram import exceptions
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from kibicara.platforms.telegram.bot import spawner
-from kibicara.platforms.telegram.model import Telegram
+from kibicara.platforms.telegram.model import Telegram, TelegramUser
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
 from sqlite3 import IntegrityError
@@ -84,6 +84,8 @@ async def telegram_read(telegram=Depends(get_telegram)):
 )
 async def telegram_delete(telegram=Depends(get_telegram)):
     spawner.stop(telegram)
+    for user in await TelegramUser.objects.filter(bot=telegram).all():
+        await user.delete()
     await telegram.delete()
 
 

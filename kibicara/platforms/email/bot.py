@@ -8,7 +8,7 @@ from kibicara import email
 from kibicara.config import config
 from kibicara.model import Hood
 from kibicara.platformapi import Censor, Spawner
-from kibicara.platforms.email.model import EmailSubscribers
+from kibicara.platforms.email.model import Email, EmailSubscribers
 from kibicara.webapi.admin import to_token
 from logging import getLogger
 from smtplib import SMTPException
@@ -21,6 +21,14 @@ class EmailBot(Censor):
     def __init__(self, hood):
         super().__init__(hood)
         self.enabled = hood.email_enabled
+
+    @classmethod
+    async def destroy_hood(cls, hood):
+        """Removes all its database entries."""
+        for inbox in await Email.objects.filter(hood=hood).all():
+            await inbox.delete()
+        for subscriber in await EmailSubscribers.objects.filter(hood=hood).all():
+            await subscriber.delete()
 
     async def run(self):
         """ Loop which waits for new messages and sends emails to all subscribers. """

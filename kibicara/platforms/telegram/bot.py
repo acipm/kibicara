@@ -20,6 +20,14 @@ class TelegramBot(Censor):
         self.telegram_model = telegram_model
         self.enabled = self.telegram_model.enabled
 
+    @classmethod
+    async def destroy_hood(cls, hood):
+        """Removes all its database entries."""
+        for telegram in await Telegram.objects.filter(hood=hood).all():
+            for user in await TelegramUser.objects.filter(bot=telegram).all():
+                await user.delete()
+            await telegram.delete()
+
     def _create_dispatcher(self):
         dp = Dispatcher(self.bot)
         dp.register_message_handler(self._send_welcome, commands=['start'])

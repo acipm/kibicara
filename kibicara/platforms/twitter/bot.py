@@ -22,6 +22,12 @@ class TwitterBot(Censor):
         self.mentions_since_id = self.twitter_model.mentions_since_id
         self.dms_since_id = self.twitter_model.dms_since_id
 
+    @classmethod
+    async def destroy_hood(cls, hood):
+        """Removes all its database entries."""
+        for twitter in await Twitter.objects.filter(hood=hood).all():
+            await twitter.delete()
+
     async def run(self):
         try:
             if not self.twitter_model.verified:
