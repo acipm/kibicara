@@ -63,7 +63,14 @@ p {
   grid-template-columns: 30px 1fr;
 }
 
-.list-entry-page {
-  float: right;
+.hoods-container {
+  display: grid;
+  grid-template-columns: 1fr 65px;
+  gap: 10px;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.open-icon {
   color: black;
 }

@@ -6,27 +6,40 @@
       supports each other. Kibicara hoods will support you by providing the
       technology for your community to florish!
     </p>
-    <mat-selection-list [multiple]="false">
-      <div mat-subheader>Configure your hoods</div>
-      <mat-divider></mat-divider>
-      <a
-        *ngFor="let hood of hoods$ | async"
-        [routerLink]="['/dashboard/hoods', hood.id]"
-      >
-        <mat-list-option>
-          <div class="list-entry-container">
-            <mat-icon>settings</mat-icon>
-            <div class="list-entry">
-              Your Hood - <strong>{{ hood.name }}</strong>
-	      <a [routerLink]="['/hoods', hood.id]">
-  	        <mat-icon class="list-entry-page">open_in_browser</mat-icon>
-	      </a>
+    <div class="hoods-container">
+      <mat-selection-list [multiple]="false">
+        <div mat-subheader>Configure your hoods</div>
+        <mat-divider></mat-divider>
+        <a
+          *ngFor="let hood of hoods$ | async"
+          [routerLink]="['/dashboard/hoods', hood.id]"
+          target="_blank"
+          matTooltip="Edit settings of {{ hood.name }}"
+        >
+          <mat-list-option>
+            <div class="list-entry-container">
+              <mat-icon>settings</mat-icon>
+              <div class="list-entry">
+                Your Hood - <strong>{{ hood.name }}</strong>
+              </div>
             </div>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-option>
-      </a>
-    </mat-selection-list>
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </a>
+      </mat-selection-list>
+      <mat-list>
+        <div mat-subheader></div>
+        <mat-list-item *ngFor="let hood of hoods$ | async">
+          <a
+            [routerLink]="['/hoods', hood.id]"
+            matTooltip="View public page of hood {{ hood.name }}"
+          >
+            <mat-icon class="open-icon">open_in_new</mat-icon>
+          </a>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
     <button
       mat-raised-button
       color="primary"
