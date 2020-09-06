@@ -14,6 +14,14 @@
 7. Add git-hook to check commmit message format with
    `ln -s ../../git-hooks/commit-msg .git/hooks/commit-msg`
 
+#### Build and Test Cycle
+
+- Install with `pip install .`
+- Execute with `kibicara`
+- Interact with Swagger REST-API Documentation: http://localhost:8000/docs
+- Test and stylecheck with `tox`
+- Fix style issues with `black -S kibicara tests`
+
 ### Frontend
 
 1. Install node.js (e.g. via
@@ -25,14 +33,6 @@
 6. Start the backend in a different terminal
 7. To serve and open the application, run ng s -o. The application will open
    under [http://127.0.0.1:4200](http://127.0.0.1:4200).
-
-### Build and Test Cycle
-
-- Install with `pip install .`
-- Execute with `kibicara`
-- Interact with Swagger REST-API Documentation: http://localhost:8000/docs
-- Test and stylecheck with `tox`
-- Fix style issues with `black -S kibicara tests`
 
 ## Branches
 
