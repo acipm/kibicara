@@ -22,9 +22,15 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
         r'(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
         body,
     )[0]
-    response = client.post(urlparse(confirm_url).path)
+    response = client.post(
+        '/api/hoods/%d/email/subscribe/confirm/%s'
+        % (hood_id, urlparse(confirm_url).query[len('token=') :])
+    )
     assert response.status_code == status.HTTP_201_CREATED
-    response = client.post(urlparse(confirm_url).path)
+    response = client.post(
+        '/api/hoods/%d/email/subscribe/confirm/%s'
+        % (hood_id, urlparse(confirm_url).query[len('token=') :])
+    )
     assert response.status_code == status.HTTP_409_CONFLICT
     token = to_token(email=mail['to'], hood=hood_id)
     response = client.delete('/api/hoods/%d/email/unsubscribe/%s' % (hood_id, token))

@@ -44,8 +44,8 @@ class EmailBot(Censor):
                 body = (
                     '%s\n\n--\n'
                     'If you want to stop receiving these mails,'
-                    'follow this link: %s/api/hoods/%d/email/unsubscribe/%s'
-                ) % (message.text, config['root_url'], self.hood.id, token)
+                    'follow this link: %s/hoods/%d/email-unsubscribe?token=%s'
+                ) % (message.text, config['frontend_url'], self.hood.id, token)
                 try:
                     logger.debug('Trying to send: \n%s' % body)
                     email.send_email(

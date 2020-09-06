@@ -13,6 +13,7 @@ from kibicara.config import config
 from kibicara.webapi.admin import from_token, to_token
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
+from nacl import exceptions
 from ormantic.exceptions import NoMatch
 from os import urandom
 from pydantic import BaseModel, validator
@@ -188,8 +189,8 @@ async def email_subscribe(
     :return: Returns status code 200 after sending confirmation email.
     """
     token = to_token(hood=hood.id, email=subscriber.email)
-    confirm_link = '%s/api/hoods/%d/email/subscribe/confirm/%s' % (
-        config['root_url'],
+    confirm_link = '%s/hoods/%d/email-confirm?token=%s' % (
+        config['frontend_url'],
         hood.id,
         token,
     )
@@ -246,15 +247,20 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     :param token: encrypted JSON token, holds subscriber email + hood.id.
     :param hood: Hood the Email bot belongs to.
     """
-    logger.warning("token is: " + token)
-    payload = from_token(token)
-    # If token.hood and url.hood are different, raise an error:
-    if hood.id is not payload['hood']:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
-    subscriber = await EmailSubscribers.objects.filter(
-        hood=payload['hood'], email=payload['email']
-    ).get()
-    await subscriber.delete()
+    try:
+        logger.warning("token is: " + token)
+        payload = from_token(token)
+        # If token.hood and url.hood are different, raise an error:
+        if hood.id is not payload['hood']:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        subscriber = await EmailSubscribers.objects.filter(
+            hood=payload['hood'], email=payload['email']
+        ).get()
+        await subscriber.delete()
+    except NoMatch:
+        return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    except exceptions.CryptoError:
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @router.get(
