@@ -121,6 +121,10 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
     `https://api.twitter.com/oauth/authorize?oauth_token=`
     """
     try:
+        # Purge Twitter corpses
+        for corpse in await Twitter.objects.filter(hood=hood, verified=False).all():
+            await corpse.delete()
+        # Create Twitter
         request_token = await get_oauth_token(
             config['twitter']['consumer_key'],
             config['twitter']['consumer_secret'],
