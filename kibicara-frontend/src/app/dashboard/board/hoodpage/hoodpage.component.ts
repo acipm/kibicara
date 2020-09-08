@@ -15,7 +15,18 @@ export class HoodpageComponent implements OnInit {
 
   constructor(private hoodsService: HoodsService) {}
 
-  markdown = `# TODO Hoodpage`;
+  markdown = `## Welcome to the hood!
+  
+  We are a community in xyz-city that supports each other. 
+  Here you can find all platforms where you can communicate
+  to members of communities and announce neighborhood festivals,
+  ask your neighbors for help or just make contact.
+  
+  You only need one of the plaforms below. 
+  Subscribe to this hood as described. If you want to broadcast a message just
+  tweet/direct message/mail to the subscribed platform as you know it and the
+  bots will distribute your message to all subscribers on other platforms.
+  `;
 
   ngOnInit(): void {
     this.hoodsService.getHood(this.hoodId).subscribe((hood) => {

@@ -9,17 +9,48 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-          malesuada orci justo, id cursus orci bibendum ac. Nulla ut sapien a
-          dolor sodales facilisis at ac lacus. Nam nulla felis, malesuada id
-          pharetra varius, congue luctus magna. Duis et tellus pretium, euismod
-          ipsum nec, fringilla orci. Sed dapibus at velit id posuere. Aenean at
-          nunc sed arcu malesuada dapibus. Nunc quis rutrum diam. Morbi placerat
-          diam sit amet tincidunt hendrerit. Cras viverra, tortor sed congue
-          congue, dui ante lobortis purus, quis elementum tortor nulla vel mi.
-          Etiam nec leo consectetur lorem fringilla commodo. Duis lectus est,
-          vulputate sit amet ipsum eget, efficitur condimentum diam. Duis eget
-          quam est. Ut et semper turpis. Aliquam eget fermentum sem.
+          The public hood page is an customizable site you can use to tell hood
+          users about the hood, how to use it and give other context. You can
+          send the link to the public hood page to advertise for your hood. The
+          public hood page will automatically include your configured platforms
+          and direct the users on how to subscribe on their beloved platform.
+        </p>
+        <p>
+          <strong>Link to your hood page:</strong>
+          <a
+            mat-icon-button
+            [routerLink]="['/hoods', hoodId]"
+            target="_blank"
+            aria-label="Open in new tab"
+          >
+            <mat-icon>open_in_new</mat-icon>
+          </a>
+        </p>
+        <p>
+          <strong>Configuring your hood page: </strong> Below there are two
+          boxes. You can use the
+          <strong>
+            left box to type in the text you want to appear on your
+            hoodpage</strong
+          >. You can preview your text in the right box.
+        </p>
+        <p>
+          <strong>Use Markdown to format your text: </strong> You can use the
+          markdown syntax to insert headings, bold text, italic text and so on.
+          A
+          <a
+            href="https://guides.github.com/features/mastering-markdown/#syntax"
+            target="_blank"
+            >tutorial for the basic syntax can be found here</a
+          >. Just play around and use the preview to check your style. When you
+          are satisfied, click the <strong>Save-Button</strong> to save your
+          input and review your public hood page.
+        </p>
+        <p>
+          <strong>Share the hood page: </strong> Just send the link to your hood
+          page to your community. We also recommend to link it in your platform
+          account description (e.g. Twitter description) to give the users
+          context and more information.
         </p>
       </mat-expansion-panel>
     </mat-accordion>
