@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TwitterService } from 'src/app/core/api';
-import { TwitterInfoDialogComponent } from '../twitter-info-dialog/twitter-info-dialog.component';
+import { TwitterInfoDialogComponent } from './twitter-info-dialog/twitter-info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

@@ -8,7 +8,7 @@ import { EmailDialogComponent } from './email/email-settings/email-dialog/email-
 import { EmailInfoDialogComponent } from './email/email-settings/email-info-dialog/email-info-dialog.component';
 import { TelegramInfoDialogComponent } from './telegram/telegram-settings/telegram-info-dialog/telegram-info-dialog.component';
 import { TelegramDialogComponent } from './telegram/telegram-settings/telegram-dialog/telegram-dialog.component';
-import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitter-info-dialog.component';
+import { TwitterInfoDialogComponent } from './twitter/twitter-settings/twitter-info-dialog/twitter-info-dialog.component';
 import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-callback.component';
 import { TwitterCorpsesPipe } from './twitter/twitter-corpses-pipe/twitter-corpses.pipe';
 import { PlatformsInfoPageComponent } from './platforms-info-page/platforms-info-page.component';
