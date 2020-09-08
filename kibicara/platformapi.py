@@ -9,7 +9,7 @@ from asyncio import create_task, Queue
 from enum import auto, Enum
 from kibicara.model import BadWord, Trigger
 from logging import getLogger
-from re import match
+from re import search, IGNORECASE
 
 
 logger = getLogger(__name__)
@@ -147,11 +147,11 @@ class Censor:
 
     async def __is_appropriate(self, message):
         for badword in await BadWord.objects.filter(hood=self.hood).all():
-            if match(badword.pattern, message.text):
+            if search(badword.pattern, message.text, IGNORECASE):
                 logger.debug('Matched bad word - dropped message: %s' % message.text)
                 return False
         for trigger in await Trigger.objects.filter(hood=self.hood).all():
-            if match(trigger.pattern, message.text):
+            if search(trigger.pattern, message.text, IGNORECASE):
                 logger.debug('Matched trigger - passed message: %s' % message.text)
                 return True
         logger.debug('Did not match any trigger - dropped message: %s' % message.text)

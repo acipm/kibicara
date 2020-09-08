@@ -20,6 +20,51 @@
           if the remaining message is legitimate. For example insults or spam
           words like "blockchain".
         </p>
+        <p>
+          <strong>Example: </strong>
+          For example say you want all messages to be distributed except
+          messages with insult/spam words "fuck", "asshat", "blockchain" then
+          you can add these words to the Badwords like so:
+          <img class="image" src="assets/badwords.png" alt="image" />
+          Note the dot in the Triggers section. It means that every message is
+          being relayed except those in badwords. If you would remove it, no
+          message would be relayed at all, so only change the Trigger section if
+          you are sure what you do.
+        </p>
+        <p>
+          Now if a user sends a message including "asshat" the message will
+          <strong>not be distributed</strong>. For example:
+        </p>
+        <div class="example-container">
+          <mat-card>
+            <mat-card-title>xyz is an asshat!</mat-card-title>
+            <mat-card-subtitle
+              >This message will
+              <strong>not be distributed</strong>.</mat-card-subtitle
+            >
+          </mat-card>
+          <mat-card>
+            <mat-card-title>xyz is an verybigAsshat!</mat-card-title>
+            <mat-card-subtitle
+              >This message will
+              <strong>not be distributed</strong>.</mat-card-subtitle
+            >
+          </mat-card>
+          <mat-card>
+            <mat-card-title>xyz is nice!</mat-card-title>
+            <mat-card-subtitle
+              >This message will be distributed.</mat-card-subtitle
+            >
+          </mat-card>
+        </div>
+        <p>
+          <strong>For experts only:</strong> We use python re module with
+          <strong>re.search(pattern, string, flags=re.IGNORECASE)</strong> for
+          both Triggers and Badwords. View
+          <a href="https://docs.python.org/3/library/re.html" target="_blank"
+            >Documentation</a
+          >.
+        </p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

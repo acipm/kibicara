@@ -72,6 +72,10 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
         hood = await Hood.objects.create(**values.__dict__)
         await AdminHoodRelation.objects.create(admin=admin.id, hood=hood.id)
         spawner.start(hood)
+
+        # Initialize Triggers to match all
+        await Trigger.objects.create(hood=hood, pattern='.')
+
         response.headers['Location'] = '%d' % hood.id
         return hood
     except IntegrityError:
