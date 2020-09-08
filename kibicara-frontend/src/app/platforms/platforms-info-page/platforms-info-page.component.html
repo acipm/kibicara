@@ -1,15 +1,4 @@
-<h2>
-  Platforms - choose one, get all hood messages
-  <button mat-icon-button aria-label="How to use">
-    <mat-icon
-      matTooltip="What does this mean?"
-      class="info-button"
-      (click)="onInfoClick()"
-      >info</mat-icon
-    >
-  </button>
-</h2>
-
+<h2>Platforms - choose one, get all hood messages</h2>
 <div class="container">
   <app-twitter-bot-card [hoodId]="hoodId"></app-twitter-bot-card>
   <app-telegram-bot-card [hoodId]="hoodId"></app-telegram-bot-card>
