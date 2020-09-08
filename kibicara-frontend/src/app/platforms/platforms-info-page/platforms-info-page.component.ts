@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PlatformsInfoDialogComponent } from './platforms-info-dialog/platforms-info-dialog.component';
 
 @Component({
   selector: 'app-platforms-info-page',
@@ -13,8 +12,4 @@ export class PlatformsInfoPageComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}
-
-  onInfoClick() {
-    this.dialog.open(PlatformsInfoDialogComponent);
-  }
 }
