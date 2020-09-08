@@ -1,0 +1,58 @@
+<mat-dialog-content>
+  <h2>How to add an telegram bot to your hood</h2>
+  <h3>What is a telegram bot?</h3>
+  <p>
+    Telegram bots are Telegram accounts operated by software. In our case we
+    will show you how to add a bot for users to subscribe to, so they can send
+    messages into your hood system, which get distributed to the other
+    platforms. Also they can receive messages from other platforms
+  </p>
+  <p>
+    <strong>Example: </strong> You as a hood admin added the bot
+    @kibicara-my-hood to your hood. John wants to send a message to all hood
+    subscribers. He then uses his telegram account to subscribe to the bot
+    @kibicara-my-hood and sends his message to the bot. His message will be
+    distributed to the other platforms and Sandra who is subscribed to your
+    email hood bot gets John's message via email.
+  </p>
+  <h3>How to add a telegram bot to your hood?</h3>
+  <ol>
+    <li>
+      <a href="https://telegram.org/" target="_blank"
+        >Download the telegram app</a
+      >
+      and create a telegram account for your hood if you don't have one.
+    </li>
+    <li>
+      Start a conversation with the
+      <a href="https://t.me/botfather">@botfather</a> bot by sending a message
+      with the content <strong>/start</strong>.
+    </li>
+    <li>
+      Create a new bot by sending another message with the content
+      <strong>/newbot</strong>. Follow the instruction of the botfather, pick a
+      cool name for your bot when asked.
+    </li>
+    <li>
+      The @botfather will give you a token (the line below
+      <strong>Use this token to access the HTTP API:</strong>). Copy it.
+    </li>
+    <li>
+      Add the telegram bot here by clicking on
+      <strong>Add new platform connection!</strong>. Paste the token from the
+      botfather in the input that says <strong>Telegram API Token</strong>.
+    </li>
+    <li>
+      Add a welcome message that users will see if they subscribe to your bot.
+    </li>
+    <li>
+      Click <strong>Add telegram bot</strong> to add your telegram bot. Done!
+    </li>
+  </ol>
+  <img class="example-image" src="assets/telegram2.png" />
+  <h3>Can I stop relaying telegram messages?</h3>
+  <p>
+    Yes, if you want to stop relaying telegram messages from a specific telegram
+    bot, just use the switch to the bot to stop relaying.
+  </p>
+</mat-dialog-content>

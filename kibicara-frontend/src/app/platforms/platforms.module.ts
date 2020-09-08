@@ -6,8 +6,8 @@ import { TwitterSettingsComponent } from './twitter/twitter-settings/twitter-set
 import { EmailSettingsComponent } from './email/email-settings/email-settings.component';
 import { EmailDialogComponent } from './email/email-settings/email-dialog/email-dialog.component';
 import { EmailInfoDialogComponent } from './email/email-settings/email-info-dialog/email-info-dialog.component';
-import { TelegramInfoDialogComponent } from './telegram/telegram-info-dialog/telegram-info-dialog.component';
-import { TelegramDialogComponent } from './telegram/telegram-dialog/telegram-dialog.component';
+import { TelegramInfoDialogComponent } from './telegram/telegram-settings/telegram-info-dialog/telegram-info-dialog.component';
+import { TelegramDialogComponent } from './telegram/telegram-settings/telegram-dialog/telegram-dialog.component';
 import { TwitterInfoDialogComponent } from './twitter/twitter-info-dialog/twitter-info-dialog.component';
 import { TwitterCallbackComponent } from './twitter/twitter-callback/twitter-callback.component';
 import { TwitterCorpsesPipe } from './twitter/twitter-corpses-pipe/twitter-corpses.pipe';

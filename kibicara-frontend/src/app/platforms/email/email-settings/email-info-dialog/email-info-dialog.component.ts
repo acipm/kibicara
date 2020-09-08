@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-email-info-dialog',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./email-info-dialog.component.scss'],
 })
 export class EmailInfoDialogComponent implements OnInit {
+  domain = environment.EMAIL_DOMAIN;
   constructor() {}
 
   ngOnInit(): void {}

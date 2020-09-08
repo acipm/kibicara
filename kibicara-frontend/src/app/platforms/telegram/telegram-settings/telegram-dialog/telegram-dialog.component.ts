@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TelegramService, BodyTelegram } from 'src/app/core/api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { first } from 'rxjs/operators';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-telegram-dialog',

@@ -27,6 +27,11 @@
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
 }
 
 .example-container {
@@ -34,4 +39,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 }

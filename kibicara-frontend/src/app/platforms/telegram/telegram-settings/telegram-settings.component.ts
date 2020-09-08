@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TelegramService } from 'src/app/core/api';
 import { Observable } from 'rxjs';
-import { TelegramInfoDialogComponent } from '../telegram-info-dialog/telegram-info-dialog.component';
+import { TelegramInfoDialogComponent } from './telegram-info-dialog/telegram-info-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TelegramDialogComponent } from '../telegram-dialog/telegram-dialog.component';
+import { TelegramDialogComponent } from './telegram-dialog/telegram-dialog.component';
 import { YesNoDialogComponent } from 'src/app/shared/yes-no-dialog/yes-no-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
