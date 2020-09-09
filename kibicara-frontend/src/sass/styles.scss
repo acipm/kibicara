@@ -22,3 +22,55 @@ body {
 a {
   text-decoration: none;
 }
+
+/* public pages start */
+.howto-container-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5%;
+  margin: 5% 10% 5% 10%;
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    margin-bottom: 200px;
+    margin-top: 100px;
+  }
+}
+
+.howto-container-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+  margin: 5% 10% 5% 10%;
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    gap: 10%;
+    margin-top: 100px;
+    margin-bottom: 200px;
+  }
+}
+
+.big-paragraph-font {
+  color: grey;
+  font-size: 1.4375rem;
+  line-height: 1.875rem;
+}
+
+.big-h2-font {
+  font-weight: bold !important;
+  font-size: 1.6375rem !important;
+}
+
+.howto-container-2-text {
+  padding-top: 40px;
+  padding-bottom: 30px;
+  color: white;
+  font-size: 1.4375rem;
+  line-height: 1.875rem;
+}
+
+.public-margin {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+/* public pages end */

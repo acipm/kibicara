@@ -9,14 +9,6 @@
   }
 }
 
-.text {
-  padding-top: 40px;
-  padding-bottom: 30px;
-  color: white;
-  font-size: 1.4375rem;
-  line-height: 1.875rem;
-}
-
 .container {
   background-color: #673ab7;
   display: grid;
@@ -46,31 +38,6 @@
   margin-bottom: 5%;
 }
 
-.howto-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 5%;
-  margin: 5% 10% 5% 10%;
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
-    margin-bottom: 200px;
-    margin-top: 100px;
-  }
-}
-
-.howto-container-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5%;
-  margin: 5% 10% 5% 10%;
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
-    gap: 10%;
-    margin-top: 100px;
-    margin-bottom: 200px;
-  }
-}
-
 .banner2 {
   background: url("../../../assets/hoods3.jpg");
   background-size: 100%;
@@ -78,17 +45,6 @@
   width: 100%;
   height: 100%;
   min-height: 200px;
-}
-
-.howto {
-  color: grey;
-  font-size: 1.4375rem;
-  line-height: 1.875rem;
-}
-
-h2 {
-  font-weight: bold;
-  font-size: 1.6375rem;
 }
 
 // color can be changed, i just chose a slightly better color than dark blue
