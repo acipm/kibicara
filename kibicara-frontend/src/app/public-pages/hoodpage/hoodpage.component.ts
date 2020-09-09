@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HoodsService, BodyHood } from '../core/api';
+import { HoodsService, BodyHood } from '../../core/api';
 import { first } from 'rxjs/operators';
 
 @Component({

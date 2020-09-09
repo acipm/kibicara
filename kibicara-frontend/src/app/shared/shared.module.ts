@@ -38,6 +38,7 @@ import { FooterComponent } from './footer/footer.component';
     FormsModule,
     CommonModule,
     Ng2SearchPipeModule,
+    RouterModule,
   ],
 })
 export class SharedModule {}

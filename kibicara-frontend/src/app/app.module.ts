@@ -1,56 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { HomepageComponent } from './homepage/homepage.component';
-import { OrganizerspageComponent } from './organizerspage/organizerspage.component';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { HoodpageComponent } from './hoodpage/hoodpage.component';
-import { HoodspageComponent } from './hoodspage/hoodspage.component';
 import { ApiModule } from './core/api/api.module';
-import {
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-  HttpClient,
-} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BASE_PATH } from './core/api/variables';
 import { environment } from 'src/environments/environment';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AuthTokenInterceptor } from './core/auth/auth-token.interceptor';
-import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ErrorInterceptor } from './core/auth/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkdownModule } from 'ngx-markdown';
-import { PlatformsModule } from './platforms/platforms.module';
-import { FaqComponent } from './homepage/faq/faq.component';
+import { PublicPagesModule } from './public-pages/public-pages.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomepageComponent,
-    OrganizerspageComponent,
-    HoodpageComponent,
-    HoodspageComponent,
-    LoginComponent,
-    RegisterComponent,
-    ConfirmComponent,
-    FaqComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     SharedModule,
     DashboardModule,
+    PublicPagesModule,
+    AuthModule,
     ApiModule,
     HttpClientModule,
-    ReactiveFormsModule,
     BrowserAnimationsModule,
-    PlatformsModule,
-    MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [
     { provide: BASE_PATH, useValue: environment.API_BASE_PATH },
