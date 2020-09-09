@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.component';
 import { PlatformsModule } from '../platforms/platforms.module';
 import { SettingsComponent } from './board/settings/settings.component';
+import { FaqComponent } from './hoods/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SettingsComponent } from './board/settings/settings.component';
     BadwordsComponent,
     NewHoodDialogComponent,
     SettingsComponent,
+    FaqComponent,
   ],
   imports: [
     DashboardRoutingModule,

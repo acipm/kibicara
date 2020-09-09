@@ -26,6 +26,7 @@ import { ErrorInterceptor } from './core/auth/error.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MarkdownModule } from 'ngx-markdown';
 import { PlatformsModule } from './platforms/platforms.module';
+import { FaqComponent } from './homepage/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { PlatformsModule } from './platforms/platforms.module';
     LoginComponent,
     RegisterComponent,
     ConfirmComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,

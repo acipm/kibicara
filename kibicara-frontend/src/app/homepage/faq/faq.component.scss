@@ -1,0 +1,16 @@
+h2 {
+  font-weight: bold;
+  font-size: 1.6375rem;
+}
+
+.container {
+  padding: 5% 10% 5% 10%;
+  gap: 50px;
+  height: 70%;
+  align-items: center;
+  @media (max-width: 600px) {
+    padding-top: 10%;
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+}
