@@ -9,7 +9,28 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p></p>
+      <p>
+        Platform connections are the heart of your hood. Since each platform
+        works differently, the connection will be different. Click the
+        <mat-icon>info</mat-icon> icon next to the platform's name to find the
+        specific setup tutorial.
+      </p>
+      <p>
+        When a platform has been successfully connected, it will show up below
+        and also your users will see the way to subscribe to in your public hood
+        page.
+      </p>
+      <p>
+        <strong>Link to your hood page:</strong>
+        <a
+          mat-icon-button
+          [routerLink]="['/hoods', hoodId]"
+          target="_blank"
+          aria-label="Open in new tab"
+        >
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+      </p>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
