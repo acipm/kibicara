@@ -43,7 +43,7 @@ async def twitter_read_all_public(hood=Depends(get_hood_unauthorized)):
     return [
         BodyTwitterPublic(username=twitterbot.username)
         for twitterbot in twitterbots
-        if twitterbot.verified == 1 and twitterbot.enabled == 1
+        if twitterbot.verified == 1 and twitterbot.enabled == 1 and twitterbot.username
     ]
 
 
