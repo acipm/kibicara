@@ -55,7 +55,7 @@ async def telegram_read_all_public(hood=Depends(get_hood_unauthorized)):
     return [
         BodyTelegramPublic(username=telegrambot.username)
         for telegrambot in telegrambots
-        if telegrambot.enabled == 1
+        if telegrambot.enabled == 1 and telegrambot.username
     ]
 
 

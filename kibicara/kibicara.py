@@ -57,6 +57,8 @@ class Main:
         app = FastAPI()
         server_config = Config()
         server_config.accesslog = '-'
+        if config['production']:
+            server_config.bind = ['0.0.0.0:8000', '[::]:8000']
         app.include_router(router, prefix='/api')
         if not config['production'] and config['cors_allow_origin']:
             app.add_middleware(
