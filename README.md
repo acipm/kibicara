@@ -17,6 +17,10 @@ contain a trigger word to be relayed, and must not contain a bad word.
 Kibicara needs to be hosted on a server by an instance maintainer. That way,
 hood admins don't need a server of their own.
 
+## Deploy Kibicara on a production server
+
+Read `DEPLOYMENT.md` to learn how to deploy Kibicara.
+
 ## Contribute!
 
 Read `CONTRIBUTING.md` to learn how to get started.

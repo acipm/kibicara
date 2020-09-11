@@ -4,7 +4,7 @@
 
 ### Backend
 
-1. Install `python>=3.7`
+1. Install `python>=3.8`
 2. Create a virtual environment with `python3 -m venv .venv`
 3. Activate your dev environment with `source .venv/bin/activate`
 4. Install with `pip install .`
@@ -13,12 +13,13 @@
    `ln -s ../../git-hooks/pre-commit .git/hooks/pre-commit`
 7. Add git-hook to check commmit message format with
    `ln -s ../../git-hooks/commit-msg .git/hooks/commit-msg`
+8. Turn off production mode: `sudo su -c 'echo "production = 0" >> /etc/kibicara.conf'`
 
-#### Build and Test Cycle
+#### Cheatsheet
 
-- Install with `pip install .`
-- Execute with `kibicara`
-- Interact with Swagger REST-API Documentation: http://localhost:8000/docs
+- Install Kibicara with `pip install .`
+- Execute Kibicara with `kibicara` (verbose: `kibicara -vvv`)
+- Interact with Swagger REST-API Documentation: `http://localhost:8000/api/docs`
 - Test and stylecheck with `tox`
 - Fix style issues with `black -S kibicara tests`
 
@@ -29,10 +30,30 @@
 2. `cd kibicara-frontend`
 3. Install the dependencies with `npm i`
 4. Install Angular with `npm i -g @angular/cli`
-5. Turn off production mode with `sudo su -c 'echo "production = 0" >> /etc/kibicara.conf'`
+5. Turn off production mode if you have not already (see above in backend).
 6. Start the backend in a different terminal
-7. To serve and open the application, run ng s -o. The application will open
+7. To serve and open the application, run `ng s -o`. The application will open
    under [http://127.0.0.1:4200](http://127.0.0.1:4200).
+
+### Creating an account
+
+#### Without local mailserver setup
+
+1. Start the server with `kibicara -vvv`.
+2. Got to `http://localhost:8000/api/docs`. Use the `POST /api/admin/register` endpoint to create an account (minimal password size is 8).
+3. Check the log output for a line that contains a link with the token:
+```
+<sometimestamp> kibicara.webapi.admin http://127.0.0.1:4200/confirm?token=<copythistoken>
+```
+4. Paste the token into the `POST /api/admin/confirm/{register_token}` endpoint at `http://localhost:8000/api/docs`.
+5. Done! Try to log in with the `Authorize` button on the page or use the frontend
+
+#### With local mailserver (e.g. openSMTPd)
+
+1. Install the opensmtpd package and start it.
+2. The mails should be usually delivered in `~/Maildir`. Use your unix username as
+email address and register via frontend or manually at `http://localhost:8000/api/docs`.
+
 
 ## Branches
 
