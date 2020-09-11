@@ -1,3 +1,6 @@
+![Angular Frontend](https://github.com/acipm/kibicara/workflows/Angular%20Frontend/badge.svg)
+![Python Backend](https://github.com/acipm/kibicara/workflows/Python%20Backend/badge.svg)
+
 # Kibicara
 
 Kibicara relays messages between different platforms (= social networks).
