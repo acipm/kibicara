@@ -10,6 +10,7 @@ import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
 import { OverlayComponent } from './overlay/overlay.component';
 import { HeadingOneComponent } from './heading-one/heading-one.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoadingPipe } from './loading-pipe/loading.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
     OverlayComponent,
     HeadingOneComponent,
     FooterComponent,
+    LoadingPipe,
   ],
   imports: [
     MaterialModule,
@@ -33,6 +35,7 @@ import { FooterComponent } from './footer/footer.component';
     NotFoundComponent,
     HeadingOneComponent,
     FooterComponent,
+    LoadingPipe,
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,

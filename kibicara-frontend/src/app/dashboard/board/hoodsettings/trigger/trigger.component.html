@@ -10,40 +10,46 @@
         <mat-icon>add</mat-icon>
       </button>
     </form>
-    <ng-container *ngIf="triggers$ | async as triggers">
-      <mat-list *ngIf="triggers.length !== 0; else empty">
-        <mat-list-item *ngFor="let trigger of triggers">
-          <div class="entry">
-            <div class="regex">
-              {{ trigger.pattern }}
+    <ng-container *ngIf="triggers$ | loading | async as triggers">
+      <ng-template [ngIf]="triggers.value">
+        <mat-list *ngIf="triggers.value.length !== 0; else empty">
+          <mat-list-item *ngFor="let trigger of triggers.value">
+            <div class="entry">
+              <div class="regex">
+                {{ trigger.pattern }}
+              </div>
+              <button
+                mat-icon-button
+                color="primary"
+                aria-label="Edit"
+                class="button"
+                (click)="onEdit(trigger.id)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                aria-label="Delete"
+                class="button"
+                (click)="onDelete(trigger.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-            <button
-              mat-icon-button
-              color="primary"
-              aria-label="Edit"
-              class="button"
-              (click)="onEdit(trigger.id)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              color="warn"
-              aria-label="Delete"
-              class="button"
-              (click)="onDelete(trigger.id)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </mat-list>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+        <ng-template #empty>
+          <div class="error-msg">No triggers configured yet.</div>
+        </ng-template>
+      </ng-template>
+      <ng-template [ngIf]="triggers.error"
+        ><mat-icon class="warning">warning</mat-icon></ng-template
+      >
+      <ng-template [ngIf]="triggers.loading">
+        <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+      </ng-template>
     </ng-container>
-    <ng-template #empty>
-      <div class="error-msg">
-        No triggers configured yet.
-      </div>
-    </ng-template>
   </mat-card-content>
 </mat-card>

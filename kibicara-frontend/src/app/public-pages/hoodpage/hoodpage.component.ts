@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
 })
 export class HoodpageComponent implements OnInit {
   hoodId;
-  hood: BodyHood;
+  hood$;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,12 +21,7 @@ export class HoodpageComponent implements OnInit {
   ngOnInit(): void {
     this.hoodId = this.route.snapshot.params.id;
     if (this.hoodId) {
-      this.hoodsService
-        .getHood(this.hoodId)
-        .pipe(first())
-        .subscribe((data) => {
-          this.hood = data;
-        });
+      this.hood$ = this.hoodsService.getHood(this.hoodId);
     }
   }
 }

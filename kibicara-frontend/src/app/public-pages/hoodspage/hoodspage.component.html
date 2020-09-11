@@ -13,29 +13,33 @@
   </mat-form-field>
   <mat-selection-list
     [multiple]="false"
-    *ngIf="hoods$ | async; let hoods; else: noHoods"
+    *ngIf="hoods$ | loading | async; let hoods"
     class="list"
   >
-    <a
-      [routerLink]="['/organizers']"
-      *ngIf="(hoods | filter: searchText).length === 0"
+    <ng-template [ngIf]="hoods.value">
+      <a
+        [routerLink]="['/organizers']"
+        *ngIf="(hoods.value | filter: searchText).length === 0"
+      >
+        <mat-list-option>
+          <p>No matching hood found. Start by creating <u>a new hood!</u></p>
+        </mat-list-option>
+      </a>
+      <a
+        *ngFor="let hood of hoods.value | filter: searchText"
+        [routerLink]="['/hoods', hood.id]"
+      >
+        <mat-list-option>
+          {{ hood.name }}
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </a>
+    </ng-template>
+    <ng-template [ngIf]="hoods.error"
+      ><mat-icon class="warning">warning</mat-icon></ng-template
     >
-      <mat-list-option>
-        <p>No matching hood found. Start by creating <u>a new hood!</u></p>
-      </mat-list-option>
-    </a>
-    <a
-      *ngFor="let hood of hoods | filter: searchText"
-      [routerLink]="['/hoods', hood.id]"
-    >
-      <mat-list-option>
-        {{ hood.name }}
-        <mat-divider></mat-divider>
-      </mat-list-option>
-    </a>
+    <ng-template [ngIf]="hoods.loading">
+      <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+    </ng-template>
   </mat-selection-list>
-  <ng-template #noHoods>
-    No hoods available yet. Create
-    <a [routerLink]="['/dashboard']">a new hood! </a>
-  </ng-template>
 </div>

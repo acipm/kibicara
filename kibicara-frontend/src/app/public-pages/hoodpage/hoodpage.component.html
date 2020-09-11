@@ -1,8 +1,9 @@
-<app-heading-one [title]="hood.name"></app-heading-one>
-<div class="public-margin container">
-  <div class="markdown">
-    <markdown [data]="hood.landingpage"></markdown>
+<ng-container *ngIf="hood$ | async as hood">
+  <app-heading-one [title]="hood.name"></app-heading-one>
+  <div class="public-margin container">
+    <div class="markdown">
+      <markdown [data]="hood.landingpage"></markdown>
+    </div>
+    <app-platforms-info-page [hoodId]="hoodId"></app-platforms-info-page>
   </div>
-
-  <app-platforms-info-page [hoodId]="hoodId"></app-platforms-info-page>
-</div>
+</ng-container>

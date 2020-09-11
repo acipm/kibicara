@@ -1,32 +1,46 @@
-<div *ngIf="twitters$ | async as twitters">
-  <mat-card *ngIf="twitters.length !== 0">
-    <mat-card-header>
-      <div mat-card-avatar class="twitter"></div>
-      <mat-card-title class="platform-title">
-        Twitter
-        <button mat-icon-button aria-label="How to use">
-          <mat-icon
-            matTooltip="How to send and receive hood broadcast messages with twitter"
-            class="info-button"
-            (click)="onInfoClick()"
-            >info</mat-icon
+<div *ngIf="twitters$ | loading | async as twitters">
+  <ng-template [ngIf]="twitters.value">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="twitter"></div>
+        <mat-card-title class="platform-title">
+          Twitter
+          <button mat-icon-button aria-label="How to use">
+            <mat-icon
+              matTooltip="How to send and receive hood broadcast messages with twitter"
+              class="info-button"
+              (click)="onInfoClick()"
+              >info</mat-icon
+            >
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="twitters.value.length !== 0; else noTwitter">
+        <mat-selection-list [multiple]="false" class="list">
+          <a
+            *ngFor="let twitter of twitters.value"
+            href="https://twitter.com/{{ twitter.username }}"
+            routerLinkActive="router-link-active"
           >
-        </button>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-selection-list [multiple]="false" class="list">
-        <a
-          *ngFor="let twitter of twitters"
-          href="https://twitter.com/{{ twitter.username }}"
-          routerLinkActive="router-link-active"
-        >
-          <mat-list-option>
-            @{{ twitter.username }}
-            <mat-divider></mat-divider>
-          </mat-list-option>
-        </a>
-      </mat-selection-list>
-    </mat-card-content>
-  </mat-card>
+            <mat-list-option>
+              @{{ twitter.username }}
+              <mat-divider></mat-divider>
+            </mat-list-option>
+          </a>
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-card>
+    <ng-template #noTwitter>
+      <mat-card-content>
+        Unfortunately your hood admin has not configured Twitter as platform
+        yet.
+      </mat-card-content>
+    </ng-template>
+  </ng-template>
+  <ng-template [ngIf]="twitters.error"
+    ><mat-icon class="warning">warning</mat-icon></ng-template
+  >
+  <ng-template [ngIf]="twitters.loading">
+    <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+  </ng-template>
 </div>

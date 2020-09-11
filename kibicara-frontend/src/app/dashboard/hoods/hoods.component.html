@@ -7,37 +7,47 @@
       technology for your community to florish!
     </p>
     <div class="hoods-container">
-      <mat-selection-list [multiple]="false">
-        <div mat-subheader>Configure your hoods</div>
-        <mat-divider></mat-divider>
-        <a
-          *ngFor="let hood of hoods$ | async"
-          [routerLink]="['/dashboard/hoods', hood.id]"
-          matTooltip="Edit settings of {{ hood.name }}"
-        >
-          <mat-list-option>
-            <div class="list-entry-container">
-              <mat-icon>settings</mat-icon>
-              <div class="list-entry">
-                Your Hood - <strong>{{ hood.name }}</strong>
-              </div>
-            </div>
+      <ng-container *ngIf="hoods$ | loading | async as hoods">
+        <ng-template [ngIf]="hoods.value">
+          <mat-selection-list [multiple]="false">
+            <div mat-subheader>Configure your hoods</div>
             <mat-divider></mat-divider>
-          </mat-list-option>
-        </a>
-      </mat-selection-list>
-      <mat-list>
-        <div mat-subheader></div>
-        <mat-list-item *ngFor="let hood of hoods$ | async">
-          <a
-            [routerLink]="['/hoods', hood.id]"
-            target="_blank"
-            matTooltip="View public page of hood {{ hood.name }}"
-          >
-            <mat-icon class="open-icon">open_in_new</mat-icon>
-          </a>
-        </mat-list-item>
-      </mat-list>
+            <a
+              *ngFor="let hood of hoods.value"
+              [routerLink]="['/dashboard/hoods', hood.id]"
+              matTooltip="Edit settings of {{ hood.name }}"
+            >
+              <mat-list-option>
+                <div class="list-entry-container">
+                  <mat-icon>settings</mat-icon>
+                  <div class="list-entry">
+                    Your Hood - <strong>{{ hood.name }}</strong>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+              </mat-list-option>
+            </a>
+          </mat-selection-list>
+          <mat-list>
+            <div mat-subheader></div>
+            <mat-list-item *ngFor="let hood of hoods.value">
+              <a
+                [routerLink]="['/hoods', hood.id]"
+                target="_blank"
+                matTooltip="View public page of hood {{ hood.name }}"
+              >
+                <mat-icon class="open-icon">open_in_new</mat-icon>
+              </a>
+            </mat-list-item>
+          </mat-list>
+        </ng-template>
+        <ng-template [ngIf]="hoods.error"
+          ><mat-icon class="warning">warning</mat-icon></ng-template
+        >
+        <ng-template [ngIf]="hoods.loading">
+          <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+        </ng-template>
+      </ng-container>
     </div>
 
     <button

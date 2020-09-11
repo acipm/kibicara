@@ -14,41 +14,49 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list *ngIf="twitters$ | async as twitters">
-      <mat-list-item *ngIf="(twitters | twitterCorpses).length === 0">
-        <button mat-menu-item (click)="onCreate()">
-          <mat-icon>add</mat-icon>
-          <span> Add a platform connection!</span>
-        </button>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-      <mat-list-item *ngFor="let twitter of twitters | twitterCorpses">
-        <div class="entry">
-          @{{ twitter.username }}
-          <mat-slide-toggle
-            [checked]="twitter.enabled === 1"
-            (change)="onChange(twitter)"
-          ></mat-slide-toggle>
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        </div>
-        <mat-divider></mat-divider>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onDelete(twitter.id)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
+    <mat-list *ngIf="twitters$ | loading | async as twitters">
+      <ng-template [ngIf]="twitters.value">
+        <mat-list-item *ngIf="(twitters.value | twitterCorpses).length === 0">
           <button mat-menu-item (click)="onCreate()">
             <mat-icon>add</mat-icon>
-            <span>Add another</span>
+            <span> Add a platform connection!</span>
           </button>
-        </mat-menu>
-      </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item *ngFor="let twitter of twitters.value | twitterCorpses">
+          <div class="entry">
+            @{{ twitter.username }}
+            <mat-slide-toggle
+              [checked]="twitter.enabled === 1"
+              (change)="onChange(twitter)"
+            ></mat-slide-toggle>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onDelete(twitter.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+            <button mat-menu-item (click)="onCreate()">
+              <mat-icon>add</mat-icon>
+              <span>Add another</span>
+            </button>
+          </mat-menu>
+        </mat-list-item>
+      </ng-template>
+      <ng-template [ngIf]="twitters.error"
+        ><mat-icon class="warning">warning</mat-icon></ng-template
+      >
+      <ng-template [ngIf]="twitters.loading">
+        <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+      </ng-template>
     </mat-list>
   </mat-card-content>
 </mat-card>

@@ -1,43 +1,61 @@
-<div *ngIf="emails$ | async as emails">
-  <mat-card *ngIf="emails.length !== 0">
-    <mat-card-header>
-      <div mat-card-avatar class="email"></div>
-      <mat-card-title class="platform-title">
-        E-Mail
-        <button mat-icon-button aria-label="How to use">
-          <mat-icon
-            matTooltip="How to send and receive hood broadcast messages with email"
-            class="info-button"
-            (click)="onInfoClick()"
-            >info</mat-icon
+<div *ngIf="emails$ | loading | async as emails">
+  <ng-template [ngIf]="emails.value">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="email"></div>
+        <mat-card-title class="platform-title">
+          E-Mail
+          <button mat-icon-button aria-label="How to use">
+            <mat-icon
+              matTooltip="How to send and receive hood broadcast messages with email"
+              class="info-button"
+              (click)="onInfoClick()"
+              >info</mat-icon
+            >
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="emails.value.length !== 0; else noEmail">
+        <h3>Subscribe to E-Mail list:</h3>
+        <form class="input" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <mat-label>Your E-Mail</mat-label>
+            <input formControlName="email" matInput />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            color="primary"
+            aria-label="Add"
+            class="button"
           >
-        </button>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <h3>Subscribe to E-Mail list:</h3>
-      <form class="input" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-          <mat-label>Your E-Mail</mat-label>
-          <input formControlName="email" matInput />
-        </mat-form-field>
-        <button mat-icon-button color="primary" aria-label="Add" class="button">
-          <mat-icon>person_add</mat-icon>
-        </button>
-      </form>
-      <mat-divider></mat-divider>
-      <h3>Send e-mail to hood:</h3>
-      <mat-selection-list [multiple]="false" class="list">
-        <a
-          *ngFor="let email of emails"
-          href="mailto:{{ email.name }}@{{ emailDomain }}"
-        >
-          <mat-list-option>
-            {{ email.name }}@{{ emailDomain }}
-            <mat-divider></mat-divider>
-          </mat-list-option>
-        </a>
-      </mat-selection-list>
-    </mat-card-content>
-  </mat-card>
+            <mat-icon>person_add</mat-icon>
+          </button>
+        </form>
+        <mat-divider></mat-divider>
+        <h3>Send e-mail to hood:</h3>
+        <mat-selection-list [multiple]="false" class="list">
+          <a
+            *ngFor="let email of emails.value"
+            href="mailto:{{ email.name }}@{{ emailDomain }}"
+          >
+            <mat-list-option>
+              {{ email.name }}@{{ emailDomain }}
+              <mat-divider></mat-divider>
+            </mat-list-option>
+          </a>
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-card>
+    <ng-template #noEmail>
+      <mat-card-content>
+        Unfortunately your hood admin has not configured E-Mail as platform yet.
+      </mat-card-content>
+    </ng-template>
+  </ng-template>
+  <ng-template [ngIf]="emails.error"
+    ><mat-icon class="warning">warning</mat-icon></ng-template
+  >
+  <ng-template [ngIf]="emails.loading">
+    <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+  </ng-template>
 </div>

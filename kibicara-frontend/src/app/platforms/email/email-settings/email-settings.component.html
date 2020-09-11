@@ -14,50 +14,58 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list *ngIf="emails$ | async as emails">
-      <mat-list-item *ngIf="emails.length === 0; else startButton">
-        <button mat-menu-item (click)="onCreate()">
-          <mat-icon>add</mat-icon>
-          <span> Add a platform connection!</span>
-        </button>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-      <ng-template #startButton>
-        <mat-list-item>
-          <div class="toggle-container">
-            <mat-slide-toggle
-              name="enableEmails"
-              class="toggle"
-              (change)="onToggle()"
-              [(ngModel)]="start"
-            ></mat-slide-toggle>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </ng-template>
-      <mat-list-item *ngFor="let email of emails">
-        <div class="entry">
-          {{ email.name }}@{{ domain }}
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-        </div>
-        <mat-divider></mat-divider>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onDelete(email.id)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
+    <mat-list *ngIf="emails$ | loading | async as emails">
+      <ng-template [ngIf]="emails.value">
+        <mat-list-item *ngIf="emails.value.length === 0; else startButton">
           <button mat-menu-item (click)="onCreate()">
             <mat-icon>add</mat-icon>
-            <span>Add another</span>
+            <span> Add a platform connection!</span>
           </button>
-        </mat-menu>
-      </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        <ng-template #startButton>
+          <mat-list-item>
+            <div class="toggle-container">
+              <mat-slide-toggle
+                name="enableEmails"
+                class="toggle"
+                (change)="onToggle()"
+                [(ngModel)]="start"
+              ></mat-slide-toggle>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </ng-template>
+        <mat-list-item *ngFor="let email of emails.value">
+          <div class="entry">
+            {{ email.name }}@{{ domain }}
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onDelete(email.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+            <button mat-menu-item (click)="onCreate()">
+              <mat-icon>add</mat-icon>
+              <span>Add another</span>
+            </button>
+          </mat-menu>
+        </mat-list-item>
+      </ng-template>
+      <ng-template [ngIf]="emails.error"
+        ><mat-icon class="warning">warning</mat-icon></ng-template
+      >
+      <ng-template [ngIf]="emails.loading">
+        <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+      </ng-template>
     </mat-list>
   </mat-card-content>
 </mat-card>

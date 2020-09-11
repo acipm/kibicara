@@ -10,40 +10,46 @@
         <mat-icon>add</mat-icon>
       </button>
     </form>
-    <ng-container *ngIf="badwords$ | async as badwords">
-      <mat-list *ngIf="badwords.length !== 0; else empty">
-        <mat-list-item *ngFor="let badword of badwords">
-          <div class="entry">
-            <div class="regex">
-              {{ badword.pattern }}
+    <ng-container *ngIf="badwords$ | loading | async as badwords">
+      <ng-template [ngIf]="badwords.value">
+        <mat-list *ngIf="badwords.value.length !== 0; else empty">
+          <mat-list-item *ngFor="let badword of badwords.value">
+            <div class="entry">
+              <div class="regex">
+                {{ badword.pattern }}
+              </div>
+              <button
+                mat-icon-button
+                color="primary"
+                aria-label="Edit"
+                class="button"
+                (click)="onEdit(badword.id)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                aria-label="Delete"
+                class="button"
+                (click)="onDelete(badword.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-            <button
-              mat-icon-button
-              color="primary"
-              aria-label="Edit"
-              class="button"
-              (click)="onEdit(badword.id)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              color="warn"
-              aria-label="Delete"
-              class="button"
-              (click)="onDelete(badword.id)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </mat-list>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+        <ng-template #empty>
+          <div class="error-msg">No badwords configured yet.</div>
+        </ng-template>
+      </ng-template>
+      <ng-template [ngIf]="badwords.error"
+        ><mat-icon class="warning">warning</mat-icon></ng-template
+      >
+      <ng-template [ngIf]="badwords.loading">
+        <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
+      </ng-template>
     </ng-container>
-    <ng-template #empty>
-      <div class="error-msg">
-        No badwords configured yet.
-      </div>
-    </ng-template>
   </mat-card-content>
 </mat-card>
