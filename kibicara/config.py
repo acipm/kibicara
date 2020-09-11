@@ -18,6 +18,8 @@ Example:
 """
 
 from argparse import ArgumentParser
+from nacl.secret import SecretBox
+from nacl.utils import random
 from pytoml import load
 from sys import argv
 
@@ -25,6 +27,7 @@ from sys import argv
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
     'frontend_url': 'http://127.0.0.1:4200',  # url of frontend, change in prod
+    'secret': random(SecretBox.KEY_SIZE).hex(),  # generate with: openssl rand -hex 32
     # production params
     'frontend_path': None,  # required, path to frontend html/css/js files
     'production': True,

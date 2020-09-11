@@ -15,7 +15,6 @@ from logging import getLogger
 from nacl.encoding import URLSafeBase64Encoder
 from nacl.exceptions import CryptoError
 from nacl.secret import SecretBox
-from nacl.utils import random
 from passlib.hash import argon2
 from ormantic.exceptions import NoMatch
 from pickle import dumps, loads
@@ -38,7 +37,7 @@ class BodyAccessToken(BaseModel):
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/admin/login')
-secret_box = SecretBox(random(SecretBox.KEY_SIZE))
+secret_box = SecretBox(bytes.fromhex(config['secret']))
 
 
 def to_token(**kwargs):
