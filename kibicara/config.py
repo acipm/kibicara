@@ -24,7 +24,7 @@ from sys import argv
 
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
-    'frontend_url': 'http://127.0.0.1:4200', # dev default
+    'frontend_url': 'http://127.0.0.1:4200',  # dev default
     'behind_proxy': False,
     # production params
     'frontend_path': None,
