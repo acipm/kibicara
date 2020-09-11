@@ -24,13 +24,15 @@ from sys import argv
 
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',
-    'frontend_url': 'http://127.0.0.1:4200',  # dev default
-    'behind_proxy': False,
+    'frontend_url': 'http://127.0.0.1:4200',  # url of frontend, change in prod
     # production params
-    'frontend_path': None,
+    'frontend_path': None,  # required, path to frontend html/css/js files
     'production': True,
+    'behind_proxy': False,
+    'keyfile': None,  # optional for ssl
+    'certfile': None,  # optional for ssl
     # dev params
-    'root_url': 'http://localhost:8000',
+    'root_url': 'http://localhost:8000',  # url of backend
     'cors_allow_origin': 'http://127.0.0.1:4200',
 }
 """ Default configuration.

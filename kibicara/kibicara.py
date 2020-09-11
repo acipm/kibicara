@@ -58,6 +58,8 @@ class Main:
         server_config = Config()
         server_config.accesslog = '-'
         server_config.behind_proxy = config['behind_proxy']
+        server_config.keyfile = config['keyfile']
+        server_config.certfile = config['certfile']
         if config['production']:
             server_config.bind = ['0.0.0.0:8000', '[::]:8000']
         api = FastAPI()
