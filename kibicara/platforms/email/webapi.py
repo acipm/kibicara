@@ -196,6 +196,9 @@ async def email_subscribe(
         token,
     )
     try:
+        subs = await EmailSubscribers.objects.filter(email=subscriber.email).all()
+        if subs:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT)
         email.send_email(
             subscriber.email,
             "Subscribe to Kibicara " + hood.name,

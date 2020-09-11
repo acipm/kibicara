@@ -28,8 +28,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.error instanceof ProgressEvent) {
-          // TODO Add spinner/overlay in app to prevent user input
-          console.log('Networkerror');
           this.snackBar.openFromComponent(OverlayComponent, {
             verticalPosition: 'top',
           });
@@ -42,8 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else if (err.status === 404) {
           this.router.navigate(['/404']);
         }
-        const error = err.error.message || err.statusText;
-        return throwError(error);
+        return throwError(err);
       })
     );
   }

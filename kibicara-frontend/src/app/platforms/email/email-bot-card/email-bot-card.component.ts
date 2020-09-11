@@ -58,13 +58,15 @@ export class EmailBotCardComponent implements OnInit {
           );
         },
         (error) => {
-          this.snackBar.open(
-            'Could not send e-mail to this address. Try again!',
-            'Close',
-            {
-              duration: 2000,
-            }
-          );
+          let errorMsg = 'Unknown error';
+          if (error.status === 409) {
+            errorMsg = 'E-Mail already in list.';
+          } else if (error.status === 502) {
+            errorMsg = 'Could not send e-mail to this address. Try again!';
+          }
+          this.snackBar.open(errorMsg, 'Close', {
+            duration: 2000,
+          });
         }
       );
   }
