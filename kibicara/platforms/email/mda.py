@@ -7,9 +7,10 @@
 from asyncio import run as asyncio_run
 from email.parser import BytesParser
 from email.policy import default
+from email.utils import parseaddr
 from fastapi import status
 from kibicara.config import args, config
-from kibicara.platforms.email.model import Email
+from kibicara.platforms.email.model import Email, EmailSubscribers
 from logging import getLogger
 from ormantic import NoMatch
 from re import sub
@@ -35,6 +36,25 @@ class Main:
 
         # read mail from STDIN and parse to EmailMessage object
         message = BytesParser(policy=default).parsebytes(stdin.buffer.read())
+
+        sender = ''
+        if message.get('sender'):
+            sender = message.get('sender')
+        elif message.get('from'):
+            sender = message.get('from')
+        else:
+            logger.error('No Sender of From header')
+            exit(1)
+
+        sender = parseaddr(sender)[1]
+        if not sender:
+            logger.error('Could not parse sender')
+            exit(1)
+
+        maybe_subscriber = await EmailSubscribers.objects.filter(email=sender).all()
+        if len(maybe_subscriber) != 1 or maybe_subscriber[0].hood.id != email.id:
+            logger.error('Not a subscriber')
+            exit(1)
 
         # extract relevant data from mail
         text = sub(
