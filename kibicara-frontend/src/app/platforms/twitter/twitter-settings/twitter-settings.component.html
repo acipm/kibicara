@@ -17,9 +17,11 @@
     <mat-list *ngIf="twitters$ | loading | async as twitters">
       <ng-template [ngIf]="twitters.value">
         <mat-list-item *ngIf="(twitters.value | twitterCorpses).length === 0">
-          <button mat-menu-item (click)="onCreate()">
-            <mat-icon>add</mat-icon>
-            <span> Add a platform connection!</span>
+          <button class="add-button" mat-button (click)="onCreate()">
+            <div class="in-add-button">
+              <mat-icon>add</mat-icon>
+              <span> Add a platform connection!</span>
+            </div>
           </button>
           <mat-divider></mat-divider>
         </mat-list-item>

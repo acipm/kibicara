@@ -75,6 +75,8 @@ a {
 
 /* public pages end */
 
+/* shared start */
+
 .spinner {
   display: block;
   margin-left: auto;
@@ -87,3 +89,24 @@ a {
   text-align: center;
   min-width: 100%;
 }
+
+/* shared end */
+
+/* platforms start */
+
+.add-button {
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  height: 48px;
+  overflow: hidden;
+  padding: 0 16px;
+}
+
+.in-add-button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+/* platforms end */

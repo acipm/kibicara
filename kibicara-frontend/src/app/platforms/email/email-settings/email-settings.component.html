@@ -17,9 +17,11 @@
     <mat-list *ngIf="emails$ | loading | async as emails">
       <ng-template [ngIf]="emails.value">
         <mat-list-item *ngIf="emails.value.length === 0; else startButton">
-          <button mat-menu-item (click)="onCreate()">
-            <mat-icon>add</mat-icon>
-            <span> Add a platform connection!</span>
+          <button class="add-button" mat-button (click)="onCreate()">
+            <div class="in-add-button">
+              <mat-icon>add</mat-icon>
+              <span> Add a platform connection!</span>
+            </div>
           </button>
           <mat-divider></mat-divider>
         </mat-list-item>
