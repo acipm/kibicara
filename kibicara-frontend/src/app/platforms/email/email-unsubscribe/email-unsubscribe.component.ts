@@ -29,9 +29,16 @@ export class EmailUnsubscribeComponent implements OnInit {
           this.route.snapshot.queryParams.token,
           this.route.snapshot.params.id
         )
-        .subscribe(() => {
-          this.status = 'You were successfully unsubscribed.';
-        });
+        .subscribe(
+          () => {
+            this.status = 'You were successfully unsubscribed.';
+          },
+          (error) => {
+            if (error.status === 400) {
+              this.status = 'Invalid unsubscribe link.';
+            }
+          }
+        );
     } else {
       this.router.navigate(['/404']);
     }
