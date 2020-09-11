@@ -16,6 +16,13 @@
     <mat-form-field>
       <mat-label>Welcome message</mat-label>
       <textarea matInput formControlName="welcome_message"></textarea>
+      <mat-error
+        *ngIf="
+          form.controls.welcome_message.errors &&
+          form.controls.welcome_message.errors.required
+        "
+        >Welcome message is required</mat-error
+      >
     </mat-form-field>
   </form>
 </mat-dialog-content>
