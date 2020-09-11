@@ -52,7 +52,7 @@ class Main:
             exit(1)
 
         maybe_subscriber = await EmailSubscribers.objects.filter(email=sender).all()
-        if len(maybe_subscriber) != 1 or maybe_subscriber[0].hood.id != email.id:
+        if len(maybe_subscriber) != 1 or maybe_subscriber[0].hood.id != email.hood.id:
             logger.error('Not a subscriber')
             exit(1)
 
