@@ -89,6 +89,7 @@ async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
     - **pattern**: Regular expression which is used to match a trigger
     """
     await trigger.update(**values.__dict__)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.delete(
@@ -99,3 +100,4 @@ async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
 async def trigger_delete(trigger=Depends(get_trigger)):
     """ Deletes trigger with id **trigger_id** for hood with id **hood_id**. """
     await trigger.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

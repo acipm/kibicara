@@ -106,6 +106,7 @@ async def hood_update(values: BodyHood, hood=Depends(get_hood)):
     - **landingpage**: New Markdown formatted description of the hood
     """
     await hood.update(**values.__dict__)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.delete(
@@ -124,3 +125,4 @@ async def hood_delete(hood=Depends(get_hood)):
     for relation in await AdminHoodRelation.objects.filter(hood=hood).all():
         await relation.delete()
     await hood.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

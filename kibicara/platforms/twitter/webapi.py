@@ -74,6 +74,7 @@ async def twitter_read(twitter=Depends(get_twitter)):
 async def twitter_delete(twitter=Depends(get_twitter)):
     spawner.stop(twitter)
     await twitter.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get(

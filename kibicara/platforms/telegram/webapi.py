@@ -87,6 +87,7 @@ async def telegram_delete(telegram=Depends(get_telegram)):
     for user in await TelegramUser.objects.filter(bot=telegram).all():
         await user.delete()
     await telegram.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post(

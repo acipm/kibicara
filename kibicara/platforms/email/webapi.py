@@ -171,6 +171,7 @@ async def email_delete(email=Depends(get_email)):
     :param hood: Hood the Email bot belongs to.
     """
     await email.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post(
@@ -257,6 +258,7 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
             hood=payload['hood'], email=payload['email']
         ).get()
         await subscriber.delete()
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
     except NoMatch:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     except exceptions.CryptoError:

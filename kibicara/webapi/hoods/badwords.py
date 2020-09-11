@@ -88,6 +88,7 @@ async def badword_update(values: BodyBadWord, badword=Depends(get_badword)):
     - **pattern**: Regular expression which is used to match a badword
     """
     await badword.update(**values.__dict__)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.delete(
@@ -98,3 +99,4 @@ async def badword_update(values: BodyBadWord, badword=Depends(get_badword)):
 async def badword_delete(badword=Depends(get_badword)):
     """ Deletes badword with id **badword_id** for hood with id **hood_id**. """
     await badword.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
