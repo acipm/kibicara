@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>kibicara.platforms.twitter.bot API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>kibicara.platforms.twitter.bot</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># Copyright (C) 2020 by Cathy Hu &lt;cathy.hu@fau.de&gt;
+#
+# SPDX-License-Identifier: 0BSD
+
+from asyncio import gather, sleep, CancelledError
+from kibicara.config import config
+from kibicara.platformapi import Censor, Message, Spawner
+from kibicara.platforms.twitter.model import Twitter
+from logging import getLogger
+from peony import PeonyClient, exceptions
+
+
+logger = getLogger(__name__)
+
+
+class TwitterBot(Censor):
+    def __init__(self, twitter_model):
+        super().__init__(twitter_model.hood)
+        self.twitter_model = twitter_model
+        self.enabled = self.twitter_model.enabled
+        self.polling_interval_sec = 60
+        self.mentions_since_id = self.twitter_model.mentions_since_id
+        self.dms_since_id = self.twitter_model.dms_since_id
+
+    @classmethod
+    async def destroy_hood(cls, hood):
+        &#34;&#34;&#34;Removes all its database entries.&#34;&#34;&#34;
+        for twitter in await Twitter.objects.filter(hood=hood).all():
+            await twitter.delete()
+
+    async def run(self):
+        try:
+            if not self.twitter_model.verified:
+                raise ValueError(&#39;Oauth Handshake not completed&#39;)
+            self.client = PeonyClient(
+                consumer_key=config[&#39;twitter&#39;][&#39;consumer_key&#39;],
+                consumer_secret=config[&#39;twitter&#39;][&#39;consumer_secret&#39;],
+                access_token=self.twitter_model.access_token,
+                access_token_secret=self.twitter_model.access_token_secret,
+            )
+            if self.twitter_model.mentions_since_id is None:
+                logger.debug(&#39;since_id is None in model, fetch newest mention id&#39;)
+                await self._poll_mentions()
+            if self.twitter_model.dms_since_id is None:
+                logger.debug(&#39;since_id is None in model, fetch newest dm id&#39;)
+                await self._poll_direct_messages()
+            user = await self.client.user
+            if user.screen_name:
+                await self.twitter_model.update(username=user.screen_name)
+            logger.debug(&#39;Starting Twitter bot: %s&#39; % self.twitter_model.__dict__)
+            await gather(self.poll(), self.push())
+        except CancelledError:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} received Cancellation.&#39;)
+        except exceptions.Unauthorized:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} has invalid auth token.&#39;)
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
+        except (KeyError, ValueError, exceptions.NotAuthenticated):
+            logger.warning(&#39;Missing consumer_keys for Twitter in your configuration.&#39;)
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
+        finally:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} stopped.&#39;)
+
+    async def poll(self):
+        while True:
+            dms = await self._poll_direct_messages()
+            logger.debug(
+                &#39;Polled dms (%s): %s&#39; % (self.twitter_model.hood.name, str(dms))
+            )
+            mentions = await self._poll_mentions()
+            logger.debug(
+                &#39;Polled mentions (%s): %s&#39;
+                % (self.twitter_model.hood.name, str(mentions))
+            )
+            await self.twitter_model.update(
+                dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
+            )
+            for message in dms:
+                await self.publish(Message(message))
+            for message_id, message in mentions:
+                await self.publish(Message(message, twitter_mention_id=message_id))
+            await sleep(self.polling_interval_sec)
+
+    async def _poll_direct_messages(self):
+        dms = await self.client.api.direct_messages.events.list.get()
+        dms = dms.events
+        # TODO check for next_cursor (see twitter api)
+        dms_filtered = []
+        if dms:
+            for dm in dms:
+                if int(dm.id) == self.dms_since_id:
+                    break
+                dms_filtered.append(dm)
+            self.dms_since_id = int(dms[0].id)
+        messages = []
+        for dm in dms_filtered:
+            filtered_text = await self._filter_text(
+                dm.message_create.message_data.entities,
+                dm.message_create.message_data.text,
+            )
+            if not filtered_text:
+                continue
+            messages.append(filtered_text)
+        return messages
+
+    async def _poll_mentions(self):
+        mentions = await self.client.api.statuses.mentions_timeline.get(
+            since_id=self.mentions_since_id
+        )
+        if mentions:
+            self.mentions_since_id = mentions[0].id
+        messages = []
+        for mention in mentions:
+            filtered_text = await self._filter_text(mention.entities, mention.text)
+            if not filtered_text:
+                continue
+            messages.append((mention.id, filtered_text))
+        return messages
+
+    async def _filter_text(self, entities, text):
+        remove_indices = set()
+        for user in entities.user_mentions:
+            remove_indices.update(range(user.indices[0], user.indices[1] + 1))
+        for url in entities.urls:
+            remove_indices.update(range(url.indices[0], url.indices[1] + 1))
+        for symbol in entities.symbols:
+            remove_indices.update(range(symbol.indices[0], symbol.indices[1] + 1))
+        filtered_text = &#34;&#34;
+        for index, character in enumerate(text):
+            if index not in remove_indices:
+                filtered_text += character
+        filtered_text = filtered_text.strip()
+        return filtered_text
+
+    async def push(self):
+        while True:
+            message = await self.receive()
+            logger.debug(
+                &#39;Received message from censor (%s): %s&#39;
+                % (self.twitter_model.hood.name, message.text)
+            )
+            if hasattr(message, &#39;twitter_mention_id&#39;):
+                await self._retweet(message.twitter_mention_id)
+            else:
+                await self._post_tweet(message.text)
+
+    async def _post_tweet(self, message):
+        return await self.client.api.statuses.update.post(status=message)
+
+    async def _retweet(self, message_id):
+        return await self.client.api.statuses.retweet.post(id=message_id)
+
+
+spawner = Spawner(Twitter, TwitterBot)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="kibicara.platforms.twitter.bot.TwitterBot"><code class="flex name class">
+<span>class <span class="ident">TwitterBot</span></span>
+<span>(</span><span>twitter_model)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The superclass for a platform bot.</p>
+<p>The censor is the superclass for every platform bot. It distributes a message to all
+other bots from the same hood if it passes the message filter. It provides methods
+to start and stop the bot and an overwritable stub for a starting routine.</p>
+<h2 id="examples">Examples</h2>
+<pre><code>class XYZPlatform(Censor):
+    def __init__(self, xyz_model):
+        super().__init__(xyz_model.hood)
+    ...
+    async def run(self):
+        await gather(self.poll(), self.push())
+    ...
+    async def poll(self):
+        while True:
+            # XXX get text message from platform xyz
+            await self.publish(Message(text))
+    ...
+    async def push(self):
+        while True:
+            message = await self.receive()
+            # XXX send message.text to platform xyz
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>hood</code></strong> :&ensp;<code>Hood</code></dt>
+<dd>A Hood Model object</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>hood</code></strong> :&ensp;<code>Hood</code></dt>
+<dd>A Hood Model object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TwitterBot(Censor):
+    def __init__(self, twitter_model):
+        super().__init__(twitter_model.hood)
+        self.twitter_model = twitter_model
+        self.enabled = self.twitter_model.enabled
+        self.polling_interval_sec = 60
+        self.mentions_since_id = self.twitter_model.mentions_since_id
+        self.dms_since_id = self.twitter_model.dms_since_id
+
+    @classmethod
+    async def destroy_hood(cls, hood):
+        &#34;&#34;&#34;Removes all its database entries.&#34;&#34;&#34;
+        for twitter in await Twitter.objects.filter(hood=hood).all():
+            await twitter.delete()
+
+    async def run(self):
+        try:
+            if not self.twitter_model.verified:
+                raise ValueError(&#39;Oauth Handshake not completed&#39;)
+            self.client = PeonyClient(
+                consumer_key=config[&#39;twitter&#39;][&#39;consumer_key&#39;],
+                consumer_secret=config[&#39;twitter&#39;][&#39;consumer_secret&#39;],
+                access_token=self.twitter_model.access_token,
+                access_token_secret=self.twitter_model.access_token_secret,
+            )
+            if self.twitter_model.mentions_since_id is None:
+                logger.debug(&#39;since_id is None in model, fetch newest mention id&#39;)
+                await self._poll_mentions()
+            if self.twitter_model.dms_since_id is None:
+                logger.debug(&#39;since_id is None in model, fetch newest dm id&#39;)
+                await self._poll_direct_messages()
+            user = await self.client.user
+            if user.screen_name:
+                await self.twitter_model.update(username=user.screen_name)
+            logger.debug(&#39;Starting Twitter bot: %s&#39; % self.twitter_model.__dict__)
+            await gather(self.poll(), self.push())
+        except CancelledError:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} received Cancellation.&#39;)
+        except exceptions.Unauthorized:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} has invalid auth token.&#39;)
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
+        except (KeyError, ValueError, exceptions.NotAuthenticated):
+            logger.warning(&#39;Missing consumer_keys for Twitter in your configuration.&#39;)
+            await self.twitter_model.update(enabled=False)
+            self.enabled = self.twitter_model.enabled
+        finally:
+            logger.debug(f&#39;Bot {self.twitter_model.hood.name} stopped.&#39;)
+
+    async def poll(self):
+        while True:
+            dms = await self._poll_direct_messages()
+            logger.debug(
+                &#39;Polled dms (%s): %s&#39; % (self.twitter_model.hood.name, str(dms))
+            )
+            mentions = await self._poll_mentions()
+            logger.debug(
+                &#39;Polled mentions (%s): %s&#39;
+                % (self.twitter_model.hood.name, str(mentions))
+            )
+            await self.twitter_model.update(
+                dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
+            )
+            for message in dms:
+                await self.publish(Message(message))
+            for message_id, message in mentions:
+                await self.publish(Message(message, twitter_mention_id=message_id))
+            await sleep(self.polling_interval_sec)
+
+    async def _poll_direct_messages(self):
+        dms = await self.client.api.direct_messages.events.list.get()
+        dms = dms.events
+        # TODO check for next_cursor (see twitter api)
+        dms_filtered = []
+        if dms:
+            for dm in dms:
+                if int(dm.id) == self.dms_since_id:
+                    break
+                dms_filtered.append(dm)
+            self.dms_since_id = int(dms[0].id)
+        messages = []
+        for dm in dms_filtered:
+            filtered_text = await self._filter_text(
+                dm.message_create.message_data.entities,
+                dm.message_create.message_data.text,
+            )
+            if not filtered_text:
+                continue
+            messages.append(filtered_text)
+        return messages
+
+    async def _poll_mentions(self):
+        mentions = await self.client.api.statuses.mentions_timeline.get(
+            since_id=self.mentions_since_id
+        )
+        if mentions:
+            self.mentions_since_id = mentions[0].id
+        messages = []
+        for mention in mentions:
+            filtered_text = await self._filter_text(mention.entities, mention.text)
+            if not filtered_text:
+                continue
+            messages.append((mention.id, filtered_text))
+        return messages
+
+    async def _filter_text(self, entities, text):
+        remove_indices = set()
+        for user in entities.user_mentions:
+            remove_indices.update(range(user.indices[0], user.indices[1] + 1))
+        for url in entities.urls:
+            remove_indices.update(range(url.indices[0], url.indices[1] + 1))
+        for symbol in entities.symbols:
+            remove_indices.update(range(symbol.indices[0], symbol.indices[1] + 1))
+        filtered_text = &#34;&#34;
+        for index, character in enumerate(text):
+            if index not in remove_indices:
+                filtered_text += character
+        filtered_text = filtered_text.strip()
+        return filtered_text
+
+    async def push(self):
+        while True:
+            message = await self.receive()
+            logger.debug(
+                &#39;Received message from censor (%s): %s&#39;
+                % (self.twitter_model.hood.name, message.text)
+            )
+            if hasattr(message, &#39;twitter_mention_id&#39;):
+                await self._retweet(message.twitter_mention_id)
+            else:
+                await self._post_tweet(message.text)
+
+    async def _post_tweet(self, message):
+        return await self.client.api.statuses.update.post(status=message)
+
+    async def _retweet(self, message_id):
+        return await self.client.api.statuses.retweet.post(id=message_id)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="kibicara.platformapi.Censor" href="../../platformapi.html#kibicara.platformapi.Censor">Censor</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="kibicara.platforms.twitter.bot.TwitterBot.destroy_hood"><code class="name flex">
+<span>async def <span class="ident">destroy_hood</span></span>(<span>hood)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes all its database entries.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+async def destroy_hood(cls, hood):
+    &#34;&#34;&#34;Removes all its database entries.&#34;&#34;&#34;
+    for twitter in await Twitter.objects.filter(hood=hood).all():
+        await twitter.delete()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="kibicara.platforms.twitter.bot.TwitterBot.poll"><code class="name flex">
+<span>async def <span class="ident">poll</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def poll(self):
+    while True:
+        dms = await self._poll_direct_messages()
+        logger.debug(
+            &#39;Polled dms (%s): %s&#39; % (self.twitter_model.hood.name, str(dms))
+        )
+        mentions = await self._poll_mentions()
+        logger.debug(
+            &#39;Polled mentions (%s): %s&#39;
+            % (self.twitter_model.hood.name, str(mentions))
+        )
+        await self.twitter_model.update(
+            dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
+        )
+        for message in dms:
+            await self.publish(Message(message))
+        for message_id, message in mentions:
+            await self.publish(Message(message, twitter_mention_id=message_id))
+        await sleep(self.polling_interval_sec)</code></pre>
+</details>
+</dd>
+<dt id="kibicara.platforms.twitter.bot.TwitterBot.push"><code class="name flex">
+<span>async def <span class="ident">push</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def push(self):
+    while True:
+        message = await self.receive()
+        logger.debug(
+            &#39;Received message from censor (%s): %s&#39;
+            % (self.twitter_model.hood.name, message.text)
+        )
+        if hasattr(message, &#39;twitter_mention_id&#39;):
+            await self._retweet(message.twitter_mention_id)
+        else:
+            await self._post_tweet(message.text)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="kibicara.platformapi.Censor" href="../../platformapi.html#kibicara.platformapi.Censor">Censor</a></b></code>:
+<ul class="hlist">
+<li><code><a title="kibicara.platformapi.Censor.publish" href="../../platformapi.html#kibicara.platformapi.Censor.publish">publish</a></code></li>
+<li><code><a title="kibicara.platformapi.Censor.receive" href="../../platformapi.html#kibicara.platformapi.Censor.receive">receive</a></code></li>
+<li><code><a title="kibicara.platformapi.Censor.run" href="../../platformapi.html#kibicara.platformapi.Censor.run">run</a></code></li>
+<li><code><a title="kibicara.platformapi.Censor.start" href="../../platformapi.html#kibicara.platformapi.Censor.start">start</a></code></li>
+<li><code><a title="kibicara.platformapi.Censor.stop" href="../../platformapi.html#kibicara.platformapi.Censor.stop">stop</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="kibicara.platforms.twitter" href="index.html">kibicara.platforms.twitter</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="kibicara.platforms.twitter.bot.TwitterBot" href="#kibicara.platforms.twitter.bot.TwitterBot">TwitterBot</a></code></h4>
+<ul class="">
+<li><code><a title="kibicara.platforms.twitter.bot.TwitterBot.destroy_hood" href="#kibicara.platforms.twitter.bot.TwitterBot.destroy_hood">destroy_hood</a></code></li>
+<li><code><a title="kibicara.platforms.twitter.bot.TwitterBot.poll" href="#kibicara.platforms.twitter.bot.TwitterBot.poll">poll</a></code></li>
+<li><code><a title="kibicara.platforms.twitter.bot.TwitterBot.push" href="#kibicara.platforms.twitter.bot.TwitterBot.push">push</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>
