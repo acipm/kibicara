@@ -11,12 +11,16 @@ def test_telegram_get_bots(client, auth_header, event_loop, hood_id):
     hood = event_loop.run_until_complete(Hood.objects.get(id=hood_id))
     telegram0 = event_loop.run_until_complete(
         Telegram.objects.create(
-            hood=hood, api_token='api_token123', welcome_message='welcome_message123',
+            hood=hood,
+            api_token='api_token123',
+            welcome_message='welcome_message123',
         )
     )
     telegram1 = event_loop.run_until_complete(
         Telegram.objects.create(
-            hood=hood, api_token='api_token456', welcome_message='welcome_message123',
+            hood=hood,
+            api_token='api_token456',
+            welcome_message='welcome_message123',
         )
     )
     response = client.get(

@@ -19,7 +19,13 @@ def disable_spawner(monkeypatch):
 
 @mark.parametrize('body', [{'api_token': 'string', 'welcome_message': 'string'}])
 def test_telegram_create_bot(
-    event_loop, client, disable_spawner, hood_id, auth_header, monkeypatch, body,
+    event_loop,
+    client,
+    disable_spawner,
+    hood_id,
+    auth_header,
+    monkeypatch,
+    body,
 ):
     def check_token_mock(token):
         return True
@@ -27,7 +33,9 @@ def test_telegram_create_bot(
     monkeypatch.setattr(telegram.webapi, 'check_token', check_token_mock)
 
     response = client.post(
-        f'/api/hoods/{hood_id}/telegram/', json=body, headers=auth_header,
+        f'/api/hoods/{hood_id}/telegram/',
+        json=body,
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_201_CREATED
     bot_id = response.json()['id']
@@ -44,10 +52,18 @@ def test_telegram_create_bot(
 
 @mark.parametrize('body', [{'api_token': 'string', 'welcome_message': 'string'}])
 def test_telegram_invalid_api_token(
-    event_loop, client, disable_spawner, hood_id, auth_header, monkeypatch, body,
+    event_loop,
+    client,
+    disable_spawner,
+    hood_id,
+    auth_header,
+    monkeypatch,
+    body,
 ):
     response = client.post(
-        f'/api/hoods/{hood_id}/telegram/', json=body, headers=auth_header,
+        f'/api/hoods/{hood_id}/telegram/',
+        json=body,
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
