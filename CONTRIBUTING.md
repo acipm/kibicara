@@ -184,9 +184,8 @@ A bot should have at least this functionality:
     - Endpoint for updating a bot associated with a hood by id
         (_The update endpoint may be optional if it does not provide any
         additional benefit to delete and create.
-        An example where it does provide additional benefit is when there is
-        a database which holds state like user ids in telegram. Then deleting the bot
-        would also delete the user ids which would stop the bot from working._)
+        For example, it is useful when there is a database which holds a state
+        that can be reused._)
     - Endpoint for getting the bot configuration by id
     - Endpoint for starting and enabling a created bot by id
     - Endpoint for stopping and disabling a created bot by id
