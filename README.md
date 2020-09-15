@@ -12,13 +12,14 @@ Users can message a specific hood account on a specific platform (e.g. @xyz on
 Telegram). This pushes the announcement to all platform accounts of a hood.
 For example: User A writes a message to @xyz on Telegram (which has been
 connected to Kibicara by a hood admin). This publishes the message on e.g.
-Twitter and other platforms which have been connected to the hood.
+Twitter and other platforms which have also been connected to the hood.
 
 The admin of a hood has to define trigger words and bad words. Messages need to
 contain a trigger word to be relayed, and must not contain a bad word.
 
-Kibicara needs to be hosted on a server by an instance maintainer. That way,
-hood admins don't need a server of their own.
+Kibicara needs to be hosted on a server by an instance maintainer. That way, a
+hood admin can easily add a new hood, without them having to deploy kibicara on
+a server.
 
 ## Deploy Kibicara on a production server
 
