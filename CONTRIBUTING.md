@@ -12,9 +12,9 @@
 5. Install with `pip install .`
 6. Install development dependencies with `pip install tox black`
 7. Add git-hook to run test and stylecheck before commmit with
-   `ln -s ../../git-hooks/pre-commit .git/hooks/pre-commit`
+   `ln -s git-hooks/pre-commit .git/hooks/pre-commit`
 8. Add git-hook to check commmit message format with
-   `ln -s ../../git-hooks/commit-msg .git/hooks/commit-msg`
+   `ln -s git-hooks/commit-msg .git/hooks/commit-msg`
 9. Turn off production mode: `sudo su -c 'echo "production = 0" >> /etc/kibicara.conf'`
 
 #### Cheatsheet
