@@ -13,6 +13,7 @@ setup(
             'kibicara_mda=kibicara.platforms.email.mda:Main',
         ]
     },
+    python_requires='>=3.8',
     install_requires=[
         'aiofiles',
         'aiogram',
