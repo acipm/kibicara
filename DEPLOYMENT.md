@@ -1,6 +1,6 @@
 ## Setup on a server
 
-This will guide you through the whole kibicara server setup on a OpenBSD with OpenSMTPd as MTA (+ Relay at `relay.example.com`) and `https://kibicara.example.com` as domain. The kibicara server will also run on other Unix-like systems, just modify the guide to your needs.
+This will guide you through the whole kibicara server setup on a OpenBSD with OpenSMTPd as MTA (+ relay at `relay.example.com`) and `https://kibicara.example.com` as domain. The kibicara server will also run on other Unix-like systems, just modify the guide to your needs.
 
 Prerequisites:
 - python>=3.8 + pip
@@ -8,10 +8,10 @@ Prerequisites:
 ### Set up server environment
 - Create a new user: `adduser kibicara`
 - Install packages: `pkg_add git python%3.8 opensmtpd-extras`
-  - (Optional) Create a symlink to python3: `ln -s /usr/local/bin/python3.8 /usr/local/bin/python3`
+  - (optional) Create a symlink to python3: `ln -s /usr/local/bin/python3.8 /usr/local/bin/python3`
 - Ensure pip is installed: `python3 -m ensurepip --default-pip`
 - Switch to kibicara user: `su -l kibicara`
-- Add pip packages to PATH by appending it to the `.profile` of user `kibicara` (remember that a new login is needed for it to work). This ensures that you can call kibicara without full path:
+- Add pip packages to PATH by appending it to the `.profile` of user `kibicara` (remember that a new login is needed for it to work). This ensures that you can call kibicara without its full path:
 ```
 PIP_PACKAGES="${HOME}/.local"
 export PATH="$PATH:$PIP_PACKAGES/bin"
@@ -45,7 +45,7 @@ export const environment = {
   EMAIL_DOMAIN: 'kibicara.example.com',
 };
 ```
-- Build frontend with `cd kibicara/kibicara-frontend && ng build --prod`
+- Build frontend: `cd kibicara/kibicara-frontend && ng build --prod`
 - Copy the generated frontend to your server to `/home/kibicara/kibicara-frontend`: `scp -r kibicara/kibicara-frontend/dist/kibicara-frontend <your_server>:/home/kibicara`
 
 ### Configure Kibicara Core
@@ -85,7 +85,7 @@ match from local for any action "outbound"
 dbpath /home/kibicara/kibicara.sqlite
 query_mailaddr SELECT 1 FROM email WHERE ? IN (name || '@kibicara.example.com');
 ```
-- Don't forget to restart OpenSMTPd when you change your database: `rcctl stop && rcctl start`
+- Don't forget to restart OpenSMTPd after you change your database: `rcctl stop && rcctl start`
 
 #### Configure Twitter
 
@@ -106,4 +106,4 @@ consumer_secret = '<your_consumer_secret>'
 Nothing to do, because telegram has a nice API.
 
 ### Start Kibicara
-Run `kibicara` with your kibicara user. To have more verbose output add `-vvv`.
+Run `kibicara` with your kibicara user. For more verbose output, add `-vvv`.
