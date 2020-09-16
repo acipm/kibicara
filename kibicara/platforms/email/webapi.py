@@ -202,7 +202,6 @@ async def email_subscribe(
         email.send_email(
             subscriber.email,
             "Subscribe to Kibicara " + hood.name,
-            sender=hood.name,
             body='To confirm your subscription, follow this link: ' + confirm_link,
         )
         return {}
