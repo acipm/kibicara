@@ -19,7 +19,7 @@ export PATH="$PATH:$PIP_PACKAGES/bin"
 
 ### Build backend on the server
 - Clone the repository: `git clone https://github.com/acipm/kibicara`
-- Install backend: `cd kibicara && pip install --user .`
+- Install backend: `cd kibicara && pip install -U --user pip setuptools wheel && pip install --user .`
 
 ### Build frontend on your local machine
 Since Angular CLI is quite bloaty and your server may don't have enough resouces, we recommend to build the frontend locally and copying it onto the server. The same steps can be used on the server if it has enough resources.
