@@ -60,7 +60,7 @@ async def trigger_create(
     try:
         regex_compile(values.pattern)
         trigger = await Trigger.objects.create(hood=hood, **values.__dict__)
-        response.headers['Location'] = '%d' % trigger.id
+        response.headers['Location'] = str(trigger.id)
         return trigger
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

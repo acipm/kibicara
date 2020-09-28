@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -24,7 +25,7 @@ def test_telegram_get_bots(client, auth_header, event_loop, hood_id):
         )
     )
     response = client.get(
-        f'/api/hoods/{telegram0.hood.id}/telegram', headers=auth_header
+        '/api/hoods/{0}/telegram'.format(telegram0.hood.id), headers=auth_header
     )
     assert response.status_code == status.HTTP_200_OK
     assert response.json()[0]['id'] == telegram0.id
@@ -41,5 +42,5 @@ def test_telegram_get_bots_invalid_id(client, auth_header, hood_id):
 
 
 def test_telegram_get_bots_unauthorized(client, hood_id):
-    response = client.get(f'/api/hoods/{hood_id}/telegram')
+    response = client.get('/api/hoods/{0}/telegram'.format(hood_id))
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

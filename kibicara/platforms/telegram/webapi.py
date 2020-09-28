@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -102,7 +103,7 @@ async def telegram_create(
     try:
         telegram = await Telegram.objects.create(hood=hood, **values.__dict__)
         spawner.start(telegram)
-        response.headers['Location'] = '%d' % telegram.id
+        response.headers['Location'] = str(telegram.id)
         return telegram
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

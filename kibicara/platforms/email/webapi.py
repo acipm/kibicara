@@ -1,6 +1,7 @@
 # Copyright (C) 2020 by Maike <maike@systemli.org>
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -112,7 +113,7 @@ async def email_create(values: BodyEmail, response: Response, hood=Depends(get_h
         email = await Email.objects.create(
             hood=hood, secret=urandom(32).hex(), **values.__dict__
         )
-        response.headers['Location'] = '%d' % hood.id
+        response.headers['Location'] = str(hood.id)
         return email
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
@@ -190,7 +191,7 @@ async def email_subscribe(
     :return: Returns status code 200 after sending confirmation email.
     """
     token = to_token(hood=hood.id, email=subscriber.email)
-    confirm_link = '%s/hoods/%d/email-confirm?token=%s' % (
+    confirm_link = '{0}/hoods/{1}/email-confirm?token={2}'.format(
         config['frontend_url'],
         hood.id,
         token,
@@ -201,8 +202,8 @@ async def email_subscribe(
             raise HTTPException(status_code=status.HTTP_409_CONFLICT)
         email.send_email(
             subscriber.email,
-            "Subscribe to Kibicara " + hood.name,
-            body='To confirm your subscription, follow this link: ' + confirm_link,
+            "Subscribe to Kibicara {0}".format(hood.name),
+            body='To confirm your subscription, follow this link: {0}'.format(confirm_link),
         )
         return {}
     except ConnectionRefusedError:
@@ -251,7 +252,7 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     :param hood: Hood the Email bot belongs to.
     """
     try:
-        logger.warning("token is: " + token)
+        logger.warning("token is: {0}".format(token))
         payload = from_token(token)
         # If token.hood and url.hood are different, raise an error:
         if hood.id is not payload['hood']:
@@ -304,10 +305,10 @@ async def email_message_create(
         if message.secret == receiver.secret:
             # pass message.text to bot.py
             if await spawner.get(hood).publish(Message(message.text)):
-                logger.warning("Message was accepted: " + message.text)
+                logger.warning("Message was accepted: {0}".format(message.text))
                 return {}
             else:
-                logger.warning("Message was't accepted: " + message.text)
+                logger.warning("Message was't accepted: {0}".format(message.text))
                 raise HTTPException(
                     status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
                 )

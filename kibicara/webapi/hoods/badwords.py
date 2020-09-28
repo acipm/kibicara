@@ -59,7 +59,7 @@ async def badword_create(
     try:
         regex_compile(values.pattern)
         badword = await BadWord.objects.create(hood=hood, **values.__dict__)
-        response.headers['Location'] = '%d' % badword.id
+        response.headers['Location'] = str(badword.id)
         return badword
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

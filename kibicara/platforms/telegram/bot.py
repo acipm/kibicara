@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -40,27 +41,29 @@ class TelegramBot(Censor):
         try:
             self.bot = Bot(token=self.telegram_model.api_token)
             self.dp = self._create_dispatcher()
-            logger.debug(f'Bot {self.telegram_model.hood.name} starting.')
+            logger.debug('Bot {0} starting.'.format(self.telegram_model.hood.name))
             user = await self.bot.get_me()
             if user.username:
                 await self.telegram_model.update(username=user.username)
             await gather(self.dp.start_polling(), self._push())
         except CancelledError:
-            logger.debug(f'Bot {self.telegram_model.hood.name} received Cancellation.')
+            logger.debug('Bot {0} received Cancellation.'.format(
+                self.telegram_model.hood.name))
             self.dp = None
             raise
         except exceptions.ValidationError:
-            logger.debug(f'Bot {self.telegram_model.hood.name} has invalid auth token.')
+            logger.debug('Bot {0} has invalid auth token.'.format(
+                self.telegram_model.hood.name))
             await self.telegram_model.update(enabled=False)
         finally:
-            logger.debug(f'Bot {self.telegram_model.hood.name} stopped.')
+            logger.debug('Bot {0} stopped.'.format(self.telegram_model.hood.name))
 
     async def _push(self):
         while True:
             message = await self.receive()
             logger.debug(
-                'Received message from censor (%s): %s'
-                % (self.telegram_model.hood.name, message.text)
+                'Received message from censor ({0}): {1}'.format(
+                    self.telegram_model.hood.name, message.text)
             )
             for user in await TelegramUser.objects.filter(
                 bot=self.telegram_model
@@ -72,29 +75,31 @@ class TelegramBot(Censor):
             await self.bot.send_message(user_id, message, disable_notification=False)
         except exceptions.BotBlocked:
             logger.error(
-                'Target [ID:%s] (%s): blocked by user'
-                % (user_id, self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): blocked by user'.format(user_id,
+                    self.telegram_model.hood.name)
             )
         except exceptions.ChatNotFound:
             logger.error(
-                'Target [ID:%s] (%s): invalid user ID'
-                % (user_id, self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): invalid user ID'.format(user_id,
+                    self.telegram_model.hood.name)
             )
         except exceptions.RetryAfter as e:
             logger.error(
-                'Target [ID:%s] (%s): Flood limit is exceeded. Sleep %d seconds.'
-                % (user_id, self.telegram_model.hood.name, e.timeout)
+                'Target [ID:{0}] ({1}): Flood limit is exceeded.'.format(
+                    user_id, self.telegram_model.hood.name
+                )
+                + 'Sleep {0} seconds.'.format(e.timeout)
             )
             await sleep(e.timeout)
             return await self._send_message(user_id, message)
         except exceptions.UserDeactivated:
             logger.error(
-                'Target [ID:%s] (%s): user is deactivated'
-                % (user_id, self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): user is deactivated'.format(user_id,
+                    self.telegram_model.hood.name)
             )
         except exceptions.TelegramAPIError:
             logger.exception(
-                'Target [ID:%s] (%s): failed' % (user_id, self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): failed'.format(user_id, self.telegram_model.hood.name)
             )
 
     async def _send_welcome(self, message: types.Message):

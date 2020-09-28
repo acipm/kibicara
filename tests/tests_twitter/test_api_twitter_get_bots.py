@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -23,7 +24,7 @@ def test_twitter_get_bots(client, auth_header, event_loop, hood_id):
             access_token_secret='access_token_secret456',
         )
     )
-    response = client.get(f'/api/hoods/{twitter0.hood.id}/twitter', headers=auth_header)
+    response = client.get('/api/hoods/{0}/twitter'.format(twitter0.hood.id), headers=auth_header)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()[0]['id'] == twitter0.id
     assert response.json()[0]['access_token'] == twitter0.access_token
@@ -39,5 +40,5 @@ def test_twitter_get_bots_invalid_id(client, auth_header, hood_id):
 
 
 def test_twitter_get_bots_unauthorized(client, hood_id):
-    response = client.get(f'/api/hoods/{hood_id}/twitter')
+    response = client.get('/api/hoods/{0}/twitter'.format(hood_id))
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

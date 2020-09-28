@@ -1,6 +1,7 @@
 # Copyright (C) 2020 by Maike <maike@systemli.org>
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -35,22 +36,22 @@ class EmailBot(Censor):
         while True:
             message = await self.receive()
             logger.debug(
-                'Received message from censor (%s): %s' % (self.hood.name, message.text)
+                'Received message from censor ({0}): {1}'.format(self.hood.name, message.text)
             )
             for subscriber in await EmailSubscribers.objects.filter(
                 hood=self.hood
             ).all():
                 token = to_token(email=subscriber.email, hood=self.hood.id)
                 body = (
-                    '%s\n\n--\n'
+                    '{0}\n\n--\n'
                     'If you want to stop receiving these mails,'
-                    'follow this link: %s/hoods/%d/email-unsubscribe?token=%s'
-                ) % (message.text, config['frontend_url'], self.hood.id, token)
+                    'follow this link: {1}/hoods/{2}/email-unsubscribe?token={3}'
+                ).format(message.text, config['frontend_url'], self.hood.id, token)
                 try:
-                    logger.debug('Trying to send: \n%s' % body)
+                    logger.debug('Trying to send: \n{0}'.format(body))
                     email.send_email(
                         subscriber.email,
-                        "Kibicara " + self.hood.name,
+                        "Kibicara {0}".format(self.hood.name),
                         body=body,
                     )
                 except (ConnectionRefusedError, SMTPException):

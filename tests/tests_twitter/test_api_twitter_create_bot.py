@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -75,7 +76,7 @@ def test_twitter_create_bot(
     )
 
     # Twitter create endpoint
-    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    response = client.post('/api/hoods/{0}/twitter/'.format(hood_id), headers=auth_header)
     assert response.status_code == status.HTTP_201_CREATED
     bot_id = response.json()['id']
     twitter = event_loop.run_until_complete(Twitter.objects.get(id=bot_id))
@@ -137,7 +138,7 @@ def test_twitter_create_unauthorized(client, hood_id):
 
 def test_twitter_create_wrong_consumer_keys(client, monkeypatch, auth_header, hood_id):
     # No consumer keys
-    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    response = client.post('/api/hoods/{0}/twitter/'.format(hood_id), headers=auth_header)
     assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR
 
     # Invalid consumer keys
@@ -147,5 +148,5 @@ def test_twitter_create_wrong_consumer_keys(client, monkeypatch, auth_header, ho
         {'consumer_key': 'consumer_key123', 'consumer_secret': 'consumer_secret123'},
     )
 
-    response = client.post(f'/api/hoods/{hood_id}/twitter/', headers=auth_header)
+    response = client.post('/api/hoods/{0}/twitter/'.format(hood_id), headers=auth_header)
     assert response.status_code == status.HTTP_500_INTERNAL_SERVER_ERROR

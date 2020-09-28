@@ -100,7 +100,7 @@ class Censor:
 
     async def __run(self):
         await self.hood.load()
-        self.__task.set_name('%s %s' % (self.__class__.__name__, self.hood.name))
+        self.__task.set_name('{0} {1}'.format(self.__class__.__name__, self.hood.name))
         try:
             self.status = BotStatus.RUNNING
             await self.run()
@@ -148,13 +148,16 @@ class Censor:
     async def __is_appropriate(self, message):
         for badword in await BadWord.objects.filter(hood=self.hood).all():
             if search(badword.pattern, message.text, IGNORECASE):
-                logger.debug('Matched bad word - dropped message: %s' % message.text)
+                logger.debug('Matched bad word - dropped message: {0}'.format(
+                    message.text))
                 return False
         for trigger in await Trigger.objects.filter(hood=self.hood).all():
             if search(trigger.pattern, message.text, IGNORECASE):
-                logger.debug('Matched trigger - passed message: %s' % message.text)
+                logger.debug('Matched trigger - passed message: {0}'.format(
+                    message.text))
                 return True
-        logger.debug('Did not match any trigger - dropped message: %s' % message.text)
+        logger.debug('Did not match any trigger - dropped message: {0}'.format(
+            message.text))
         return False
 
 
