@@ -76,7 +76,7 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
         # Initialize Triggers to match all
         await Trigger.objects.create(hood=hood, pattern='.')
 
-        response.headers['Location'] = '%d' % hood.id
+        response.headers['Location'] = str(hood.id)
         return hood
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

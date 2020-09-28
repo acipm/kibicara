@@ -33,9 +33,9 @@ def send_email(to, subject, sender='kibicara', body=''):
         body (str): The body of the e-mail
     """
     msg = MIMEMultipart()
-    msg['From'] = 'Kibicara <%s@%s>' % (sender, getfqdn())
+    msg['From'] = 'Kibicara <{0}@{1}>'.format(sender, getfqdn())
     msg['To'] = to
-    msg['Subject'] = '[Kibicara] %s' % subject
+    msg['Subject'] = '[Kibicara] {0}'.format(subject)
     msg.attach(MIMEText(body))
 
     with SMTP('localhost') as smtp:

@@ -1,5 +1,6 @@
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -37,7 +38,7 @@ async def test_create(response: Response, hood=Depends(get_hood)):
     try:
         test = await Test.objects.create(hood=hood)
         spawner.start(test)
-        response.headers['Location'] = '%d' % test.id
+        response.headers['Location'] = str(test.id)
         return test
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)

@@ -1,6 +1,7 @@
 # Copyright (C) 2020 by Maike <maike@systemli.org>
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -64,19 +65,19 @@ class Main:
         )
 
         response = post(
-            '%s/api/hoods/%d/email/messages/' % (config['root_url'], email.hood.pk),
+            '{0}/api/hoods/{1}/email/messages/'.format(config['root_url'], email.hood.pk),
             json={'text': text, 'secret': email.secret},
         )
         if response.status_code == status.HTTP_201_CREATED:
             exit(0)
         elif response.status_code == status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS:
-            logger.error('Message was\'t accepted: %s' % text)
+            logger.error('Message was\'t accepted: {0}'.format(text))
         elif response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY:
-            logger.error('Malformed request: %s' % response.json())
+            logger.error('Malformed request: {0}'.format(response.json()))
         elif response.status_code == status.HTTP_401_UNAUTHORIZED:
             logger.error('Wrong API secret. kibicara_mda seems to be misconfigured')
         else:
             logger.error(
-                'REST-API failed with response status %d' % response.status_code
+                'REST-API failed with response status {0}'.format(response.status_code)
             )
         exit(1)

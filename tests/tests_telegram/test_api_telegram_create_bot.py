@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -33,7 +34,7 @@ def test_telegram_create_bot(
     monkeypatch.setattr(telegram.webapi, 'check_token', check_token_mock)
 
     response = client.post(
-        f'/api/hoods/{hood_id}/telegram/',
+        '/api/hoods/{0}/telegram/'.format(hood_id),
         json=body,
         headers=auth_header,
     )
@@ -61,7 +62,7 @@ def test_telegram_invalid_api_token(
     body,
 ):
     response = client.post(
-        f'/api/hoods/{hood_id}/telegram/',
+        '/api/hoods/{0}/telegram/'.format(hood_id),
         json=body,
         headers=auth_header,
     )

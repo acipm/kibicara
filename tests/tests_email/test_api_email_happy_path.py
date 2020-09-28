@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Maike <maike@systemli.org>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -12,7 +13,7 @@ from urllib.parse import urlparse
 
 def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     response = client.post(
-        '/api/hoods/%d/email/subscribe/' % hood_id, json={'email': 'test@localhost'}
+        '/api/hoods/{0}/email/subscribe/'.format(hood_id), json={'email': 'test@localhost'}
     )
     assert response.status_code == status.HTTP_202_ACCEPTED
     mail = receive_email()
@@ -24,17 +25,17 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     )[0]
     start = len('token=')
     response = client.post(
-        '/api/hoods/%d/email/subscribe/confirm/%s'
-        % (hood_id, urlparse(confirm_url).query[start:])
+        '/api/hoods/{0}/email/subscribe/confirm/{1}'
+        .format(hood_id, urlparse(confirm_url).query[start:])
     )
     assert response.status_code == status.HTTP_201_CREATED
     response = client.post(
-        '/api/hoods/%d/email/subscribe/confirm/%s'
-        % (hood_id, urlparse(confirm_url).query[start:])
+        '/api/hoods/{0}/email/subscribe/confirm/{1}'
+        .format(hood_id, urlparse(confirm_url).query[start:])
     )
     assert response.status_code == status.HTTP_409_CONFLICT
     token = to_token(email=mail['to'], hood=hood_id)
-    response = client.delete('/api/hoods/%d/email/unsubscribe/%s' % (hood_id, token))
+    response = client.delete('/api/hoods/{0}/email/unsubscribe/{1}'.format(hood_id, token))
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
@@ -44,7 +45,7 @@ def test_email_message(client, hood_id, trigger_id, email_row):
         'author': "test@localhost",
         'secret': email_row['secret'],
     }
-    response = client.post('/api/hoods/%d/email/messages/' % hood_id, json=body)
+    response = client.post('/api/hoods/{0}/email/messages/'.format(hood_id), json=body)
     assert response.status_code == status.HTTP_201_CREATED
 
 

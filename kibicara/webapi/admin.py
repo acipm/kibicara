@@ -105,12 +105,12 @@ async def admin_register(values: BodyAdmin):
     - **password**: Password of new hood admin
     """
     register_token = to_token(**values.__dict__)
-    logger.debug(f'register_token={register_token}')
+    logger.debug('register_token={0}'.format(register_token))
     try:
         admin = await Admin.objects.filter(email=values.email).all()
         if admin:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-        body = f'{config["frontend_url"]}/confirm?token={register_token}'
+        body = '{0}/confirm?token={1}'.format(config["frontend_url"], register_token)
         logger.debug(body)
         email.send_email(
             to=values.email,
@@ -177,12 +177,12 @@ async def admin_reset_password(values: BodyEmail):
     - **password**: Password of new hood admin
     """
     register_token = to_token(datetime=datetime.now().isoformat(), **values.__dict__)
-    logger.debug(f'register_token={register_token}')
+    logger.debug('register_token={0}'.format(register_token))
     try:
         admin = await Admin.objects.filter(email=values.email).all()
         if not admin:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-        body = f'{config["frontend_url"]}/password-reset?token={register_token}'
+        body = '{0}/password-reset?token={1}'.format(config["frontend_url"], register_token)
         logger.debug(body)
         email.send_email(
             to=values.email,

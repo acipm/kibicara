@@ -1,5 +1,6 @@
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
 # Copyright (C) 2020 by Christian Hagenest <c.hagenest@pm.me>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -55,7 +56,7 @@ def register_token(client, receive_email):
 
 @fixture(scope='module')
 def register_confirmed(client, register_token):
-    response = client.post('/api/admin/confirm/%s' % register_token)
+    response = client.post('/api/admin/confirm/{0}'.format(register_token))
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -70,7 +71,7 @@ def access_token(client, register_confirmed):
 
 @fixture(scope='module')
 def auth_header(access_token):
-    return {'Authorization': 'Bearer %s' % access_token}
+    return {'Authorization': 'Bearer {0}'.format(access_token)}
 
 
 @fixture(scope='function')
@@ -79,13 +80,13 @@ def hood_id(client, auth_header):
     assert response.status_code == status.HTTP_201_CREATED
     hood_id = int(response.headers['Location'])
     yield hood_id
-    client.delete('/api/hoods/%d' % hood_id, headers=auth_header)
+    client.delete('/api/hoods/{0}'.format(hood_id), headers=auth_header)
 
 
 @fixture(scope='function')
 def trigger_id(client, hood_id, auth_header):
     response = client.post(
-        '/api/hoods/%d/triggers/' % hood_id,
+        '/api/hoods/{0}/triggers/'.format(hood_id),
         json={'pattern': 'test'},
         headers=auth_header,
     )
@@ -93,29 +94,29 @@ def trigger_id(client, hood_id, auth_header):
     trigger_id = int(response.headers['Location'])
     yield trigger_id
     client.delete(
-        '/api/hoods/%d/triggers/%d' % (hood_id, trigger_id), headers=auth_header
+        '/api/hoods/{0}/triggers/{1}'.format(hood_id, trigger_id), headers=auth_header
     )
 
 
 @fixture(scope='function')
 def badword_id(client, hood_id, auth_header):
     response = client.post(
-        '/api/hoods/%d/badwords/' % hood_id, json={'pattern': ''}, headers=auth_header
+        '/api/hoods/{0}/badwords/'.format(hood_id), json={'pattern': ''}, headers=auth_header
     )
     assert response.status_code == status.HTTP_201_CREATED
     badword_id = int(response.headers['Location'])
     yield badword_id
     client.delete(
-        '/api/hoods/%d/badwords/%d' % (hood_id, badword_id), headers=auth_header
+        '/api/hoods/{0}/badwords/{1}'.format(hood_id, badword_id), headers=auth_header
     )
 
 
 @fixture(scope='function')
 def test_id(client, hood_id, auth_header):
     response = client.post(
-        '/api/hoods/%d/test/' % hood_id, json={}, headers=auth_header
+        '/api/hoods/{0}/test/'.format(hood_id), json={}, headers=auth_header
     )
     assert response.status_code == status.HTTP_201_CREATED
     test_id = int(response.headers['Location'])
     yield test_id
-    client.delete('/api/hoods/%d/test/%d' % (hood_id, test_id), headers=auth_header)
+    client.delete('/api/hoods/{0}/test/{1}'.format(hood_id, test_id), headers=auth_header)

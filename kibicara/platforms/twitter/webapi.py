@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Cathy Hu <cathy.hu@fau.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
@@ -129,8 +130,9 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
         request_token = await get_oauth_token(
             config['twitter']['consumer_key'],
             config['twitter']['consumer_secret'],
-            callback_uri=f""""""
-            f"""{config["frontend_url"]}/dashboard/twitter-callback?hood={hood.id}""",
+            callback_uri="{0}/dashboard/twitter-callback?hood={1}".format(
+                config["frontend_url"], hood.id
+            ),
         )
         if request_token['oauth_callback_confirmed'] != 'true':
             raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
@@ -139,7 +141,7 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
             access_token=request_token['oauth_token'],
             access_token_secret=request_token['oauth_token_secret'],
         )
-        response.headers['Location'] = '%d' % twitter.id
+        response.headers['Location'] = str(twitter.id)
         return twitter
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT)
