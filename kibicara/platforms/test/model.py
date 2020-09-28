@@ -1,4 +1,5 @@
 # Copyright (C) 2020 by Thomas Lindner <tom@dl6tom.de>
+# Copyright (C) 2020 by Martin Rey <martin.rey@mailbox.org>
 #
 # SPDX-License-Identifier: 0BSD
 
