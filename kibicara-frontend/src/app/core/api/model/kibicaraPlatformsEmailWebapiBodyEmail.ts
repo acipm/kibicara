@@ -11,8 +11,7 @@
  */
 
 
-export interface BodyAdmin { 
-    password: string;
-    email: string;
+export interface KibicaraPlatformsEmailWebapiBodyEmail { 
+    name: string;
 }
 

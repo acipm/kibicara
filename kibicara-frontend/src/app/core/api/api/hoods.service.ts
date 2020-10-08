@@ -102,12 +102,11 @@ export class HoodsService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -166,12 +165,11 @@ export class HoodsService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -312,12 +310,11 @@ export class HoodsService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

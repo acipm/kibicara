@@ -11,8 +11,7 @@
  */
 
 
-export interface BodyAdmin { 
+export interface BodyPassword { 
     password: string;
-    email: string;
 }
 

@@ -91,22 +91,21 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testCreateApiHoodsHoodIdTestPost(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testCreateHoodsHoodIdTestPost(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testCreateHoodsHoodIdTestPost(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testCreateHoodsHoodIdTestPost(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testCreateHoodsHoodIdTestPost(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testCreateApiHoodsHoodIdTestPost.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testCreateHoodsHoodIdTestPost.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -146,25 +145,24 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testDeleteApiHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testDeleteApiHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testDeleteApiHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testDeleteApiHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testDeleteHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testDeleteHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testDeleteHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testDeleteHoodsHoodIdTestTestIdDelete(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
-            throw new Error('Required parameter testId was null or undefined when calling testDeleteApiHoodsHoodIdTestTestIdDelete.');
+            throw new Error('Required parameter testId was null or undefined when calling testDeleteHoodsHoodIdTestTestIdDelete.');
         }
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testDeleteApiHoodsHoodIdTestTestIdDelete.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testDeleteHoodsHoodIdTestTestIdDelete.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -204,28 +202,27 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testMessageCreateHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testMessageCreateHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testMessageCreateHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testMessageCreateHoodsHoodIdTestTestIdMessagesPost(testId: number, hoodId: number, kibicaraPlatformsTestWebapiBodyMessage: KibicaraPlatformsTestWebapiBodyMessage, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
-            throw new Error('Required parameter testId was null or undefined when calling testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost.');
+            throw new Error('Required parameter testId was null or undefined when calling testMessageCreateHoodsHoodIdTestTestIdMessagesPost.');
         }
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testMessageCreateHoodsHoodIdTestTestIdMessagesPost.');
         }
         if (kibicaraPlatformsTestWebapiBodyMessage === null || kibicaraPlatformsTestWebapiBodyMessage === undefined) {
-            throw new Error('Required parameter kibicaraPlatformsTestWebapiBodyMessage was null or undefined when calling testMessageCreateApiHoodsHoodIdTestTestIdMessagesPost.');
+            throw new Error('Required parameter kibicaraPlatformsTestWebapiBodyMessage was null or undefined when calling testMessageCreateHoodsHoodIdTestTestIdMessagesPost.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -274,25 +271,24 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testMessageReadAllHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testMessageReadAllHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testMessageReadAllHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testMessageReadAllHoodsHoodIdTestTestIdMessagesGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
-            throw new Error('Required parameter testId was null or undefined when calling testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet.');
+            throw new Error('Required parameter testId was null or undefined when calling testMessageReadAllHoodsHoodIdTestTestIdMessagesGet.');
         }
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testMessageReadAllApiHoodsHoodIdTestTestIdMessagesGet.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testMessageReadAllHoodsHoodIdTestTestIdMessagesGet.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -330,22 +326,21 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testReadAllApiHoodsHoodIdTestGet(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testReadAllHoodsHoodIdTestGet(hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testReadAllHoodsHoodIdTestGet(hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testReadAllHoodsHoodIdTestGet(hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testReadAllHoodsHoodIdTestGet(hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testReadAllApiHoodsHoodIdTestGet.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testReadAllHoodsHoodIdTestGet.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -384,25 +379,24 @@ export class TestService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public testReadApiHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public testReadHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public testReadHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public testReadHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public testReadHoodsHoodIdTestTestIdGet(testId: number, hoodId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (testId === null || testId === undefined) {
-            throw new Error('Required parameter testId was null or undefined when calling testReadApiHoodsHoodIdTestTestIdGet.');
+            throw new Error('Required parameter testId was null or undefined when calling testReadHoodsHoodIdTestTestIdGet.');
         }
         if (hoodId === null || hoodId === undefined) {
-            throw new Error('Required parameter hoodId was null or undefined when calling testReadApiHoodsHoodIdTestTestIdGet.');
+            throw new Error('Required parameter hoodId was null or undefined when calling testReadHoodsHoodIdTestTestIdGet.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

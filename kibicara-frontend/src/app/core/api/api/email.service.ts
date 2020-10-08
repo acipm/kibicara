@@ -17,9 +17,9 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { BodyEmail } from '../model/models';
 import { BodySubscriber } from '../model/models';
 import { HTTPValidationError } from '../model/models';
+import { KibicaraPlatformsEmailWebapiBodyEmail } from '../model/models';
 import { KibicaraPlatformsEmailWebapiBodyMessage } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -142,29 +142,28 @@ export class EmailService {
      * Email Create
      * Create an Email bot. Call this when creating a hood.  :param hood: Hood row of the hood the Email bot is supposed to belong to. :return: Email row of the new email bot.
      * @param hoodId 
-     * @param bodyEmail 
+     * @param kibicaraPlatformsEmailWebapiBodyEmail 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createEmail(hoodId: number, bodyEmail: BodyEmail, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public createEmail(hoodId: number, bodyEmail: BodyEmail, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public createEmail(hoodId: number, bodyEmail: BodyEmail, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
-    public createEmail(hoodId: number, bodyEmail: BodyEmail, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public createEmail(hoodId: number, kibicaraPlatformsEmailWebapiBodyEmail: KibicaraPlatformsEmailWebapiBodyEmail, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
+    public createEmail(hoodId: number, kibicaraPlatformsEmailWebapiBodyEmail: KibicaraPlatformsEmailWebapiBodyEmail, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
+    public createEmail(hoodId: number, kibicaraPlatformsEmailWebapiBodyEmail: KibicaraPlatformsEmailWebapiBodyEmail, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public createEmail(hoodId: number, kibicaraPlatformsEmailWebapiBodyEmail: KibicaraPlatformsEmailWebapiBodyEmail, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (hoodId === null || hoodId === undefined) {
             throw new Error('Required parameter hoodId was null or undefined when calling createEmail.');
         }
-        if (bodyEmail === null || bodyEmail === undefined) {
-            throw new Error('Required parameter bodyEmail was null or undefined when calling createEmail.');
+        if (kibicaraPlatformsEmailWebapiBodyEmail === null || kibicaraPlatformsEmailWebapiBodyEmail === undefined) {
+            throw new Error('Required parameter kibicaraPlatformsEmailWebapiBodyEmail was null or undefined when calling createEmail.');
         }
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -195,7 +194,7 @@ export class EmailService {
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/hoods/${encodeURIComponent(String(hoodId))}/email/`,
-            bodyEmail,
+            kibicaraPlatformsEmailWebapiBodyEmail,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -227,12 +226,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -284,12 +282,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -337,12 +334,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -439,12 +435,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -492,12 +487,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -605,12 +599,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -659,12 +652,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -712,12 +704,11 @@ export class EmailService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (OAuth2PasswordBearer) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = this.configuration.lookupCredential('OAuth2PasswordBearer');
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

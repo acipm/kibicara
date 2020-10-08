@@ -11,8 +11,12 @@
  */
 
 
-export interface BodyAdmin { 
+export interface BodyAdminLoginAdminLoginPost { 
+    grant_type?: string;
+    username: string;
     password: string;
-    email: string;
+    scope?: string;
+    client_id?: string;
+    client_secret?: string;
 }
 
