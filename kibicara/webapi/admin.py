@@ -6,11 +6,12 @@
 
 """ REST API endpoints for hood admins. """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from kibicara import email
 from kibicara.config import config
-from kibicara.model import Admin, AdminHoodRelation
+from kibicara.model import Admin, AdminHoodRelation, Hood
+from kibicara.webapi.utils import delete_hood
 from logging import getLogger
 from nacl.encoding import URLSafeBase64Encoder
 from nacl.exceptions import CryptoError
@@ -164,3 +165,25 @@ async def admin_hood_read_all(admin=Depends(get_admin)):
     return (
         await AdminHoodRelation.objects.select_related('hood').filter(admin=admin).all()
     )
+
+
+@router.delete(
+    '/',
+    status_code=status.HTTP_204_NO_CONTENT,
+    operation_id='delete_admin',
+)
+async def admin_delete(admin=Depends(get_admin)):
+    hood_relations = (
+        await AdminHoodRelation.objects.select_related('hood').filter(admin=admin).all()
+    )
+    for hood in hood_relations:
+        admins = (
+            await AdminHoodRelation.objects.select_related('admin')
+            .filter(hood=hood.id)
+            .all()
+        )
+        if len(admins) == 1 and admins[0].id == admin.id:
+            actual_hood = await Hood.objects.filter(id=hood.id).all()
+            await delete_hood(actual_hood[0])
+    await admin.delete()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

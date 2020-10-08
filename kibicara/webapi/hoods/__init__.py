@@ -6,10 +6,10 @@
 """ REST API Endpoints for managing hoods. """
 
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara.model import AdminHoodRelation, BadWord, Hood, Trigger
-from kibicara.platformapi import Spawner
+from kibicara.model import AdminHoodRelation, Hood, Trigger
 from kibicara.platforms.email.bot import spawner
 from kibicara.webapi.admin import get_admin
+from kibicara.webapi.utils import delete_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
 from sqlite3 import IntegrityError
@@ -117,12 +117,5 @@ async def hood_update(values: BodyHood, hood=Depends(get_hood)):
 )
 async def hood_delete(hood=Depends(get_hood)):
     """ Deletes hood with id **hood_id**. """
-    await Spawner.destroy_hood(hood)
-    for trigger in await Trigger.objects.filter(hood=hood).all():
-        await trigger.delete()
-    for badword in await BadWord.objects.filter(hood=hood).all():
-        await badword.delete()
-    for relation in await AdminHoodRelation.objects.filter(hood=hood).all():
-        await relation.delete()
-    await hood.delete()
+    await delete_hood(hood)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
