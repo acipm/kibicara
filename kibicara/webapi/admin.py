@@ -232,34 +232,17 @@ async def admin_hood_read_all(admin=Depends(get_admin)):
     )
 
 
-@router.put(
+@router.get(
     '/',
-    status_code=status.HTTP_202_ACCEPTED,
     # TODO response_model,
-    operation_id='update_admin',
+    operation_id='get_admin',
 )
-async def admin_update(values: BodyAdmin, admin=Depends(get_admin)):
-    try:
-        if not admin:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-        if values.email:
-            register_token = to_token(**values.__dict__)
-            body = f'{config["frontend_url"]}/confirm?token={register_token}'
-            logger.debug(body)
-            email.send_email(
-                to=values.email,
-                subject='Confirm Account Change',
-                body=body,
-            )
-        if values.password:
-            passhash = argon2.hash(values.password)
-            await admin.update(passhash=passhash)
-        return {}
-    except IntegrityError:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-    except (ConnectionRefusedError, SMTPException):
-        logger.exception('Email sending failed')
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
+async def admin_read(admin=Depends(get_admin)):
+    """ Get a list of all hoods of a given admin. """
+    admin = await Admin.objects.filter(email=admin.email).all()
+    if len(admin) != 1:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    return BodyEmail(email=admin[0].email)
 
 
 @router.delete(
