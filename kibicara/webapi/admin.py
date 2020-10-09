@@ -165,7 +165,7 @@ async def admin_login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 
 @router.post(
-    '/reset',
+    '/reset/',
     status_code=status.HTTP_202_ACCEPTED,
     response_model=BaseModel,
     operation_id='reset',
@@ -198,7 +198,7 @@ async def admin_reset_password(values: BodyEmail):
 @router.post(
     '/reset/{reset_token}',
     response_model=BodyAccessToken,
-    operation_id='confirm reset',
+    operation_id='confirm_reset',
 )
 async def admin_confirm_reset(reset_token: str, values: BodyPassword):
     try:
