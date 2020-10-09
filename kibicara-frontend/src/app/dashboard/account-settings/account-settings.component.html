@@ -1,0 +1,61 @@
+<app-heading-one [title]="title"></app-heading-one>
+
+<div class="container">
+  <mat-card>
+    <form [formGroup]="form" class="form">
+      <mat-form-field appearance="fill">
+        <mat-label for="email">E-Mail</mat-label>
+        <input type="text" formControlName="email" matInput disabled />
+        <mat-error
+          *ngIf="
+            form.controls.email.errors && form.controls.email.errors.required
+          "
+        >
+          E-Mail is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          formControlName="password"
+          matInput
+          [type]="'password'"
+          disabled
+        />
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors.required
+          "
+        >
+          Password is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors.minlength
+          "
+        >
+          Password requires minimal length 8
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="onUpdate()" disabled>
+        Update account information
+      </button>
+    </form>
+  </mat-card>
+
+  <mat-card>
+    <div class="delete">
+      <mat-card-title>Danger zone</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <button mat-raised-button color="warn" (click)="onDelete()">
+          Delete account
+        </button>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

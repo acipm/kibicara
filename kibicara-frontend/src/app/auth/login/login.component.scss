@@ -37,6 +37,10 @@
   margin-right: 30px;
   display: flex;
   align-items: center;
+  @media (max-width: 900px) {
+    display: grid;
+    gap: 10px;
+  }
 }
 
 .login-form {

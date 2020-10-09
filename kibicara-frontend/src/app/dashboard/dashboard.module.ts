@@ -15,6 +15,7 @@ import { NewHoodDialogComponent } from './hoods/new-hood-dialog/new-hood-dialog.
 import { PlatformsModule } from '../platforms/platforms.module';
 import { SettingsComponent } from './board/settings/settings.component';
 import { FaqComponent } from './hoods/faq/faq.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FaqComponent } from './hoods/faq/faq.component';
     NewHoodDialogComponent,
     SettingsComponent,
     FaqComponent,
+    AccountSettingsComponent,
   ],
   imports: [
     DashboardRoutingModule,
