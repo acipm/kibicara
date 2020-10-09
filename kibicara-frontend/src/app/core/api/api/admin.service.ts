@@ -155,9 +155,9 @@ export class AdminService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<any>;
-    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<any>>;
-    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<any>>;
+    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<BodyAccessToken>;
+    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<BodyAccessToken>>;
+    public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<BodyAccessToken>>;
     public confirmReset(resetToken: string, bodyPassword: BodyPassword, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (resetToken === null || resetToken === undefined) {
             throw new Error('Required parameter resetToken was null or undefined when calling confirmReset.');
@@ -195,7 +195,7 @@ export class AdminService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/admin/reset/${encodeURIComponent(String(resetToken))}`,
+        return this.httpClient.post<BodyAccessToken>(`${this.configuration.basePath}/api/admin/reset/${encodeURIComponent(String(resetToken))}`,
             bodyPassword,
             {
                 responseType: <any>responseType,
@@ -492,7 +492,7 @@ export class AdminService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<object>(`${this.configuration.basePath}/api/admin/reset`,
+        return this.httpClient.post<object>(`${this.configuration.basePath}/api/admin/reset/`,
             kibicaraWebapiAdminBodyEmail,
             {
                 responseType: <any>responseType,
