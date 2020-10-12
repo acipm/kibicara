@@ -66,7 +66,9 @@ class Main:
         )
 
         response = post(
-            '{0}/api/hoods/{1}/email/messages/'.format(config['root_url'], email.hood.pk),
+            '{0}/api/hoods/{1}/email/messages/'.format(
+                config['root_url'], email.hood.pk
+            ),
             json={'text': text, 'secret': email.secret},
         )
         if response.status_code == status.HTTP_201_CREATED:

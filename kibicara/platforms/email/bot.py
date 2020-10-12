@@ -36,7 +36,9 @@ class EmailBot(Censor):
         while True:
             message = await self.receive()
             logger.debug(
-                'Received message from censor ({0}): {1}'.format(self.hood.name, message.text)
+                'Received message from censor ({0}): {1}'.format(
+                    self.hood.name, message.text
+                )
             )
             for subscriber in await EmailSubscribers.objects.filter(
                 hood=self.hood

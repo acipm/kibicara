@@ -25,7 +25,9 @@ def test_twitter_get_bots(client, auth_header, event_loop, hood_id):
             access_token_secret='access_token_secret456',
         )
     )
-    response = client.get('/api/hoods/{0}/twitter'.format(twitter0.hood.id), headers=auth_header)
+    response = client.get(
+        '/api/hoods/{0}/twitter'.format(twitter0.hood.id), headers=auth_header
+    )
     assert response.status_code == status.HTTP_200_OK
     assert response.json()[0]['id'] == twitter0.id
     assert response.json()[0]['access_token'] == twitter0.access_token

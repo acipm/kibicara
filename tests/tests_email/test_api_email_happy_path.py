@@ -15,7 +15,8 @@ from kibicara.webapi.admin import to_token
 
 def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     response = client.post(
-        '/api/hoods/{0}/email/subscribe/'.format(hood_id), json={'email': 'test@localhost'}
+        '/api/hoods/{0}/email/subscribe/'.format(hood_id),
+        json={'email': 'test@localhost'},
     )
     assert response.status_code == status.HTTP_202_ACCEPTED
     mail = receive_email()
@@ -27,17 +28,21 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     )[0]
     start = len('token=')
     response = client.post(
-        '/api/hoods/{0}/email/subscribe/confirm/{1}'
-        .format(hood_id, urlparse(confirm_url).query[start:])
+        '/api/hoods/{0}/email/subscribe/confirm/{1}'.format(
+            hood_id, urlparse(confirm_url).query[start:]
+        )
     )
     assert response.status_code == status.HTTP_201_CREATED
     response = client.post(
-        '/api/hoods/{0}/email/subscribe/confirm/{1}'
-        .format(hood_id, urlparse(confirm_url).query[start:])
+        '/api/hoods/{0}/email/subscribe/confirm/{1}'.format(
+            hood_id, urlparse(confirm_url).query[start:]
+        )
     )
     assert response.status_code == status.HTTP_409_CONFLICT
     token = to_token(email=mail['to'], hood=hood_id)
-    response = client.delete('/api/hoods/{0}/email/unsubscribe/{1}'.format(hood_id, token))
+    response = client.delete(
+        '/api/hoods/{0}/email/unsubscribe/{1}'.format(hood_id, token)
+    )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 

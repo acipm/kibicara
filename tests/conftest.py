@@ -103,7 +103,9 @@ def trigger_id(client, hood_id, auth_header):
 @fixture(scope='function')
 def badword_id(client, hood_id, auth_header):
     response = client.post(
-        '/api/hoods/{0}/badwords/'.format(hood_id), json={'pattern': ''}, headers=auth_header
+        '/api/hoods/{0}/badwords/'.format(hood_id),
+        json={'pattern': ''},
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_201_CREATED
     badword_id = int(response.headers['Location'])
@@ -121,4 +123,6 @@ def test_id(client, hood_id, auth_header):
     assert response.status_code == status.HTTP_201_CREATED
     test_id = int(response.headers['Location'])
     yield test_id
-    client.delete('/api/hoods/{0}/test/{1}'.format(hood_id, test_id), headers=auth_header)
+    client.delete(
+        '/api/hoods/{0}/test/{1}'.format(hood_id, test_id), headers=auth_header
+    )
