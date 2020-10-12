@@ -32,6 +32,7 @@ class TelegramBot(Censor):
         dp = Dispatcher(self.bot)
         dp.register_message_handler(self._send_welcome, commands=['start'])
         dp.register_message_handler(self._remove_user, commands=['stop'])
+        dp.register_message_handler(self._send_help, commands=['help'])
         dp.register_message_handler(self._receive_message)
         return dp
 
@@ -117,6 +118,12 @@ class TelegramBot(Censor):
             await message.reply('You were removed successfully from this bot.')
         except NoMatch:
             await message.reply('Error: You are not subscribed to this bot.')
+
+    async def _send_help(self, message: types.Message):
+        if message.from_user.is_bot:
+            await message.reply('Error: Bots can\'t be helped.')
+            return
+        await message.reply('Send messages here to broadcast them to your hood')
 
     async def _receive_message(self, message: types.Message):
         if not message.text:
