@@ -43,7 +43,9 @@ def test_email_message_wrong(client, hood_id, email_row):
 def test_email_unsubscribe_wrong_token(client, hood_id):
     try:
         client.delete(
-            '/api/hoods/{0}/email/unsubscribe/asdfasdfasdfasdfasdfasdfasdfasdf'.format(hood_id)
+            '/api/hoods/{0}/email/unsubscribe/asdfasdfasdfasdfasdfasdfasdfasdf'.format(
+                hood_id
+            )
         )
     except CryptoError:
         pass

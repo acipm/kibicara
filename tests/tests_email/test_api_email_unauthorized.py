@@ -13,7 +13,9 @@ def test_email_create_unauthorized(client, hood_id):
 
 
 def test_email_delete_unauthorized(client, hood_id, email_row):
-    response = client.delete('/api/hoods/{0}/email/{1}'.format(hood_id, email_row['id']))
+    response = client.delete(
+        '/api/hoods/{0}/email/{1}'.format(hood_id, email_row['id'])
+    )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 

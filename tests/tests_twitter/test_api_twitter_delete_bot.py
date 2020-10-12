@@ -12,7 +12,8 @@ from kibicara.platforms.twitter.model import Twitter
 
 def test_twitter_delete_bot(client, event_loop, twitter, auth_header):
     response = client.delete(
-        '/api/hoods/{0}/twitter/{1}'.format(twitter.hood.id, twitter.id), headers=auth_header
+        '/api/hoods/{0}/twitter/{1}'.format(twitter.hood.id, twitter.id),
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
     with raises(NoMatch):
@@ -24,12 +25,18 @@ def test_twitter_delete_bot_invalid_id(client, auth_header, hood_id):
     assert response.status_code == status.HTTP_404_NOT_FOUND
     response = client.delete('/api/hoods/wrong/twitter/123', headers=auth_header)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    response = client.delete('/api/hoods/{0}/twitter/7331'.format(hood_id), headers=auth_header)
+    response = client.delete(
+        '/api/hoods/{0}/twitter/7331'.format(hood_id), headers=auth_header
+    )
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    response = client.delete('/api/hoods/{0}/twitter/wrong'.format(hood_id), headers=auth_header)
+    response = client.delete(
+        '/api/hoods/{0}/twitter/wrong'.format(hood_id), headers=auth_header
+    )
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
 def test_twitter_delete_bot_unauthorized(client, twitter):
-    response = client.delete('/api/hoods/{0}/twitter/{1}'.format(twitter.hood.id, twitter.id))
+    response = client.delete(
+        '/api/hoods/{0}/twitter/{1}'.format(twitter.hood.id, twitter.id)
+    )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

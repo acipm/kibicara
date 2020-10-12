@@ -19,7 +19,8 @@ def test_telegram_delete_bot(client, event_loop, bot, telegram, auth_header):
         TelegramUser.objects.create(user_id=5678, bot=telegram.id)
     )
     response = client.delete(
-        '/api/hoods/{0}/telegram/{1}'.format(telegram.hood.id, telegram.id), headers=auth_header
+        '/api/hoods/{0}/telegram/{1}'.format(telegram.hood.id, telegram.id),
+        headers=auth_header,
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
     with raises(NoMatch):
@@ -33,7 +34,9 @@ def test_telegram_delete_bot_invalid_id(client, auth_header, hood_id):
     assert response.status_code == status.HTTP_404_NOT_FOUND
     response = client.delete('/api/hoods/wrong/telegram/123', headers=auth_header)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
-    response = client.delete('/api/hoods/{0}/telegram/7331'.format(hood_id), headers=auth_header)
+    response = client.delete(
+        '/api/hoods/{0}/telegram/7331'.format(hood_id), headers=auth_header
+    )
     assert response.status_code == status.HTTP_404_NOT_FOUND
     response = client.delete(
         '/api/hoods/{0}/telegram/wrong'.format(hood_id), headers=auth_header
@@ -43,5 +46,7 @@ def test_telegram_delete_bot_invalid_id(client, auth_header, hood_id):
 
 @mark.parametrize('bot', [{'api_token': 'apitoken123', 'welcome_message': 'msg'}])
 def test_telegram_delete_bot_unauthorized(client, bot, telegram):
-    response = client.delete('/api/hoods/{0}/telegram/{1}'.format(telegram.hood.id, telegram.id))
+    response = client.delete(
+        '/api/hoods/{0}/telegram/{1}'.format(telegram.hood.id, telegram.id)
+    )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

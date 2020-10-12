@@ -48,13 +48,15 @@ class TelegramBot(Censor):
                 await self.telegram_model.update(username=user.username)
             await gather(self.dp.start_polling(), self._push())
         except CancelledError:
-            logger.debug('Bot {0} received Cancellation.'.format(
-                self.telegram_model.hood.name))
+            logger.debug(
+                'Bot {0} received Cancellation.'.format(self.telegram_model.hood.name)
+            )
             self.dp = None
             raise
         except exceptions.ValidationError:
-            logger.debug('Bot {0} has invalid auth token.'.format(
-                self.telegram_model.hood.name))
+            logger.debug(
+                'Bot {0} has invalid auth token.'.format(self.telegram_model.hood.name)
+            )
             await self.telegram_model.update(enabled=False)
         finally:
             logger.debug('Bot {0} stopped.'.format(self.telegram_model.hood.name))
@@ -64,7 +66,8 @@ class TelegramBot(Censor):
             message = await self.receive()
             logger.debug(
                 'Received message from censor ({0}): {1}'.format(
-                    self.telegram_model.hood.name, message.text)
+                    self.telegram_model.hood.name, message.text
+                )
             )
             for user in await TelegramUser.objects.filter(
                 bot=self.telegram_model
@@ -76,13 +79,15 @@ class TelegramBot(Censor):
             await self.bot.send_message(user_id, message, disable_notification=False)
         except exceptions.BotBlocked:
             logger.error(
-                'Target [ID:{0}] ({1}): blocked by user'.format(user_id,
-                    self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): blocked by user'.format(
+                    user_id, self.telegram_model.hood.name
+                )
             )
         except exceptions.ChatNotFound:
             logger.error(
-                'Target [ID:{0}] ({1}): invalid user ID'.format(user_id,
-                    self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): invalid user ID'.format(
+                    user_id, self.telegram_model.hood.name
+                )
             )
         except exceptions.RetryAfter as e:
             logger.error(
@@ -95,12 +100,15 @@ class TelegramBot(Censor):
             return await self._send_message(user_id, message)
         except exceptions.UserDeactivated:
             logger.error(
-                'Target [ID:{0}] ({1}): user is deactivated'.format(user_id,
-                    self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): user is deactivated'.format(
+                    user_id, self.telegram_model.hood.name
+                )
             )
         except exceptions.TelegramAPIError:
             logger.exception(
-                'Target [ID:{0}] ({1}): failed'.format(user_id, self.telegram_model.hood.name)
+                'Target [ID:{0}] ({1}): failed'.format(
+                    user_id, self.telegram_model.hood.name
+                )
             )
 
     async def _send_welcome(self, message: types.Message):

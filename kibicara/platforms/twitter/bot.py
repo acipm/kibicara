@@ -49,14 +49,18 @@ class TwitterBot(Censor):
             user = await self.client.user
             if user.screen_name:
                 await self.twitter_model.update(username=user.screen_name)
-            logger.debug('Starting Twitter bot: {0}'.format(self.twitter_model.__dict__))
+            logger.debug(
+                'Starting Twitter bot: {0}'.format(self.twitter_model.__dict__)
+            )
             await gather(self.poll(), self.push())
         except CancelledError:
-            logger.debug('Bot {0} received Cancellation.'.format(
-                self.twitter_model.hood.name))
+            logger.debug(
+                'Bot {0} received Cancellation.'.format(self.twitter_model.hood.name)
+            )
         except exceptions.Unauthorized:
-            logger.debug('Bot {0} has invalid auth token.'.format(
-                self.twitter_model.hood.name))
+            logger.debug(
+                'Bot {0} has invalid auth token.'.format(self.twitter_model.hood.name)
+            )
             await self.twitter_model.update(enabled=False)
             self.enabled = self.twitter_model.enabled
         except (KeyError, ValueError, exceptions.NotAuthenticated):
@@ -75,7 +79,8 @@ class TwitterBot(Censor):
             mentions = await self._poll_mentions()
             logger.debug(
                 'Polled mentions ({0}): {1}'.format(
-                    self.twitter_model.hood.name, str(mentions))
+                    self.twitter_model.hood.name, str(mentions)
+                )
             )
             await self.twitter_model.update(
                 dms_since_id=self.dms_since_id, mentions_since_id=self.mentions_since_id
@@ -141,7 +146,8 @@ class TwitterBot(Censor):
             message = await self.receive()
             logger.debug(
                 'Received message from censor ({0}): {1}'.format(
-                    self.twitter_model.hood.name, message.text)
+                    self.twitter_model.hood.name, message.text
+                )
             )
             if hasattr(message, 'twitter_mention_id'):
                 await self._retweet(message.twitter_mention_id)
