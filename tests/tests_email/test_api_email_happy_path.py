@@ -20,7 +20,7 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
     body = mail['body']
     confirm_url = findall(
         r'http[s]?://'
-        r'(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+        + r'(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
         body,
     )[0]
     start = len('token=')
