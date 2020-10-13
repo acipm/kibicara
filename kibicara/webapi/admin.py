@@ -111,7 +111,7 @@ async def admin_register(values: BodyAdmin):
         admin = await Admin.objects.filter(email=values.email).all()
         if admin:
             raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-        body = '{0}/confirm?token={1}'.format(config["frontend_url"], register_token)
+        body = '{0}/confirm?token={1}'.format(config['frontend_url'], register_token)
         logger.debug(body)
         email.send_email(
             to=values.email,
@@ -183,7 +183,9 @@ async def admin_reset_password(values: BodyEmail):
         admin = await Admin.objects.filter(email=values.email).all()
         if not admin:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-        body = '{0}/password-reset?token={1}'.format(config["frontend_url"], register_token)
+        body = '{0}/password-reset?token={1}'.format(
+            config['frontend_url'], register_token
+        )
         logger.debug(body)
         email.send_email(
             to=values.email,

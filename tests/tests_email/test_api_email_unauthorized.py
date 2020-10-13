@@ -18,6 +18,6 @@ def test_email_delete_unauthorized(client, hood_id, email_row):
 
 
 def test_email_message_unauthorized(client, hood_id, email_row):
-    body = {"text": "test", "author": "author", "secret": "wrong"}
+    body = {'text': 'test', 'author': 'author', 'secret': 'wrong'}
     response = client.post('/api/hoods/{0}/email/messages/'.format(hood_id), json=body)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

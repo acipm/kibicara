@@ -41,8 +41,8 @@ def test_email_subscribe_unsubscribe(client, hood_id, receive_email):
 
 def test_email_message(client, hood_id, trigger_id, email_row):
     body = {
-        'text': "test",
-        'author': "test@localhost",
+        'text': 'test',
+        'author': 'test@localhost',
         'secret': email_row['secret'],
     }
     response = client.post('/api/hoods/{0}/email/messages/'.format(hood_id), json=body)
@@ -78,6 +78,6 @@ test
 --AqNPlAX243a8sip3B7kXv8UKD8wuti--
     """
     proc = subprocess.run(
-        ["kibicara_mda", "hood"], stdout=subprocess.PIPE, input=mail, encoding='ascii'
+        ['kibicara_mda', 'hood'], stdout=subprocess.PIPE, input=mail, encoding='ascii'
     )
     assert proc.returncode == 0

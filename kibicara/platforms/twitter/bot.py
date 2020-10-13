@@ -129,7 +129,7 @@ class TwitterBot(Censor):
             remove_indices.update(range(url.indices[0], url.indices[1] + 1))
         for symbol in entities.symbols:
             remove_indices.update(range(symbol.indices[0], symbol.indices[1] + 1))
-        filtered_text = ""
+        filtered_text = ''
         for index, character in enumerate(text):
             if index not in remove_indices:
                 filtered_text += character

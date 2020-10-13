@@ -9,7 +9,7 @@ from fastapi import status
 from pytest import fixture
 
 
-@fixture(scope="function")
+@fixture(scope='function')
 def email_row(client, hood_id, auth_header):
     response = client.post(
         '/api/hoods/{0}/email/'.format(hood_id),

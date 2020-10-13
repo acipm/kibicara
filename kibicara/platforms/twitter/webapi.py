@@ -130,8 +130,8 @@ async def twitter_create(response: Response, hood=Depends(get_hood)):
         request_token = await get_oauth_token(
             config['twitter']['consumer_key'],
             config['twitter']['consumer_secret'],
-            callback_uri="{0}/dashboard/twitter-callback?hood={1}".format(
-                config["frontend_url"], hood.id
+            callback_uri='{0}/dashboard/twitter-callback?hood={1}'.format(
+                config['frontend_url'], hood.id
             ),
         )
         if request_token['oauth_callback_confirmed'] != 'true':

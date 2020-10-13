@@ -57,8 +57,8 @@ if argv[0].endswith('kibicara'):
     parser.add_argument(
         '-v',
         '--verbose',
-        action="count",
-        help="Raise verbosity level",
+        action='count',
+        help='Raise verbosity level',
     )
     args = parser.parse_args()
 
@@ -72,7 +72,7 @@ if argv[0].endswith('kibicara_mda'):
         help='path to config file',
     )
     # the MDA passes the recipient address as command line argument
-    parser.add_argument("recipient")
+    parser.add_argument('recipient')
     args = parser.parse_args()
 
 if args is not None:
