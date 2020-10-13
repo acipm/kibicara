@@ -3,13 +3,14 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from asyncio import gather, sleep, CancelledError
+from asyncio import CancelledError, gather, sleep
+from logging import getLogger
+
+from peony import PeonyClient, exceptions
+
 from kibicara.config import config
 from kibicara.platformapi import Censor, Message, Spawner
 from kibicara.platforms.twitter.model import Twitter
-from logging import getLogger
-from peony import PeonyClient, exceptions
-
 
 logger = getLogger(__name__)
 

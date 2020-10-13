@@ -18,11 +18,11 @@ Example:
 """
 
 from argparse import ArgumentParser
+from sys import argv
+
 from nacl.secret import SecretBox
 from nacl.utils import random
 from pytoml import load
-from sys import argv
-
 
 config = {
     'database_connection': 'sqlite:////tmp/kibicara.sqlite',

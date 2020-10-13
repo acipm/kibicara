@@ -3,8 +3,9 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from ormantic import Boolean, ForeignKey, Integer, Model, Text
+
 from kibicara.model import Hood, Mapping
-from ormantic import Boolean, Integer, ForeignKey, Model, Text
 
 
 class Twitter(Model):

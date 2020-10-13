@@ -5,22 +5,23 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara import email
-from kibicara.platforms.email.bot import spawner
-from kibicara.platforms.email.model import Email, EmailSubscribers
-from kibicara.platformapi import Message
-from kibicara.config import config
-from kibicara.webapi.admin import from_token, to_token
-from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 from logging import getLogger
-from nacl import exceptions
-from ormantic.exceptions import NoMatch
 from os import urandom
-from pydantic import BaseModel, validator
 from smtplib import SMTPException
 from sqlite3 import IntegrityError
 
+from fastapi import APIRouter, Depends, HTTPException, Response, status
+from nacl import exceptions
+from ormantic.exceptions import NoMatch
+from pydantic import BaseModel, validator
+
+from kibicara import email
+from kibicara.config import config
+from kibicara.platformapi import Message
+from kibicara.platforms.email.bot import spawner
+from kibicara.platforms.email.model import Email, EmailSubscribers
+from kibicara.webapi.admin import from_token, to_token
+from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
 
 logger = getLogger(__name__)
 

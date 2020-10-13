@@ -3,9 +3,10 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from pytest import fixture
+
 from kibicara.model import Hood
 from kibicara.platforms.telegram.model import Telegram
-from pytest import fixture
 
 
 @fixture(scope='function')

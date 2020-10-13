@@ -11,13 +11,16 @@ received message to be dropped by a censor. This provides a message filter custo
 by the hood admins.
 """
 
+from re import compile as regex_compile
+from re import error as RegexError
+from sqlite3 import IntegrityError
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara.model import BadWord
-from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
-from re import compile as regex_compile, error as RegexError
-from sqlite3 import IntegrityError
+
+from kibicara.model import BadWord
+from kibicara.webapi.hoods import get_hood
 
 
 class BodyBadWord(BaseModel):

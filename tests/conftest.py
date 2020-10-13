@@ -4,13 +4,15 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from urllib.parse import urlparse
+
 from fastapi import FastAPI, status
 from fastapi.testclient import TestClient
+from pytest import fixture
+
 from kibicara import email
 from kibicara.model import Mapping
 from kibicara.webapi import router
-from pytest import fixture
-from urllib.parse import urlparse
 
 
 @fixture(scope='module')

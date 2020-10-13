@@ -4,9 +4,10 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import status
-from kibicara.platforms.twitter.model import Twitter
 from ormantic.exceptions import NoMatch
 from pytest import raises
+
+from kibicara.platforms.twitter.model import Twitter
 
 
 def test_twitter_delete_bot(client, event_loop, twitter, auth_header):

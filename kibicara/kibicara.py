@@ -7,17 +7,18 @@
 """ Entrypoint of Kibicara. """
 
 from asyncio import run as asyncio_run
+from logging import DEBUG, INFO, WARNING, basicConfig, getLogger
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from hypercorn.config import Config
 from hypercorn.asyncio import serve
+from hypercorn.config import Config
+
 from kibicara.config import args, config
 from kibicara.model import Mapping
 from kibicara.platformapi import Spawner
 from kibicara.webapi import router
-from logging import basicConfig, DEBUG, getLogger, INFO, WARNING
-
 
 logger = getLogger(__name__)
 
