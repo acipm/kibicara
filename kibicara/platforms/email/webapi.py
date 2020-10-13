@@ -310,7 +310,7 @@ async def email_message_create(
                 logger.warning('Message was accepted: {0}'.format(message.text))
                 return {}
             else:
-                logger.warning('Message was\'t accepted: {0}'.format(message.text))
+                logger.warning('Message wasn\'t accepted: {0}'.format(message.text))
                 raise HTTPException(
                     status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
                 )
