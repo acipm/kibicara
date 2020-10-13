@@ -133,8 +133,7 @@ class TwitterBot(Censor):
         for index, character in enumerate(text):
             if index not in remove_indices:
                 filtered_text += character
-        filtered_text = filtered_text.strip()
-        return filtered_text
+        return filtered_text.strip()
 
     async def push(self):
         while True:
