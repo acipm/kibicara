@@ -40,7 +40,7 @@ class Main:
         }
         basicConfig(
             level=LOGLEVELS.get(args.verbose, DEBUG),
-            format="%(asctime)s %(name)s %(message)s",
+            format='%(asctime)s %(name)s %(message)s',
         )
         getLogger('aiosqlite').setLevel(WARNING)
         Mapping.create_all()
@@ -71,8 +71,8 @@ class Main:
                 CORSMiddleware,
                 allow_origins=config['cors_allow_origin'],
                 allow_credentials=True,
-                allow_methods=["*"],
-                allow_headers=["*"],
+                allow_methods=['*'],
+                allow_headers=['*'],
             )
         if config['frontend_path'] is not None:
             app.mount(

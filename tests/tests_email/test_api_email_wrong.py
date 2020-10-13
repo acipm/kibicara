@@ -32,8 +32,8 @@ def test_email_subscribe_confirm_wrong_hood(client):
 
 def test_email_message_wrong(client, hood_id, email_row):
     body = {
-        'text': "",
-        'author': "test@localhost",
+        'text': '',
+        'author': 'test@localhost',
         'secret': email_row['secret'],
     }
     response = client.post('/api/hoods/{0}/email/messages/'.format(hood_id), json=body)

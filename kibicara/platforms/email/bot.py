@@ -51,11 +51,11 @@ class EmailBot(Censor):
                     logger.debug('Trying to send: \n{0}'.format(body))
                     email.send_email(
                         subscriber.email,
-                        "Kibicara {0}".format(self.hood.name),
+                        'Kibicara {0}'.format(self.hood.name),
                         body=body,
                     )
                 except (ConnectionRefusedError, SMTPException):
-                    logger.exception("Sending email to subscriber failed.")
+                    logger.exception('Sending email to subscriber failed.')
 
 
 spawner = Spawner(Hood, EmailBot)

@@ -202,17 +202,19 @@ async def email_subscribe(
             raise HTTPException(status_code=status.HTTP_409_CONFLICT)
         email.send_email(
             subscriber.email,
-            "Subscribe to Kibicara {0}".format(hood.name),
-            body='To confirm your subscription, follow this link: {0}'.format(confirm_link),
+            'Subscribe to Kibicara {0}'.format(hood.name),
+            body='To confirm your subscription, follow this link: {0}'.format(
+                confirm_link
+            ),
         )
         return {}
     except ConnectionRefusedError:
         logger.info(token)
-        logger.error("Sending subscription confirmation email failed.", exc_info=True)
+        logger.error('Sending subscription confirmation email failed.', exc_info=True)
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
     except SMTPException:
         logger.info(token)
-        logger.error("Sending subscription confirmation email failed.", exc_info=True)
+        logger.error('Sending subscription confirmation email failed.', exc_info=True)
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY)
 
 
@@ -252,7 +254,7 @@ async def email_unsubscribe(token, hood=Depends(get_hood_unauthorized)):
     :param hood: Hood the Email bot belongs to.
     """
     try:
-        logger.warning("token is: {0}".format(token))
+        logger.warning('token is: {0}'.format(token))
         payload = from_token(token)
         # If token.hood and url.hood are different, raise an error:
         if hood.id is not payload['hood']:
@@ -305,14 +307,14 @@ async def email_message_create(
         if message.secret == receiver.secret:
             # pass message.text to bot.py
             if await spawner.get(hood).publish(Message(message.text)):
-                logger.warning("Message was accepted: {0}".format(message.text))
+                logger.warning('Message was accepted: {0}'.format(message.text))
                 return {}
             else:
-                logger.warning("Message was't accepted: {0}".format(message.text))
+                logger.warning('Message was\'t accepted: {0}'.format(message.text))
                 raise HTTPException(
                     status_code=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS
                 )
     logger.warning(
-        "Someone is trying to submit an email without the correct API secret"
+        'Someone is trying to submit an email without the correct API secret'
     )
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
