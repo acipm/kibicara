@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" REST API endpoints for managing badwords.
+"""REST API endpoints for managing badwords.
 
 Provides API endpoints for adding, removing and reading regular expressions that block a
 received message to be dropped by a censor. This provides a message filter customizable
@@ -43,7 +43,7 @@ router = APIRouter()
     operation_id='get_badwords',
 )
 async def badword_read_all(hood=Depends(get_hood)):
-    """ Get all badwords of hood with id **hood_id**. """
+    """Get all badwords of hood with id **hood_id**."""
     return await BadWord.objects.filter(hood=hood).all()
 
 
@@ -77,7 +77,7 @@ async def badword_create(
     operation_id='get_badword',
 )
 async def badword_read(badword=Depends(get_badword)):
-    """ Reads badword with id **badword_id** for hood with id **hood_id**. """
+    """Reads badword with id **badword_id** for hood with id **hood_id**."""
     return badword
 
 
@@ -101,6 +101,6 @@ async def badword_update(values: BodyBadWord, badword=Depends(get_badword)):
     operation_id='delete_badword',
 )
 async def badword_delete(badword=Depends(get_badword)):
-    """ Deletes badword with id **badword_id** for hood with id **hood_id**. """
+    """Deletes badword with id **badword_id** for hood with id **hood_id**."""
     await badword.delete()
     return Response(status_code=status.HTTP_204_NO_CONTENT)

@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" Entrypoint of Kibicara. """
+"""Entrypoint of Kibicara."""
 
 from asyncio import run as asyncio_run
 from logging import DEBUG, INFO, WARNING, basicConfig, getLogger

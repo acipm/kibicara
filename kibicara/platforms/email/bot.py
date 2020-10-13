@@ -32,7 +32,7 @@ class EmailBot(Censor):
             await subscriber.delete()
 
     async def run(self):
-        """ Loop which waits for new messages and sends emails to all subscribers. """
+        """Loop which waits for new messages and sends emails to all subscribers."""
         while True:
             message = await self.receive()
             logger.debug(

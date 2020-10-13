@@ -11,7 +11,7 @@ from kibicara.model import Hood, Mapping
 
 
 class Email(Model):
-    """ This table is used to track the names. It also stores the token secret. """
+    """This table is used to track the names. It also stores the token secret."""
 
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)
@@ -23,7 +23,7 @@ class Email(Model):
 
 
 class EmailSubscribers(Model):
-    """ This table stores all subscribers, who want to receive messages via email. """
+    """This table stores all subscribers, who want to receive messages via email."""
 
     id: Integer(primary_key=True) = None
     hood: ForeignKey(Hood)

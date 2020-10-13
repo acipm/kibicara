@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" ORM Models for core. """
+"""ORM Models for core."""
 
 from databases import Database
 from ormantic import Boolean, ForeignKey, Integer, Model, Text
