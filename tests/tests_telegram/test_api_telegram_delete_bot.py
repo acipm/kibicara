@@ -4,9 +4,10 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import status
-from kibicara.platforms.telegram.model import Telegram, TelegramUser
 from ormantic.exceptions import NoMatch
 from pytest import mark, raises
+
+from kibicara.platforms.telegram.model import Telegram, TelegramUser
 
 
 @mark.parametrize('bot', [{'api_token': 'apitoken123', 'welcome_message': 'msg'}])

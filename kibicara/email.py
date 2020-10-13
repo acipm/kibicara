@@ -6,12 +6,11 @@
 
 """ E-Mail handling. """
 
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from logging import getLogger
 from smtplib import SMTP
 from socket import getfqdn
-
 
 logger = getLogger(__name__)
 

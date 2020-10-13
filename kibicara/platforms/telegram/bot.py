@@ -3,14 +3,15 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from aiogram import Bot, Dispatcher, exceptions, types
-from asyncio import gather, sleep, CancelledError
-from kibicara.platformapi import Censor, Message, Spawner
-from kibicara.platforms.telegram.model import Telegram, TelegramUser
+from asyncio import CancelledError, gather, sleep
 from logging import getLogger
-from ormantic.exceptions import NoMatch
 from sqlite3 import IntegrityError
 
+from aiogram import Bot, Dispatcher, exceptions, types
+from ormantic.exceptions import NoMatch
+
+from kibicara.platformapi import Censor, Message, Spawner
+from kibicara.platforms.telegram.model import Telegram, TelegramUser
 
 logger = getLogger(__name__)
 

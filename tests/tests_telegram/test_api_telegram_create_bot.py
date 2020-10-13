@@ -4,9 +4,10 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import status
+from pytest import fixture, mark
+
 from kibicara.platforms import telegram
 from kibicara.platforms.telegram.model import Telegram
-from pytest import fixture, mark
 
 
 @fixture(scope='function')

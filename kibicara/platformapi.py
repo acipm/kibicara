@@ -6,12 +6,12 @@
 
 """ API classes for implementing bots for platforms. """
 
-from asyncio import create_task, Queue
-from enum import auto, Enum
-from kibicara.model import BadWord, Trigger
+from asyncio import Queue, create_task
+from enum import Enum, auto
 from logging import getLogger
-from re import search, IGNORECASE
+from re import IGNORECASE, search
 
+from kibicara.model import BadWord, Trigger
 
 logger = getLogger(__name__)
 

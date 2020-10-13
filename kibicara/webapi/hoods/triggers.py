@@ -12,13 +12,16 @@ regular expressions otherwise it gets dropped by the censor. This provides a mes
 filter customizable by the hood admins.
 """
 
+from re import compile as regex_compile
+from re import error as RegexError
+from sqlite3 import IntegrityError
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara.model import Trigger
-from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
-from re import compile as regex_compile, error as RegexError
-from sqlite3 import IntegrityError
+
+from kibicara.model import Trigger
+from kibicara.webapi.hoods import get_hood
 
 
 class BodyTrigger(BaseModel):

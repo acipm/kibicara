@@ -5,15 +5,15 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from logging import getLogger
+from smtplib import SMTPException
+
 from kibicara import email
 from kibicara.config import config
 from kibicara.model import Hood
 from kibicara.platformapi import Censor, Spawner
 from kibicara.platforms.email.model import Email, EmailSubscribers
 from kibicara.webapi.admin import to_token
-from logging import getLogger
-from smtplib import SMTPException
-
 
 logger = getLogger(__name__)
 

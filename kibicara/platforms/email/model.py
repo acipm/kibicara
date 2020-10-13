@@ -5,8 +5,9 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from ormantic import ForeignKey, Integer, Model, Text
+
 from kibicara.model import Hood, Mapping
-from ormantic import Integer, ForeignKey, Model, Text
 
 
 class Email(Model):

@@ -4,10 +4,11 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import status
+from pytest import fixture, mark
+
 from kibicara import config
 from kibicara.platforms import twitter
 from kibicara.platforms.twitter.model import Twitter
-from pytest import fixture, mark
 
 
 @fixture(scope='function')

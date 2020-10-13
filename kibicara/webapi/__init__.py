@@ -11,16 +11,16 @@ file to get included into the main application.
 """
 
 from fastapi import APIRouter
-from kibicara.platforms.test.webapi import router as test_router
+
+from kibicara.platforms.email.webapi import router as email_router
 from kibicara.platforms.telegram.webapi import router as telegram_router
+from kibicara.platforms.test.webapi import router as test_router
 from kibicara.platforms.twitter.webapi import router as twitter_router
 from kibicara.platforms.twitter.webapi import twitter_callback_router
-from kibicara.platforms.email.webapi import router as email_router
 from kibicara.webapi.admin import router as admin_router
 from kibicara.webapi.hoods import router as hoods_router
 from kibicara.webapi.hoods.badwords import router as badwords_router
 from kibicara.webapi.hoods.triggers import router as triggers_router
-
 
 router = APIRouter()
 router.include_router(admin_router, prefix='/admin', tags=['admin'])

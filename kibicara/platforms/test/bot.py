@@ -4,8 +4,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from kibicara.platforms.test.model import Test
 from kibicara.platformapi import Censor, Spawner
+from kibicara.platforms.test.model import Test
 
 
 class TestBot(Censor):

@@ -9,15 +9,16 @@ from asyncio import run as asyncio_run
 from email.parser import BytesParser
 from email.policy import default
 from email.utils import parseaddr
-from fastapi import status
-from kibicara.config import args, config
-from kibicara.platforms.email.model import Email, EmailSubscribers
 from logging import getLogger
-from ormantic import NoMatch
 from re import sub
-from requests import post
 from sys import stdin
 
+from fastapi import status
+from ormantic import NoMatch
+from requests import post
+
+from kibicara.config import args, config
+from kibicara.platforms.email.model import Email, EmailSubscribers
 
 logger = getLogger(__name__)
 

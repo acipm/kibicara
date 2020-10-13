@@ -3,8 +3,9 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from ormantic import ForeignKey, Integer, Model
+
 from kibicara.model import Hood, Mapping
-from ormantic import Integer, ForeignKey, Model
 
 
 class Test(Model):

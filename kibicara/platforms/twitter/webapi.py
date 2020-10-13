@@ -3,18 +3,19 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from logging import getLogger
+from sqlite3 import IntegrityError
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
+from ormantic.exceptions import NoMatch
+from peony.exceptions import NotAuthenticated
+from peony.oauth_dance import get_access_token, get_oauth_token
+from pydantic import BaseModel
+
 from kibicara.config import config
 from kibicara.platforms.twitter.bot import spawner
 from kibicara.platforms.twitter.model import Twitter
 from kibicara.webapi.hoods import get_hood, get_hood_unauthorized
-from logging import getLogger
-from sqlite3 import IntegrityError
-from ormantic.exceptions import NoMatch
-from peony.oauth_dance import get_oauth_token, get_access_token
-from peony.exceptions import NotAuthenticated
-from pydantic import BaseModel
-
 
 logger = getLogger(__name__)
 

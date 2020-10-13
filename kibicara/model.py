@@ -7,9 +7,10 @@
 """ ORM Models for core. """
 
 from databases import Database
+from ormantic import Boolean, ForeignKey, Integer, Model, Text
+from sqlalchemy import MetaData, create_engine
+
 from kibicara.config import config
-from ormantic import Boolean, Integer, ForeignKey, Model, Text
-from sqlalchemy import create_engine, MetaData
 
 
 class Mapping:

@@ -3,12 +3,14 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-from fastapi import status
-from kibicara.webapi.admin import to_token
 import subprocess
-from pytest import skip
 from re import findall
 from urllib.parse import urlparse
+
+from fastapi import status
+from pytest import skip
+
+from kibicara.webapi.admin import to_token
 
 
 def test_email_subscribe_unsubscribe(client, hood_id, receive_email):

@@ -4,14 +4,16 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+from sqlite3 import IntegrityError
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from kibicara.platforms.test.bot import spawner
-from kibicara.platforms.test.model import Test
-from kibicara.platformapi import Message
-from kibicara.webapi.hoods import get_hood
 from ormantic.exceptions import NoMatch
 from pydantic import BaseModel
-from sqlite3 import IntegrityError
+
+from kibicara.platformapi import Message
+from kibicara.platforms.test.bot import spawner
+from kibicara.platforms.test.model import Test
+from kibicara.webapi.hoods import get_hood
 
 
 class BodyMessage(BaseModel):

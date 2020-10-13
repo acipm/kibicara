@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: 0BSD
 
 from fastapi import status
+
 from kibicara.model import Hood
 from kibicara.platforms.twitter.model import Twitter
 
