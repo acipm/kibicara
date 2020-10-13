@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" REST API endpoints for managing triggers.
+"""REST API endpoints for managing triggers.
 
 Provides API endpoints for adding, removing and reading regular expressions that allow a
 message to be passed through by a censor. A published message must match one of these
@@ -44,7 +44,7 @@ router = APIRouter()
     operation_id='get_triggers',
 )
 async def trigger_read_all(hood=Depends(get_hood)):
-    """ Get all triggers of hood with id **hood_id**. """
+    """Get all triggers of hood with id **hood_id**."""
     return await Trigger.objects.filter(hood=hood).all()
 
 
@@ -78,7 +78,7 @@ async def trigger_create(
     operation_id='get_trigger',
 )
 async def trigger_read(trigger=Depends(get_trigger)):
-    """ Reads trigger with id **trigger_id** for hood with id **hood_id**. """
+    """Reads trigger with id **trigger_id** for hood with id **hood_id**."""
     return trigger
 
 
@@ -102,6 +102,6 @@ async def trigger_update(values: BodyTrigger, trigger=Depends(get_trigger)):
     operation_id='delete_trigger',
 )
 async def trigger_delete(trigger=Depends(get_trigger)):
-    """ Deletes trigger with id **trigger_id** for hood with id **hood_id**. """
+    """Deletes trigger with id **trigger_id** for hood with id **hood_id**."""
     await trigger.delete()
     return Response(status_code=status.HTTP_204_NO_CONTENT)

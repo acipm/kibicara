@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" API classes for implementing bots for platforms. """
+"""API classes for implementing bots for platforms."""
 
 from asyncio import Queue, create_task
 from enum import Enum, auto
@@ -23,10 +23,6 @@ class Message:
         ```
         message = Message('Message sent from platform xyz', xyz_message_id=123)
         ```
-
-    Args:
-        text (str): The message text
-        **kwargs (object, optional): Other platform-specific data.
 
     Attributes:
         text (str): The message text
@@ -71,9 +67,6 @@ class Censor:
                     # XXX send message.text to platform xyz
         ```
 
-    Args:
-        hood (Hood): A Hood Model object
-
     Attributes:
         hood (Hood): A Hood Model object
     """
@@ -90,12 +83,12 @@ class Censor:
         self.status = BotStatus.INSTANTIATED
 
     def start(self):
-        """ Start the bot. """
+        """Start the bot."""
         if self.__task is None:
             self.__task = create_task(self.__run())
 
     def stop(self):
-        """ Stop the bot. """
+        """Stop the bot."""
         if self.__task is not None:
             self.__task.cancel()
 
@@ -120,7 +113,7 @@ class Censor:
 
     @classmethod
     async def destroy_hood(cls, hood):
-        """Removes all its database entries.
+        """Remove all of its database entries.
 
         Note: Override this in the derived bot class.
         """
@@ -175,10 +168,6 @@ class Spawner:
 
         spawner = Spawner(XYZ, XYZPlatform)
         ```
-
-    Args:
-        ORMClass (ORM Model subclass): A Bot Model object
-        BotClass (Censor subclass): A Bot Class object
 
     Attributes:
         ORMClass (ORM Model subclass): A Hood Model object

@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" Routing definitions for the REST API.
+"""Routing definitions for the REST API.
 
 A platform bot shall add its API router in this `__init__.py`
 file to get included into the main application.

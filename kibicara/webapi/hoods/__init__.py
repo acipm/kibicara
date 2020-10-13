@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" REST API Endpoints for managing hoods. """
+"""REST API Endpoints for managing hoods."""
 
 from sqlite3 import IntegrityError
 
@@ -54,7 +54,7 @@ router = APIRouter()
     tags=['hoods'],
 )
 async def hood_read_all():
-    """ Get all existing hoods. """
+    """Get all existing hoods."""
     return await Hood.objects.all()
 
 
@@ -92,7 +92,7 @@ async def hood_create(values: BodyHood, response: Response, admin=Depends(get_ad
     tags=['hoods'],
 )
 async def hood_read(hood=Depends(get_hood_unauthorized)):
-    """ Get hood with id **hood_id**. """
+    """Get hood with id **hood_id**."""
     return hood
 
 
@@ -119,6 +119,6 @@ async def hood_update(values: BodyHood, hood=Depends(get_hood)):
     tags=['hoods'],
 )
 async def hood_delete(hood=Depends(get_hood)):
-    """ Deletes hood with id **hood_id**. """
+    """Deletes hood with id **hood_id**."""
     await delete_hood(hood)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

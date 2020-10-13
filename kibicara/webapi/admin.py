@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" REST API endpoints for hood admins. """
+"""REST API endpoints for hood admins."""
 
 from datetime import datetime, timedelta
 from logging import getLogger
@@ -230,7 +230,7 @@ async def admin_confirm_reset(reset_token: str, values: BodyPassword):
     operation_id='get_hoods_admin',
 )
 async def admin_hood_read_all(admin=Depends(get_admin)):
-    """ Get a list of all hoods of a given admin. """
+    """Get a list of all hoods of a given admin."""
     return (
         await AdminHoodRelation.objects.select_related('hood').filter(admin=admin).all()
     )
@@ -242,7 +242,7 @@ async def admin_hood_read_all(admin=Depends(get_admin)):
     operation_id='get_admin',
 )
 async def admin_read(admin=Depends(get_admin)):
-    """ Get a list of all hoods of a given admin. """
+    """Get a list of all hoods of a given admin."""
     admin = await Admin.objects.filter(email=admin.email).all()
     if len(admin) != 1:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)

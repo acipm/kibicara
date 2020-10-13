@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" Configuration file and command line argument parser.
+"""Configuration file and command line argument parser.
 
 Gives a dictionary named `config` with configuration parsed either from
 `/etc/kibicara.conf` or from a file given by command line argument `-f`.
@@ -38,7 +38,7 @@ config = {
     'root_url': 'http://localhost:8000',  # url of backend
     'cors_allow_origin': 'http://127.0.0.1:4200',
 }
-""" Default configuration.
+"""Default configuration.
 
 The default configuration gets overwritten by a configuration file if one exists.
 """

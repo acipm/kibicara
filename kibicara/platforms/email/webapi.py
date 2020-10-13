@@ -41,20 +41,21 @@ class BodyEmailPublic(BaseModel):
 
 
 class BodyMessage(BaseModel):
-    """ This model shows which values are supplied by the MDA listener script. """
+    """This model shows which values are supplied by the MDA listener script."""
 
     text: str
     secret: str
 
 
 class BodySubscriber(BaseModel):
-    """ This model holds the email address of a fresh subscriber. """
+    """This model holds the email address of a fresh subscriber."""
 
     email: str
 
 
 async def get_email(email_id: int, hood=Depends(get_hood)):
     """Get Email row by hood.
+
     You can specify an email_id to nail it down, but it works without as well.
 
     :param hood: Hood the Email bot belongs to.
@@ -168,6 +169,7 @@ async def email_read(email=Depends(get_email)):
 )
 async def email_delete(email=Depends(get_email)):
     """Delete an Email bot.
+
     Stops and deletes the Email bot.
 
     :param hood: Hood the Email bot belongs to.

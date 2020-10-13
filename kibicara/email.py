@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-""" E-Mail handling. """
+"""E-Mail handling."""
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
