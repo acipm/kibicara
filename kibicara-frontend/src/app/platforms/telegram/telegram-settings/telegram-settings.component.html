@@ -5,7 +5,7 @@
       Telegram
       <button mat-icon-button aria-label="How to use">
         <mat-icon
-          matTooltip="How to add an telegram bot to your hood"
+          matTooltip="How to add a telegram bot to your hood"
           class="info-button"
           (click)="onInfoClick()"
           >info</mat-icon
@@ -57,9 +57,9 @@
           </mat-menu>
         </mat-list-item>
       </ng-template>
-      <ng-template [ngIf]="telegrams.error"
-        ><mat-icon class="warning">warning</mat-icon></ng-template
-      >
+      <ng-template [ngIf]="telegrams.error">
+        <mat-icon class="warning">warning</mat-icon>
+      </ng-template>
       <ng-template [ngIf]="telegrams.loading">
         <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
       </ng-template>

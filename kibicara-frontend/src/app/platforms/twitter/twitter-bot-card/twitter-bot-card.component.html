@@ -32,14 +32,13 @@
     </mat-card>
     <ng-template #noTwitter>
       <mat-card-content>
-        Unfortunately your hood admin has not configured Twitter as platform
-        yet.
+        Unfortunately, your hood admin has not configured a twitter bot yet.
       </mat-card-content>
     </ng-template>
   </ng-template>
-  <ng-template [ngIf]="twitters.error"
-    ><mat-icon class="warning">warning</mat-icon></ng-template
-  >
+  <ng-template [ngIf]="twitters.error">
+    <mat-icon class="warning">warning</mat-icon>
+  </ng-template>
   <ng-template [ngIf]="twitters.loading">
     <mat-spinner [diameter]="45" class="spinner"></mat-spinner>
   </ng-template>
