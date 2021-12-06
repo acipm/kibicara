@@ -1,6 +1,6 @@
 ## Setup on a server
 
-This will guide you through the whole kibicara server setup on a OpenBSD with OpenSMTPd as MTA (+ Relay at `relay.example.com`) and `https://kibicara.example.com` as domain. The kibicara server will also run on other Unix-like systems, just modify the guide to your needs.
+This will guide you through the whole kibicara server setup on an OpenBSD server with OpenSMTPd as MTA (+ Relay at `relay.example.com`) and `https://kibicara.example.com` as domain. The kibicara server will also run on other Unix-like systems, just modify the guide to your needs.
 
 Prerequisites:
 - python>=3.8 + pip
@@ -11,7 +11,7 @@ Prerequisites:
   - (Optional) Create a symlink to python3: `ln -s /usr/local/bin/python3.8 /usr/local/bin/python3`
 - Ensure pip is installed: `python3 -m ensurepip --default-pip`
 - Switch to kibicara user: `su -l kibicara`
-- Add pip packages to PATH by appending it to the `.profile` of user `kibicara` (remember that a new login is needed for it to work). This ensures that you can call kibicara without full path:
+- Add pip packages to PATH by appending it to the `.profile` of user `kibicara` (remember that a new login is needed for it to work). This ensures that you can call kibicara without its full path:
 ```
 PIP_PACKAGES="${HOME}/.local"
 export PATH="$PATH:$PIP_PACKAGES/bin"
@@ -19,10 +19,10 @@ export PATH="$PATH:$PIP_PACKAGES/bin"
 
 ### Build backend on the server
 - Clone the repository: `git clone https://github.com/acipm/kibicara`
-- Install backend: `cd kibicara && pip install -U --user pip setuptools wheel && pip install --user .`
+- Install the backend: `cd kibicara && pip install -U --user pip setuptools wheel && pip install --user .`
 
 ### Build frontend on your local machine
-Since Angular CLI is quite bloaty and your server may don't have enough resouces, we recommend to build the frontend locally and copying it onto the server. The same steps can be used on the server if it has enough resources.
+Since the Angular CLI is quite bloaty and your server may not have enough resouces, we recommend building the frontend locally and copying it onto the server. The same steps can be used on the server if it has enough resources.
 
 - Install npm: `pkg_add node`
 - Configure npm to use global install (`-g`) without root
